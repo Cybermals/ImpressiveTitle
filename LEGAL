@@ -1,0 +1,46 @@
+LEGAL
+KITO project does not take any responsibility of any damages or data loss because of misusage of the source
+
+LICENSE
+KOVULKD'S LICENSE NOTICE:
+-------------------------------------------------
+This is the source code for Impressive Title,
+last versioned 0.7, i think.
+You're free to use it to host your own server of
+the game, or for any purposes.
+The owner of these codes shall not be liable for
+any loss (or gain) from using them.
+The owner of these codes is also not responsible
+for getting these codes working, they're prolly
+broken.
+However, i hope this only benefits people who are
+interested in the game.
+If you're one of them, thank you. C:
+
+~KovuLKD
+-------------------------------------------------
+
+KITO'S LICENSE NOTICE:
+-------------------------------------------------
+This is the KITO modified project code for the
+game originally named Impressive Title.
+It is based upon KovuLKD's work.
+The source has been modified to use the newer
+Ogre3d engine version 1.7.4 (original used 1.6.0)
+The source has been modified to be compiled using
+Visual Studio 2010 C++ (original used 2008).
+The source has been modified to be compiled using
+OIS 1.20 and Ogre Paged 1.1.4.
+You may freely download and compile with the
+purpose of creating your own game client and
+server.
+It is NOT KITO project's responsibility to
+provide you with support nor server assistance.
+Nor will we provide you with content for your
+server.
+
+You are asked not to upload this source to 3rd
+party websites such as MediaFire.
+
+~KITO
+-------------------------------------------------

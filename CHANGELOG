@@ -1,0 +1,13 @@
+# 2nd release
+* Now using KITO's custom OgreSDK with fixes
+* Now using the newest version of directx (no more _42.dll missing errors)
+* The original media is now added (excluding private items)
+* Added debug libraries to add break points and overall debug the game in detail.
+
+# 3rd release
+* Fixed server admins having too easy access to sensitive info
+* Fixed dimensions limiting
+* Readded users violations code (logs huge (larger than 2) characters only atm) - violations.log/txt
+* Added resource loading information
+* Added quick-start xorkey .dat files for xorkey 0. See static folder
+* Rearranged code to make window appear a little faster

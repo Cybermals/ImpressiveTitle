@@ -1,0 +1,14 @@
+#OS junk files
+[Tt]humbs.db
+*.DS_Store
+
+#Visual Studio files
+*.user
+*.suo
+*.sdf
+*.opensdf
+
+#Project files
+[Bb]uild/
+[Oo]utput/
+
