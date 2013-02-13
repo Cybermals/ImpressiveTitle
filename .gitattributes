@@ -1,0 +1,3 @@
+# Handle all files as binary as some files are needed as LF and others as CRLF
+
+* binary
