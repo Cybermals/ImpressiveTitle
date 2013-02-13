@@ -1,0 +1,30 @@
+material glassesMat
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture necklaceTex2.jpg
+			}
+		}
+	}
+}
+material glassesMat2
+{
+	technique
+	{
+		pass
+		{
+			depth_write off
+			scene_blend modulate
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture shadesTex.jpg
+			}
+		}
+	}
+}

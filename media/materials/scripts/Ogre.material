@@ -1,0 +1,126 @@
+material Cursor/default
+{
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+
+			texture_unit
+			{
+				texture cursor.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material Core/StatsBlockBorder/Down
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture ogreborder.png
+			}
+		}
+	}
+}
+material Core/StatsBlockBorder/Up
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture ogreborderUp.png
+			}
+		}
+	}
+}
+material Sky/CloudySky
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				texture clouds.jpg
+				scroll_anim 0.15 0
+			}
+		}
+	}
+}
+material Sky/Clouds
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend alpha_blend
+			fog_override true
+
+			texture_unit
+			{
+				texture clouds.PNG
+				scroll_anim 0.15 0
+			}
+		}
+	}
+}
+material Sky/Shader
+{
+	technique
+	{
+		pass
+		{
+			depth_write off
+			scene_blend add
+			fog_override true
+			ambient 0 0 0
+			diffuse 0 0 0 0
+			emissive 0 0 0 0.0
+
+			texture_unit
+			{
+				texture shader.jpg
+			}
+		}
+	}
+}
+material Sky/Fader
+{
+	technique
+	{
+		pass
+		{
+			depth_write off
+			scene_blend modulate
+			fog_override true
+			ambient 0 0 0
+			diffuse 0 0 0 0
+			emissive 1 1 1 0.0
+
+			texture_unit
+			{
+				texture shader.jpg
+			}
+		}
+	}
+}

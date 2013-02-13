@@ -1,0 +1,54 @@
+[Initialize]
+prideterrain.cfg
+2000
+2000
+1030 1770 100
+[WeatherCycle]
+Redsky
+[Portal]
+1725 210 1144
+25
+Lava
+[WaterPlane]
+1250 180 650
+2.5
+1.5
+Terrain/Magma
+lava1.wav
+[WaterPlane]
+1647 450 1650
+0.4
+0.5
+Terrain/Magma
+lava1.wav
+[WaterPlane]
+220 395 166
+0.8
+0.5
+Terrain/Magma
+lava1.wav
+[WaterPlane]
+480 180 1548
+1.5
+2
+Terrain/CalmWater
+water1.wav
+[Particle]
+WaterfallSmoke
+535 176 1515
+[Particle]
+Geyser
+151 235 900 
+Steam2.wav
+[Particle]
+Geyser
+1642 459 1488 
+Steam2.wav
+[Particle]
+Geyser
+1152 186 1285 
+Steam2.wav
+[Particle]
+Geyser
+553 373 287 
+Steam2.wav

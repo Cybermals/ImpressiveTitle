@@ -1,0 +1,163 @@
+material bubbleMat
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture bubbleTex.jpg
+				scroll_anim -0.1 0
+			}
+		}
+	}
+}
+material bubbleMat2
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture bubbleTex2.jpg
+			}
+		}
+	}
+}
+material bubbleMat3
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture bubbleTex3.jpg
+			}
+		}
+	}
+}
+material bubbleMat4
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture bubbleTex4.jpg
+			}
+		}
+	}
+}
+material bubbleMat5
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture bubbleTex5.jpg
+			}
+		}
+	}
+}
+material bubbleMat6
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture bubbleTex6.jpg
+			}
+		}
+	}
+}
+material bubbleMat7
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture bubbleTex7.jpg
+			}
+		}
+	}
+}
+material bubbleMat8
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture bubbleTex8.jpg
+			}
+		}
+	}
+}
+material bubbleMat9
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend modulate
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture bubbleTex8.jpg
+			}
+		}
+	}
+}

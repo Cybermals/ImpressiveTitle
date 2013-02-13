@@ -1,0 +1,39 @@
+[Initialize]
+icecaveterrain.cfg
+1000
+1000
+500 500 100
+[Interior]
+480
+Terrain/IceTerrain
+[Gate]
+GateMatWhite
+517 350 854
+Ice
+5636 2046
+[WeatherCycle]
+None
+[MapEffect]
+Exhale
+[WaterPlane]
+500 90 500
+2
+2
+GlowingIce
+no sound
+true
+[Light]
+500 50 500
+0.4 0.9 1
+[Light]
+517 350 854
+0.75 0.74 0.72
+[Billboard]
+565 350 847
+60 60
+CaveLight
+[SphereWall]
+500 0 500
+420
+false
+#

@@ -1,0 +1,514 @@
+[Initialize]
+Labyrinthterrain.cfg
+10000
+10000
+4214 3547 100
+[NewBushes]
+LabyrinthObjects.cfg
+[WeatherCycle]
+RainStarfall
+[WeatherCycle]
+Redsky
+[SpawnCritters]
+Labyrinthcritters.cfg
+[Portal]
+9409 228 1241
+25
+Default
+[Portal]
+9339 325 6401
+25
+Island
+[Portal]
+6240 17 9526
+25
+Ocean
+[Portal]
+528 43 8611
+25
+ReallyBig
+[Portal]
+2734 413 9713
+25
+Valley Plains
+[Portal]
+8249 27 9305
+25
+GreatFalls
+[CollBox]
+4125 5000 4071
+8600 10 8600
+[WaterPlane]
+9273 320 1393
+5
+10
+Terrain/CalmWater
+water1.wav
+[WaterPlane]
+7783 225 7628
+10
+8
+Terrain/LargeWater
+water1.wav
+[WaterPlane]
+9450 620 9520
+1.5
+1.35
+Terrain/CalmWater
+water1.wav
+[WaterPlane]
+8227 451 9596
+3.65
+0.95
+Terrain/RapidWater
+water1.wav
+[WaterPlane]
+1012 280 9068
+2.5
+2.5
+Terrain/Magma
+lava1.wav
+[WaterPlane]
+4376 472 5761
+0.5
+0.8
+Terrain/CalmWater
+water1.wav
+[Particle]
+WaterfallSmoke
+7968 126 9304
+[Particle]
+WaterfallSmoke
+7638 216 9304
+waterfall.mp3
+[Particle]
+WaterfallSmoke
+7405 126 9237
+[Particle]
+WaterfallSmoke
+9044 442 9641
+waterfall.mp3
+[Particle]
+WaterfallSmoke
+9542 216 9134
+waterfall.mp3
+[Particle]
+WaterfallSmoke
+9542 150 9134
+[Particle]
+WaterfallSmoke
+9542 100 9134
+[Particle]
+WaterfallSmoke
+9542 50 9134
+[Particle]
+WaterfallSmoke
+9542 0 9134
+[Billboard]
+4109 818 4080
+50 50
+FretziaStatue
+[Light]
+4109 818 4080
+0 0.74 1
+[Object]
+Waterfall.mesh
+7848 452.5 9355
+7 1.5 1
+0 180 0
+[Object]
+Waterfall.mesh
+9065 619.5 9603
+3 1 0.5
+0 -90 0
+[Object]
+Waterfall.mesh
+9543 620 9170
+0.38 2 0.5
+0 180 0
+[CollBox]
+3740 637 2087
+55 7 55
+[CollBox]
+3740 672 2087
+55 7.3 55
+[Object]
+Waterfall.mesh
+3700 679 2084
+0.26 0.3 0.3
+0 -94 0
+[Particle]
+WaterfallSmoke
+3689 639 2082
+waterfall.mp3
+[Light]
+3757 657 2094
+0 0.74 1
+[Billboard]
+3757 657 2094
+50 50
+FretziaStatue
+[Particle]
+WaterSplash
+4624 643 544
+water1.wav
+[Light]
+4605 615 509
+0 0.74 1
+[Billboard]
+4605 615 509
+150 150
+BlueGlow
+[Particle]
+WaterSplash
+4605 623 509
+water1.wav
+[Billboard]
+4590 642 563
+50 50
+FretziaStatue
+[Light]
+4597 642 2049
+0 0.74 1
+[Billboard]
+4597 643 2049
+50 50
+FretziaStatue
+[Particle]
+WaterSplash
+4638 608 2057
+water1.wav
+[Particle]
+WaterSplash
+4619 612 2078
+water1.wav
+[Light]
+3806 680 549
+0 0.74 1
+[Billboard]
+3806 680 549
+50 50
+FretziaStatue
+[Light]
+5916 505 4548
+0 0.74 1
+[Billboard]
+5916 505 4548
+50 50
+FretziaStatue
+[Object]
+bubble2.mesh
+5916 486 4548
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble3.mesh
+5916 486 4578
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble4.mesh
+5916 486 4608
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble5.mesh
+5916 486 4638
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble6.mesh
+5916 486 4668
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble7.mesh
+5916 486 4698
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble8.mesh
+5916 486 4718
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble2.mesh
+5916 476 4748
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble3.mesh
+5916 476 4778
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble4.mesh
+5916 476 4808
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble5.mesh
+5916 476 4838
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble6.mesh
+5916 476 4868
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble7.mesh
+5916 476 4898
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble8.mesh
+5916 476 4918
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble2.mesh
+5916 466 4948
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble3.mesh
+5916 466 4978
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble4.mesh
+5916 466 5008
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble5.mesh
+5916 466 5038
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble6.mesh
+5916 466 5068
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble7.mesh
+5916 466 5098
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble8.mesh
+5916 466 5118
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble2.mesh
+5916 456 5148
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble3.mesh
+5916 456 5178
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble4.mesh
+5916 456 5108
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble5.mesh
+5916 456 5138
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble6.mesh
+5916 456 5168
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble7.mesh
+5916 456 5198
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble8.mesh
+5916 456 5118
+1.5 1.5 1.5
+0 0 0
+bubble2.mesh
+5916 446 5148
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble3.mesh
+5916 446 5178
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble4.mesh
+5916 446 5208
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble5.mesh
+5916 446 5238
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble6.mesh
+5916 446 5268
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble7.mesh
+5916 446 5298
+1.5 1.5 1.5
+0 0 0
+[Object]
+bubble8.mesh
+5916 446 5218
+1.5 1.5 1.5
+0 0 0
+[CollBox]
+4367 467 5797
+70 5 70
+[Light]
+4367 497 5797
+0 0.74 1
+[Billboard]
+4367 497 5797
+100 100
+FretziaStatue
+[CollBox]
+4078 479 5147
+40 11 40
+[CollBox]
+4074 460 5162
+40 11 40
+[CollBox]
+3892 483 5178
+40 11 40
+[CollBox]
+3912 469 5174
+40 11 40
+[Light]
+2722 608 9709
+0 0.74 1
+[Billboard]
+2722 608 9709
+100 100
+FretziaStatue
+[Particle]
+WaterSplash
+4104 470 9510
+water1.wav
+[Particle]
+WaterSplash
+4104 480 9510
+[Particle]
+WaterSplash
+4104 490 9510
+[Particle]
+WaterSplash
+4104 500 9510
+[Particle]
+Geyser
+4104 350 9510		
+[Object]
+Waterfall.mesh
+4366 2300 8281
+3 15 0.5
+0 0 0
+[CollBox]
+4366 2300 8140
+600 26 300
+[Particle]
+WaterfallSmoke
+4352 341 8306
+waterfall.mp3
+[Particle]
+WaterfallSmoke
+4422 341 8315
+[Particle]
+Geyser
+8734 150 8590
+[Particle]
+Geyser
+9722 150 8127
+[Particle]
+Geyser
+9433 400 8637
+[Particle]
+Geyser
+9800 450 7992
+[Particle]
+Geyser
+9975 450 7625
+[Particle]
+Geyser
+9736 200 6965
+[Particle]
+WaterfallSmoke
+8582 196 5880
+[Particle]
+WaterSplash
+9669 314 1239
+water1.wav
+[Particle]
+Geyser
+9669 120 1239
+[Particle]
+WaterSplash
+9098 314 1533
+water1.wav
+[Particle]
+Geyser
+9098 120 1533
+[Particle]
+WaterSplash
+8790 314 1068
+water1.wav
+[Particle]
+Geyser
+8790 120 1068
+[Particle]
+WaterSplash
+8769 314 668
+water1.wav
+[Particle]
+Geyser
+8769 120 668
+[Particle]
+WaterSplash
+8511 314 962
+water1.wav
+[Particle]
+Geyser
+8511 120 962
+[Particle]
+WaterSplash
+8621 314 2018
+water1.wav
+[Particle]
+Geyser
+8621 120 2018
+[Particle]
+WaterSplash
+9111 314 2100
+water1.wav
+[Particle]
+Geyser
+9111 120 2100
+[Particle]
+WaterSplash
+9325 314 850
+water1.wav
+[Particle]
+Geyser
+9325 120 850
+[Particle]
+WaterSplash
+9244 591 1252
+water1.wav
+#

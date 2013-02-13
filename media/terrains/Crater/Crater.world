@@ -1,0 +1,32 @@
+[Initialize]
+craterterrain.cfg
+10000
+10000
+2500 2500 100
+[Grass]
+grass
+grassdensitymap3.png
+grass_tex.jpg
+[WeatherCycle]
+Starfall
+[Portal]
+2894 999 3163
+30
+Playground
+[Portal]
+940 930 780
+25
+Default
+[WaterPlane]
+6100 500 1000
+3
+2.70
+Terrain/CalmWater
+water1.wav
+[WaterPlane]
+9000 600 9300
+4
+3
+Terrain/CalmWater
+water1.wav
+#

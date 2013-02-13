@@ -1,0 +1,38 @@
+[Initialize]
+desertterrain.cfg
+25000
+25000
+4000 4000 100
+[Grass]
+grass
+grassdensitymap4.jpg
+grass_tex.jpg
+[WeatherCycle]
+Starfall
+[Portal]
+2362 250 2337
+25
+Default
+[Portal]
+7687 250 2347
+50
+Ice
+[Portal]
+7501 250 3093
+50
+Ocean
+[Portal]
+4323 206 7086
+25
+Jungle
+[Portal]
+5000 250 5000
+25
+Oasis
+[WaterPlane]
+1185 158 730
+100
+100
+Terrain/LargeWater
+water1.wav
+#

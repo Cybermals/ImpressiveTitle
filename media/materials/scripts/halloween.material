@@ -1,0 +1,152 @@
+material pumpkinMat
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture  pumpkinTex.jpg
+			}
+		}
+	}
+}
+material pumpkinGlowMat
+{
+	technique
+	{
+		pass
+		{
+			emissive 1 1 1 1
+			texture_unit
+			{
+				texture  pumpkinTex.jpg
+				wave_xform scale_x sine 1.7 1 0 1.7
+				wave_xform scale_y sine 1.7 1 0 1.7
+			}
+		}
+	}
+}
+material spineMat
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture  spineTex.jpg
+			}
+		}
+	}
+}
+material blindeyeMat
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture  blindeyeTex.jpg
+			}
+		}
+	}
+}
+material gloweye1Mat
+{
+	technique
+	{
+		pass
+		{
+			emissive 1 1 1 1
+			texture_unit
+			{
+				texture  red.jpg
+			}
+			texture_unit
+			{
+				texture  glowTex.jpg
+				scale 40 40
+				scroll_anim 0.2 0
+				colour_op add
+			}
+		}
+	}
+}
+material gloweye2Mat
+{
+	technique
+	{
+		pass
+		{
+			emissive 1 1 1 1
+			texture_unit
+			{
+				texture  gold.jpg
+			}
+			texture_unit
+			{
+				texture  glowTex.jpg
+				scale 40 40
+				scroll_anim 0.2 0
+				colour_op add
+			}
+		}
+	}
+}
+material gloweye3Mat
+{
+	technique
+	{
+		pass
+		{
+			emissive 1 1 1 1
+			texture_unit
+			{
+				texture  blue.jpg
+			}
+			texture_unit
+			{
+				texture  glowTex.jpg
+				scale 40 40
+				scroll_anim 0.2 0
+				colour_op add
+			}
+		}
+	}
+}
+material graveMat
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture  graveTex.jpg
+			}
+		}
+	}
+}
+material candleFlameMat
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture  candleFlameTex.jpg
+				wave_xform scale_x sine 0.6 6 0 0.2
+				wave_xform scale_y sine 0.6 6 0.35 0.3
+				tex_address_mode clamp
+			}
+		}
+	}
+}

@@ -1,0 +1,55 @@
+particle_system blueeye
+{
+	quota	50000
+	material	eye
+	particle_width	0.5
+	particle_height	0.5
+	cull_each	true
+	renderer	billboard
+	sorted	false
+	local_space	false
+	iteration_interval	0
+	nonvisible_update_timeout	0
+	billboard_type	point
+	billboard_origin	center
+	billboard_rotation_type	texcoord
+	common_up_vector	0 1 0
+	point_rendering	false
+	accurate_facing	false
+
+	emitter Point
+	{
+		angle	30
+		colour	0.501961 1 1 1
+		colour_range_start	0.501961 1 1 1
+		colour_range_end	0 1 1 1
+		direction	0 0.707107 0.707107
+		emission_rate	100
+		position	0 0 0
+		velocity	0
+		velocity_min	0
+		velocity_max	0
+		time_to_live	0.3
+		time_to_live_min	0.3
+		time_to_live_max	0.3
+		duration	0
+		duration_min	0
+		duration_max	0
+		repeat_delay	0
+		repeat_delay_min	0
+		repeat_delay_max	0
+	}
+
+	affector ColourFader
+	{
+		red	-3.5
+		green	-3.5
+		blue	-3
+		alpha	0
+	}
+
+	affector Scaler
+	{
+		rate	-0.05
+	}
+}

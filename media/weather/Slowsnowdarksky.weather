@@ -1,0 +1,6 @@
+[Slowsnowdarksky]
+Constant=true
+Weather=Slowsnow
+Rate=150
+SkyShader=0.5 0.5 0.6
+SkyAdder=0 0 0

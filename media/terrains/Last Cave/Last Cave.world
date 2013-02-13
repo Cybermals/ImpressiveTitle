@@ -1,0 +1,28 @@
+[Initialize]
+lastCaveterrain.cfg
+10000
+10000
+4873 140 1
+[Interior]
+900
+Terrain/UnderwaterCeiling
+[WeatherCycle]
+None
+[Gate]
+GateMatWhite
+4873 540 25
+Serpent's Pass
+1384 576 1805
+[Light]
+4873 540 60
+0.75 0.74 0.72
+[Billboard]
+4873 540 60
+100 100
+CaveLight
+[WaterPlane]
+5000 520 5000
+25
+25
+Terrain/LargeWater
+#

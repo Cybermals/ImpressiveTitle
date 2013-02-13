@@ -1,0 +1,15 @@
+material eyepatchMat
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture eyepatchTex.jpg
+			}
+		}
+	}
+}

@@ -1,0 +1,125 @@
+particle_system Swarm
+{
+	quota	30
+	material	Bee
+	particle_width	1.3
+	particle_height	1.3
+	cull_each	true
+	renderer	billboard
+	sorted	true
+	local_space	false
+	billboard_type	oriented_self
+
+	emitter Box
+	{
+		angle	180
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 1 0
+		emission_rate	5
+		position	0 0 0
+		velocity	5
+		velocity_min	5
+		velocity_max	1
+		time_to_live	20
+		time_to_live_min	20
+		time_to_live_max	20
+		duration	10
+		duration_min	10
+		duration_max	10
+		repeat_delay	60
+		repeat_delay_min	60
+		repeat_delay_max	60
+		width	10
+		height	10
+		depth	10
+	}
+
+	affector DeflectorPlane
+	{
+		plane_point	0 -50 0
+		plane_normal	0 1 0
+		bounce	1
+	}
+
+	affector DeflectorPlane
+	{
+		plane_point	0 50 0
+		plane_normal	0 -1 0
+		bounce	1
+	}
+
+	affector DeflectorPlane
+	{
+		plane_point	50 0 0
+		plane_normal	-1 0 0
+		bounce	1
+	}
+
+	affector DeflectorPlane
+	{
+		plane_point	-50 0 0
+		plane_normal	1 0 0
+		bounce	1
+	}
+
+	affector DeflectorPlane
+	{
+		plane_point	0 0 50
+		plane_normal	0 0 -1
+		bounce	1
+	}
+
+	affector DeflectorPlane
+	{
+		plane_point	0 0 -50
+		plane_normal	0 0 1
+		bounce	1
+	}
+
+	affector DirectionRandomiser
+	{
+		randomness	60
+	}
+}
+particle_system Sparkle
+{
+    material item
+    point_rendering            false
+    particle_width             20
+    particle_height            20
+    cull_each                  false
+    quota                      300
+    billboard_type             point
+
+
+    emitter Point
+    {
+        name                    explosion
+        angle                   180
+        emission_rate           500
+        time_to_live            2
+        direction               0 1 0
+        velocity                80
+	duration                0.1
+        repeat_delay_min        1
+        repeat_delay_max        1
+    }
+
+    affector LinearForce
+    {
+        force_vector            0 -100 0
+        force_application       add
+    }
+
+    affector ColourInterpolator
+    {
+        time0                   0
+        colour0                 1 1 1
+        time1                   0.5
+        colour1                 0.5 0.5 0.5
+        time2                   1.5
+        colour2                 1 1 1
+    }
+}

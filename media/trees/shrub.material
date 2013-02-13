@@ -1,0 +1,100 @@
+material shrubMat
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+
+			alpha_rejection greater_equal 128
+
+			texture_unit
+			{
+				texture shrubLeaves.png
+			}
+		}
+	}
+}
+material shrubFlowerMat
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+
+			alpha_rejection greater_equal 128
+
+			texture_unit
+			{
+				texture shrubFlower.png
+			}
+		}
+	}
+}
+material shrubYellowMat
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+
+			alpha_rejection greater_equal 128
+
+			texture_unit
+			{
+				texture shrubLeavesYellow.png
+			}
+		}
+	}
+}
+material shrubSnowMat
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+
+			alpha_rejection greater_equal 128
+
+			texture_unit
+			{
+				texture shrubLeavesSnow.png
+			}
+		}
+	}
+}
+material shrubSnowFlowerMat
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+
+			alpha_rejection greater_equal 128
+
+			texture_unit
+			{
+				texture shrubFlowerSnow.png
+			}
+		}
+	}
+}

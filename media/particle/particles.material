@@ -1,0 +1,175 @@
+material WaterDroplet
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			fog_override true
+			texture_unit
+			{
+				texture droplet.png
+			}
+		}
+	}
+}
+material WaterSplash
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			fog_override true
+			texture_unit
+			{
+				texture splash.png
+			}
+		}
+	}
+}
+material WaterRipple
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			fog_override true
+
+			texture_unit
+			{
+				texture ripple.png
+			}
+		}
+	}
+}
+material WaterfallSmoke
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_write off
+			texture_unit
+			{
+				texture watersmoke.png
+			}
+		}
+	}
+}
+material GeyserSmoke
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_write off
+			texture_unit
+			{
+				texture watersmoke.png
+			}
+		}
+	}
+}
+material RainDroplet
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			fog_override true
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture raindroplet.png
+			}
+		}
+	}
+}
+material SnowFlake
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			fog_override true
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture snowflake.png
+			}
+		}
+	}
+}
+material Flare
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			fog_override true
+
+			texture_unit
+			{
+				texture flare.png
+			}
+		}
+	}
+}
+material FireFly
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			fog_override true
+			texture_unit
+			{
+				texture firefly.png
+			}
+		}
+	}
+}
+material Flame
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			fog_override true
+
+			texture_unit
+			{
+				texture flame.png
+			}
+		}
+	}
+}

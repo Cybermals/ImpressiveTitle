@@ -1,0 +1,106 @@
+material Terrain/flameGrotto
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				anim_texture shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava1.png shadowveldt_lava2.png shadowveldt_lava3.png shadowveldt_lava4.png shadowveldt_lava5.png shadowveldt_lava6.png shadowveldt_lava7.png shadowveldt_lava8.png shadowveldt_lava9.png shadowveldt_lava10.png shadowveldt_lava10.png shadowveldt_lava10.png shadowveldt_lava10.png shadowveldt_lava10.png shadowveldt_lava9.png shadowveldt_lava9.png shadowveldt_lava8.png shadowveldt_lava7.png shadowveldt_lava6.png shadowveldt_lava5.png shadowveldt_lava4.png shadowveldt_lava3.png shadowveldt_lava2.png shadowveldt_lava1.png shadowveldt_lava0.png shadowveldt_lava0.png 2.5
+				scale 0.15 0.15
+			}
+		}
+	}
+}
+material flameGrottoCeiling
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				anim_texture shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava1.png shadowveldt_lava2.png shadowveldt_lava3.png shadowveldt_lava4.png shadowveldt_lava5.png shadowveldt_lava6.png shadowveldt_lava7.png shadowveldt_lava8.png shadowveldt_lava9.png shadowveldt_lava10.png shadowveldt_lava10.png shadowveldt_lava10.png shadowveldt_lava10.png shadowveldt_lava10.png shadowveldt_lava9.png shadowveldt_lava9.png shadowveldt_lava8.png shadowveldt_lava7.png shadowveldt_lava6.png shadowveldt_lava5.png shadowveldt_lava4.png shadowveldt_lava3.png shadowveldt_lava2.png shadowveldt_lava1.png shadowveldt_lava0.png shadowveldt_lava0.png 2.5
+				scale 0.15 0.15
+			}
+		}
+	}
+}
+material Terrain/flameGrottoMagma
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+
+			texture_unit
+			{
+				texture magma_tex.jpg
+				scale 1.5 1.5
+				scroll_anim 0.02 0.02
+			}
+		}
+	}
+}
+material flameGrottoMagmaFall
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+
+			texture_unit
+			{
+				texture magma_tex.jpg
+				scale 1.0 1.0
+				scroll_anim 0 0.03
+			}
+		}
+	}
+}
+material flameGrottoCrystal
+{
+	technique
+	{
+		pass Main
+		{
+			depth_write off
+			scene_blend add
+			texture_unit
+			{
+				texture flamegrottocrystal_tex.jpg
+			}
+		}
+	}
+}
+material shadowveldtRedGlow
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture shadowveldtRedGlow.jpg
+				wave_xform scale_x sine 0.8 0.2 0 0.1
+				wave_xform scale_y sine 0.8 0.2 0 0.1
+			}
+		}
+	}
+}

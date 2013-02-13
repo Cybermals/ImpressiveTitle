@@ -1,0 +1,6 @@
+[DarkskyFireworks]
+Constant=true
+SkyShader=0.5 0.5 0.6
+SkyAdder=0 0 0
+Weather=Fireworks
+Rate=1000

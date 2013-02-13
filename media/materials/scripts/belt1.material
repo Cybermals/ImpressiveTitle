@@ -1,0 +1,30 @@
+material beltMat
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture beltTex1.jpg
+			}
+		}
+	}
+}
+material beltMat2
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture bellTex.png
+			}
+		}
+	}
+}

@@ -1,0 +1,40 @@
+material savannahTree/bark
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	
+	technique
+	{
+		pass
+		{
+			ambient 0.500000 0.500000 0.500000 1.000000
+			diffuse 0.600000 0.600000 0.600000 1.000000
+
+			texture_unit
+			{
+				texture fir02.jpg
+			}
+		}
+	}
+}
+material savannahTree/leaves/TWOSIDE
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.500000 0.500000 0.500000 1.000000
+			diffuse 0.600000 0.600000 0.600000 1.000000
+			alpha_rejection greater_equal 128
+			cull_hardware none
+			cull_software none
+
+			texture_unit
+			{
+				texture savannahLeaves.png
+			}
+		}
+	}
+}

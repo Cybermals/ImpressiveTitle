@@ -1,0 +1,70 @@
+material eagleMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			alpha_rejection greater_equal 128
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture eagleTex.png
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material vultureMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			alpha_rejection greater_equal 128
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture vultureTex.png
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material ravenMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			alpha_rejection greater_equal 128
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture ravenTex.png
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}

@@ -1,0 +1,43 @@
+[Initialize]
+oasisterrain.cfg
+10000
+10000
+2000 2000 100
+[Grass]
+grass
+grassdensitymap.png
+grass_tex2.png
+[RandomTrees]
+fir14_25.mesh
+fir06_30.mesh
+fir05_30.mesh
+10
+[RandomBushes]
+farn1.mesh
+farn2.mesh
+plant1.mesh
+[WeatherCycle]
+Starfall
+[Portal]
+1500 250 1500
+25
+Default
+[Portal]
+966 260 3590
+25
+Volcano
+[Portal]
+2250 215 2000
+25
+Desert
+[Portal]
+550 285 1500
+25
+Lava
+[WaterPlane]
+5000 150 5000
+15
+15
+Terrain/LargeWater
+water1.wav
+#

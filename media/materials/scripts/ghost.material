@@ -1,0 +1,267 @@
+material ghostMat
+{
+	technique
+	{
+		pass
+		{
+			depth_write off
+			scene_blend alpha_blend
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture ghostTex.png
+				scroll_anim 0.01 0.02
+				tex_address_mode wrap
+				rotate_anim -0.01
+				wave_xform scale_x sine 3 0.1 0 3
+				wave_xform scale_y sine 3 0.1 0 3
+			}
+		}
+	}
+}
+material ghostHareMat
+{
+   technique
+   {
+      pass
+      {
+      lighting off
+      scene_blend colour_blend
+      depth_write off
+      cull_hardware none
+      cull_software none
+         texture_unit
+         {
+           texture ghostTex2.png
+           tex_address_mode wrap
+           filtering trilinear
+         }
+         texture_unit
+         {
+            texture ghostTex.png
+		scroll_anim 0.01 0.02
+		tex_address_mode wrap
+		rotate_anim -0.01
+		wave_xform scale_x sine 3 0.1 0 3
+		wave_xform scale_y sine 3 0.1 0 3           
+            colour_op alpha_blend
+         }
+         texture_unit
+         {
+            texture hareTex.jpg
+            colour_op_ex blend_current_alpha src_texture src_current
+         }
+      }
+   }
+}
+material ghostMantaMat
+{
+   technique
+   {
+      pass
+      {
+      lighting off
+      scene_blend colour_blend
+      depth_write off
+      cull_hardware none
+      cull_software none
+         texture_unit
+         {
+           texture ghostTex2.png
+           tex_address_mode wrap
+           filtering trilinear
+         }
+         texture_unit
+         {
+            texture ghostTex.png
+		scroll_anim 0.01 0.02
+		tex_address_mode wrap
+		rotate_anim -0.01
+		wave_xform scale_x sine 3 0.1 0 3
+		wave_xform scale_y sine 3 0.1 0 3           
+            colour_op alpha_blend
+         }
+         texture_unit
+         {
+            texture mantarayTex.jpg
+            colour_op_ex blend_current_alpha src_texture src_current
+         }
+      }
+   }
+}
+material ghostGazelleMat
+{
+   technique
+   {
+      pass
+      {
+      lighting off
+      scene_blend colour_blend
+      depth_write off
+      cull_hardware none
+      cull_software none
+         texture_unit
+         {
+           texture ghostTex2.png
+           tex_address_mode wrap
+           filtering trilinear
+         }
+         texture_unit
+         {
+            texture ghostTex.png
+		scroll_anim 0.01 0.02
+		tex_address_mode wrap
+		rotate_anim -0.01
+		wave_xform scale_x sine 3 0.1 0 3
+		wave_xform scale_y sine 3 0.1 0 3           
+            colour_op alpha_blend
+         }
+         texture_unit
+         {
+            texture gazelleTex.jpg
+            colour_op_ex blend_current_alpha src_texture src_current
+         }
+      }
+   }
+}
+material ghostHawkMat
+{
+   technique
+   {
+      pass
+      {
+      lighting off
+      scene_blend colour_blend
+      depth_write off
+      cull_hardware none
+      cull_software none
+         texture_unit
+         {
+           texture ghostTex2.png
+           tex_address_mode wrap
+           filtering trilinear
+         }
+         texture_unit
+         {
+            texture ghostTex.png
+		scroll_anim 0.01 0.02
+		tex_address_mode wrap
+		rotate_anim -0.01
+		wave_xform scale_x sine 3 0.1 0 3
+		wave_xform scale_y sine 3 0.1 0 3           
+            colour_op alpha_blend
+         }
+         texture_unit
+         {
+            texture hawkTex.jpg
+            colour_op_ex blend_current_alpha src_texture src_current
+         }
+      }
+   }
+}
+material ghostFoxMat
+{
+   technique
+   {
+      pass
+      {
+      lighting off
+      scene_blend colour_blend
+      depth_write off
+      cull_hardware none
+      cull_software none
+         texture_unit
+         {
+           texture ghostTex2.png
+           tex_address_mode wrap
+           filtering trilinear
+         }
+         texture_unit
+         {
+            texture ghostTex.png
+		scroll_anim 0.01 0.02
+		tex_address_mode wrap
+		rotate_anim -0.01
+		wave_xform scale_x sine 3 0.1 0 3
+		wave_xform scale_y sine 3 0.1 0 3           
+            colour_op alpha_blend
+         }
+         texture_unit
+         {
+            texture fennecfoxTex.png
+            colour_op_ex blend_current_alpha src_texture src_current
+         }
+      }
+   }
+}
+material ghostGiraffeMat
+{
+   technique
+   {
+      pass
+      {
+      lighting off
+      scene_blend colour_blend
+      depth_write off
+      cull_hardware none
+      cull_software none
+         texture_unit
+         {
+           texture ghostTex2.png
+           tex_address_mode wrap
+           filtering trilinear
+         }
+         texture_unit
+         {
+            texture ghostTex.png
+		scroll_anim 0.01 0.02
+		tex_address_mode wrap
+		rotate_anim -0.01
+		wave_xform scale_x sine 3 0.1 0 3
+		wave_xform scale_y sine 3 0.1 0 3           
+            colour_op alpha_blend
+         }
+         texture_unit
+         {
+            texture giraffeTex.jpg
+            colour_op_ex blend_current_alpha src_texture src_current
+         }
+      }
+   }
+}
+material nightmareMat
+{
+   technique
+   {
+      pass
+      {
+      lighting off
+      scene_blend colour_blend
+      depth_write off
+      cull_hardware none
+      cull_software none
+         texture_unit
+         {
+           texture ghostTex2.png
+           tex_address_mode wrap
+           filtering trilinear
+         }
+         texture_unit
+         {
+            texture ghostTex.png
+		scroll_anim 0.01 0.02
+		tex_address_mode wrap
+		rotate_anim -0.01
+		wave_xform scale_x sine 3 0.1 0 3
+		wave_xform scale_y sine 3 0.1 0 3           
+            colour_op alpha_blend
+         }
+         texture_unit
+         {
+            texture nightmareTex.jpg
+            colour_op_ex blend_current_alpha src_texture src_current
+         }
+      }
+   }
+}

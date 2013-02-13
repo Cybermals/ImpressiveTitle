@@ -1,0 +1,80 @@
+material EggMat
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			specular 1 1 1 10
+			texture_unit
+			{
+				texture red.jpg
+			}
+		}
+	}
+}
+material EggMat2
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			specular 1 1 1 10
+			texture_unit
+			{
+				texture blue.jpg
+			}
+		}
+	}
+}
+material EggMat3
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			specular 1 1 1 10
+			texture_unit
+			{
+				texture green.jpg
+			}
+		}
+	}
+}
+material EggMat4
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			specular 2 2 2 10
+			texture_unit
+			{
+				texture silver.jpg
+			}
+		}
+	}
+}
+material EggMat5
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			specular 2 2 2 10
+			texture_unit
+			{
+				texture gold.jpg
+			}
+		}
+	}
+}

@@ -1,0 +1,82 @@
+[Initialize]
+islandterrain.cfg
+8000
+8000
+4000 3900 100
+[Grass]
+yellowGrass
+grassdensitymap.png
+grass_tex.jpg
+[RandomTrees]
+fir14_25.mesh
+fir06_30.mesh
+fir05_30.mesh
+200
+[RandomBushes]
+farn1.mesh
+farn2.mesh
+plant1.mesh
+[WeatherCycle]
+RainStarfall
+[Portal]
+1250 180 1000
+25
+Gorge
+[Portal]
+6000 450 4500
+100
+Ocean
+[Portal]
+900 120 7100
+50
+Marsh
+[Portal]
+2991 676 4422
+50
+Badlands
+[WaterPlane]
+4000 105 4000
+30
+30
+Terrain/LargeWater
+water1.wav
+[WaterPlane]
+3867 420 5660
+1.2
+0.75
+Terrain/Water
+water1.wav
+[WaterPlane]
+4335 535 5679
+1
+0.65
+Terrain/Water
+water1.wav
+[Object]
+Waterfall.mesh
+4340 535 5895
+0.8 1.35 1.85
+0 -12 0
+[Object]
+Waterfall.mesh
+4070 535 5645
+1.25 0.38 1
+0 -91 0
+[Object]
+Waterfall.mesh
+3835 420 5887
+0.97 1 1.55
+0 10 0
+[Particle]
+WaterfallSmoke
+4340 105 5895
+waterfall.mp3
+[Particle]
+WaterfallSmoke
+4000 420 5645
+waterfall.mp3
+[Particle]
+WaterfallSmoke
+3835 105 5887
+waterfall.mp3
+#

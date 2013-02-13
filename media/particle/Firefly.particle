@@ -1,0 +1,420 @@
+particle_system Fireflywest
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction 1 0 0
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}
+particle_system Fireflyeast
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction -1 0 0
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}
+particle_system Fireflynorth
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction 0 0 1
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}
+particle_system Fireflysouth
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction 0 0 -1
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}
+particle_system Fireflyup
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction 0 1 0
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}
+particle_system Fireflyupeast
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction 1 -1 0
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}
+particle_system Fireflyupwest
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction -1 -1 0
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}
+particle_system Fireflyupnorth
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction 0 1 1
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}
+particle_system Fireflyupsouth
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction 0 1 -1
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}
+particle_system Fireflydown
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction 0 -1 0
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}
+particle_system Fireflydowneast
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction 1 -1 0
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}
+particle_system Fireflydownwest
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction -1 -1 0
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}
+particle_system Fireflydownnorth
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction 0 -1 1
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}
+particle_system Fireflydownsouth
+{
+    material FireFly
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 5
+        emission_rate 1
+        time_to_live 100
+        direction 0 -1 -1
+        velocity_min 5
+        velocity_max 10
+	colour  1 1 1 0
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.01 0.05 0.01
+        force_application add
+    }
+    affector DirectionRandomiser
+    {
+	randomness 100
+	scope 1
+    }
+}

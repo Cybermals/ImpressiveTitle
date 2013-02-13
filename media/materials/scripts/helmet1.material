@@ -1,0 +1,56 @@
+material helmetMat
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture helmetTex.jpg
+			}
+		}
+	}
+}
+material helmetMat2
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture teethTex.jpg
+			}
+		}
+	}
+}
+material helmetMat3
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture helmetTex3.jpg
+			}
+		}
+	}
+}
+material hornMat3
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture hornTex3.jpg
+			}
+		}
+	}
+}

@@ -1,0 +1,465 @@
+material Portal/Default
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalDefault.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalDefault.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/Waterfall
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalWaterfall.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalWaterfall.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/ReallyBig
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalReallyBig.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalReallyBig.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/Marsh
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalMarsh.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalMarsh.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/Gorge
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalGorge.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalGorge.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/Forest
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalForest.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalForest.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/Ocean
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalOcean.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalOcean.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/Ice
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalIce.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalIce.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/Lava
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalLava.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalLava.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/Island
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalIsland.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalIsland.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/Desert
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture sand_tex.png
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture sand_tex.png
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/Jungle 
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture jungle.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture jungle.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/Labyrinth
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalLabyrinth.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalLabyrinth.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/Oasis
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalOasis.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalOasis.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Portal/Volcano
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalVolcano.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalVolcano.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}

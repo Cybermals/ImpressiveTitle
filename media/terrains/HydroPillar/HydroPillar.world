@@ -1,0 +1,49 @@
+[Initialize]
+hydroPillarterrain.cfg
+1000
+1000
+450 450 100
+[Interior]
+4920
+Terrain/UnderwaterCeiling
+0.07 0.13 0.27
+[WeatherCycle]
+None
+[SpawnCritters]
+hydroPillarCritters.cfg
+[NewBushes]
+hydroPillarObjects.cfg
+[SphereWall]
+500 0 500
+490
+false
+[Gate]
+GateMatWhite
+62 4862 800
+Ocean
+4402 160 4278
+[Light]
+87 4862 775
+0.75 0.74 0.72
+[Billboard]
+87 4862 775
+60 60
+CaveLight
+[Gate]
+GateMatWhite
+783 624 78
+Underwater Cave
+800 130 200
+[Light]
+763 624 98
+0.75 0.74 0.72
+[Billboard]
+763 624 98
+60 60
+CaveLight
+[WaterPlane]
+500 4900 500
+20
+20
+Terrain/LargeWater
+#

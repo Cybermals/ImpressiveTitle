@@ -1,0 +1,6 @@
+[Rain]
+Start=100
+End=7000
+SkyShader=0.5 0.5 0.5
+Weather=Rain
+Rate=1500

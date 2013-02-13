@@ -1,0 +1,309 @@
+material bunnyMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture bunnyTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material ducklingMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture ducklingTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material fennecfoxMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			alpha_rejection greater_equal 128
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture fennecfoxTex.png
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material snakeMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture snakeTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material hummingbirdMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			scene_blend alpha_blend
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture hummingbirdTex.png
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material peacockMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			alpha_rejection greater_equal 128
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture peacockTex.png
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material batMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			alpha_rejection greater_equal 128
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture batTex.png
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material kittenMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture kittenTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material okapiMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture okapiTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material mitziMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture mitziTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material pandaMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+			{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			alpha_rejection greater_equal 128
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture pandaTex.png
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material redpandaMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture redpandaTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material mouseMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			alpha_rejection greater_equal 128
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture mouseTex.png
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material frogMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			scene_blend alpha_blend
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture frogTex.png
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}

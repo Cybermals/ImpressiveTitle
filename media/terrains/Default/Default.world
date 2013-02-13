@@ -1,0 +1,154 @@
+[Initialize]
+defaulterrain.cfg
+5000
+5000
+2500 2500 100
+[Grass]
+yellowGrass
+grassdensitymap.png
+grass_tex.jpg
+[Trees]
+DefaultTrees.cfg
+[Bushes]
+DefaultBushes.cfg
+[NewFloatingBushes]
+DefaultFloatingBushes.cfg
+[Portal]
+1395 130 4000
+25
+Waterfall
+[Portal]
+365 30 3444
+25
+Marsh
+[Portal]
+570 340 190
+25
+ReallyBig
+[Portal]
+4870 30 4870
+15
+Gorge
+[Portal]
+4070 50 2070
+25
+Ocean
+[Portal]
+4370 140 170
+25
+Ice
+[Portal]
+170 100 4370
+25
+Lava
+[Portal]
+4000 30 4000
+15
+Crater
+[Portal]
+3000 30 3000
+15
+Castle
+[Portal]
+1087 65 4060
+25
+Graveyard
+[Portal]
+1627 330 3450
+25
+Ascension Island
+[Gate]
+GateMatBlack
+1888 23 1632
+First Cave
+100 100
+[Gate]
+GateMatBlack
+1643 100 1479
+Secret Tunnel
+564 456
+[WaterPlane]
+1655 200 1535
+0.175
+0.155
+Terrain/Water
+water1.wav
+[Object]
+Waterfall.mesh
+1653 199 1470
+0.5 1 0.8
+0 180 0
+[Particle]
+WaterSplash
+1649 100 1435
+water1.wav
+[Particle]
+WaterSplash
+1672 99 1434
+[Particle]
+WaterSplash
+1620 90 1433
+[Object]
+rock.mesh
+1649 90 1433
+1 1 1
+-60 0 0
+[Object]
+rock.mesh
+1672 80 1431
+1.2 1.2 1.2
+-60 0 0
+[Object]
+rock.mesh
+1620 80 1431
+1 1 1
+-60 0 0
+[CollSphere]
+2800 50 2800
+25
+[CollBox]
+1655 190 1577
+90 12 30
+[CollBox]
+1603 190 1538
+30 12 70
+[CollBox]
+1701 190 1536
+30 12 76
+[CollSphere]
+1613 188 1496
+13
+[CollSphere]
+1695 188 1491
+17
+[CollBox]
+3852 0 3842
+15 81 15
+[CollBox]
+3846 0 3856
+25 61 25
+[CollSphere]
+3793 -10 3878
+32
+[CollBox]
+1571 229 4033
+40 10 40
+[CollBox]
+1663 240 3993
+40 10 40
+[CollBox]
+1745 251 3917
+40 10 40
+[CollBox]
+1808 263 3835
+40 10 40
+[CollBox]
+1820 276 3733
+40 10 40
+[CollBox]
+1801 289 3613
+40 10 40
+[CollBox]
+1753 305 3488
+76 17 76
+#

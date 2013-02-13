@@ -1,0 +1,29 @@
+material collarRingMat
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture collarTex.png
+			}
+		}
+	}
+}
+material collarMat3
+{
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture collarTex.png
+			}
+		}
+	}
+}

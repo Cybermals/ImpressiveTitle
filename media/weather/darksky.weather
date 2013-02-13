@@ -1,0 +1,10 @@
+[Darksky]
+Constant=true
+SkyShader=0.2 0.2 0.3
+SkyAdder=0 0 0
+[Rain]
+Start=000
+End=50000
+SkyShader=0.5 0.5 0.5
+Weather=Rain
+Rate=1500

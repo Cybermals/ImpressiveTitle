@@ -1,0 +1,7048 @@
+material BodyMark17
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref BodyMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture bodyMask1.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture bodyMask2.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture bodyMark17.png
+				tex_coord_set 3
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture bodyMask1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture bodyMask2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture bodyMark17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material BodyMark18
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref BodyMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture bodyMask1.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture bodyMask2.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture bodyMark18.png
+				tex_coord_set 3
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture bodyMask1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture bodyMask2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture bodyMark18.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material BodyMark19
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref BodyMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture bodyMask1.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture bodyMask2.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture bodyMark19.png
+				tex_coord_set 3
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture bodyMask1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture bodyMask2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture bodyMark19.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material BodyMark20
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref BodyMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture bodyMask1.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture bodyMask2.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture bodyMark20.png
+				tex_coord_set 3
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture bodyMask1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture bodyMask2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture bodyMark20.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material TailMark7
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref TailMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture tailMask1.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture tailMark7.png
+				tex_coord_set 2
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture tailMask1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture tailMark7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material TailMark8
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref TailMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture tailMask1.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture tailMark8.png
+				tex_coord_set 2
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture tailMask1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture tailMark8.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark11_1
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask1.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask2.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask3.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask4.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask5.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask6.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex1.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark11_1.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex1.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask3.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask4.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask5.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask6.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark11_1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark12_1
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask1.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask2.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask3.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask4.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask5.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask6.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex1.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark12.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex1.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask3.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask4.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask5.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask6.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark13_1
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask1.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask2.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask3.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask4.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask5.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask6.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex1.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark13_1.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex1.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask3.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask4.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask5.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask6.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark13_1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark14_1
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask1.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask2.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask3.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask4.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask5.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask6.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex1.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark14_1.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex1.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask3.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask4.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask5.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask6.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark14_1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark15_1
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask1.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask2.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask3.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask4.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask5.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask6.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex1.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark15_1.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex1.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask3.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask4.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask5.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask6.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark15_1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark16_1
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask1.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask2.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask3.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask4.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask5.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask6.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex1.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark16.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex1.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask3.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask4.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask5.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask6.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark17_1
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask1.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask2.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask3.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask4.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask5.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask6.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture mouthTex1.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark17.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask1.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture mouthTex1.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask3.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask4.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask5.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask6.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark11_2
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark11_2.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark11_2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark12_2
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark12.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark13_2
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark13_2.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark13_2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark14_2
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark14_2.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark14_2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark15_2
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark15_2.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark15_2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark16_2
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark16.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark17_2
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark17.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark11_3
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark11_3.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark11_3.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark12_3
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark12.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark13_3
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark13_3.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark13_3.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark14_3
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark14_3.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark14_3.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark15_3
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark15_2.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark15_2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark16_3
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark16.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark17_3
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask7.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark17.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask7.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark11_4
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark11_2.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark11_2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark12_4
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark12.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark13_4
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark13_2.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark13_2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark14_4
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark14_2.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark14_2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark15_4
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark15_2.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark15_2.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark16_4
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark16.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}
+material HeadMark17_4
+{
+	receive_shadows on
+	technique 1
+	{
+		pass
+		{
+			fragment_program_ref HeadMark_PS
+			{
+				param_named_auto colorMod1 custom 1
+				param_named_auto colorMod2 custom 2
+				param_named_auto colorMod3 custom 3
+				param_named_auto colorMod4 custom 4
+				param_named_auto colorMod5 custom 5
+				param_named_auto colorMod6 custom 6
+				param_named_auto colorMod7 custom 7
+				param_named_auto colorMod8 custom 8
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+			texture_unit
+			{
+				texture headMask11.png
+				tex_coord_set 1
+			}
+			texture_unit
+			{
+				texture headMask12.png
+				tex_coord_set 2
+			}
+			texture_unit
+			{
+				texture headMask13.png
+				tex_coord_set 3
+			}
+			texture_unit
+			{
+				texture headMask14.png
+				tex_coord_set 4
+			}
+			texture_unit
+			{
+				texture headMask15.png
+				tex_coord_set 5
+			}
+			texture_unit
+			{
+				texture headMask16.png
+				tex_coord_set 6
+			}
+			texture_unit
+			{
+				texture headMask17.png
+				tex_coord_set 7
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				tex_coord_set 8
+			}
+			texture_unit
+			{
+				texture headMark17.png
+				tex_coord_set 9
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask11.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask12.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				texture headTex2.jpg
+				colour_op_ex blend_diffuse_alpha src_texture src_current
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask13.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask14.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask15.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask16.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 0 0 0 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMask17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_func equal
+			texture_unit
+			{
+				texture headMark17.png
+				alpha_op_ex source1 src_texture src_texture
+				colour_op_ex source2 src_texture src_texture
+			}
+			texture_unit
+			{
+				colour_op_ex blend_diffuse_alpha src_manual src_current 1 1 1 1
+			}
+		}
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			depth_func equal
+         	   	scene_blend zero src_colour
+		}
+	}
+}

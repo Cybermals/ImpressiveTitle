@@ -1,0 +1,31 @@
+particle_system Exhale
+{
+    material WaterfallSmoke
+    particle_width 1
+    particle_height 1
+    cull_each false
+    quota 10000
+
+    emitter Point
+    {
+        emission_rate 0.35
+	direction -0.1 0.1 0
+	velocity_min 0.3
+        velocity_max 0.5
+        time_to_live 4
+        colour  1 1 1 0
+    }
+
+    affector Scaler
+    {
+        rate 1
+    }
+    affector ColourFader2
+    {
+        alpha1 +0.5
+
+        alpha2 -0.5
+
+        state_change 2
+    }
+}

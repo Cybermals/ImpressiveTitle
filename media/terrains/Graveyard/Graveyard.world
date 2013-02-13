@@ -1,0 +1,40 @@
+[Initialize]
+graveyardterrain.cfg
+2000
+2000
+1190 1870 100
+[Grass]
+yellowGrass
+grassdensitymap6.png
+grass_tex.jpg
+[WeatherCycle]
+Redsky
+[Portal]
+1072 130 1097
+20
+Pride
+[Portal]
+780 130 395
+25
+Default
+[Portal]
+1500 130 120
+25
+Castle
+[Gate]
+GateMatShriekingHill
+1950 127 1950
+Shrieking Hill
+350 1681
+[WaterPlane]
+1000 102 1000
+3.8
+3.8
+Terrain/bloodWater
+[WaterPlane]
+1500 200 376
+0.25
+0.25
+Terrain/bloodWater
+water1.wav
+#

@@ -1,0 +1,86 @@
+[Initialize]
+waterfallterrain.cfg
+2500
+2500
+500 500 100
+[Grass]
+grass
+grassdensitymap.png
+grass_tex2.png
+[RandomTrees]
+fir14_25.mesh
+fir06_30.mesh
+fir14_25.mesh
+20
+[SpawnCritters]
+waterfallCritters.cfg
+[WeatherCycle]
+ThunderstormRain
+[Portal]
+1000 300 800
+25
+Default
+[Portal]
+2210 270 2210
+25
+ReallyBig
+[Portal]
+2165 204 298
+25
+Paradise
+[Portal]
+350 425 2450
+25
+GreatFalls
+[WaterPlane]
+1545 50 1300
+1.5
+1.5
+Terrain/CalmWater
+water1.wav
+[WaterPlane]
+980 215 900
+1
+2
+Terrain/Water
+water1.wav
+[WaterPlane]
+630 285 1520
+1
+1.8
+Terrain/Water
+water1.wav
+[Object]
+Waterfall.mesh
+1260 215 1195
+1 0.52 1.4
+0 91 0
+[Object]
+Waterfall.mesh
+1260 215 1345
+1.2 0.52 1.4
+0 90 0
+[Object]
+Waterfall.mesh
+905 285 1185
+0.8 0.22 1.3
+0 92 0
+[Object]
+Waterfall.mesh
+910 285 1305
+1 0.22 1.32
+0 99 0
+[Particle]
+WaterfallSmoke
+1345 50 1255
+waterfall.mp3
+[Particle]
+WaterfallSmoke
+990 213 1225
+waterfall.mp3
+[Gate]
+GateMatBlack
+1269 50 1269
+Waterfall Cave
+476 852
+#

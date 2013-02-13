@@ -1,0 +1,210 @@
+[Initialize]
+ShriekingHillterrain.cfg
+5000
+5000
+3773 333 778
+[NewTrees]
+ShriekingHillTrees.cfg
+[NewBushes]
+ShriekingHillBushes.cfg
+[FreezeTime]
+0
+[WeatherCycle]
+Weirdsky
+[Gate]
+GateMatBlack
+4800 250 3109
+Another Tunnel;9
+564 445
+[Gate]
+GateMatShriekingHill
+923 480 3835
+Tainted Plains
+2660 7400
+[Gate]
+GateMatShriekingHill
+230 246 1681
+Graveyard
+1850 1850
+[WaterPlane]
+2849 228 3079
+2
+2
+Terrain/bloodWater
+water1.wav
+[CollBox]
+3791 475 726
+480 13 480
+[Object]
+Crystal.mesh
+4291 294 4482
+10 10 10
+0 0 0
+no sound
+Terrain/Magma
+[Object]
+Crystal.mesh
+1851 344 2428
+20 20 20
+0 0 0
+no sound
+Terrain/Magma
+[Object]
+rockslab.mesh
+2257 982 741
+20 2 20
+0 180 0
+no sound
+Terrain/LargeWater
+[Object]
+rockslab.mesh
+1945 966 1160
+1 1 1
+0 180 0
+no sound
+Terrain/CalmWater
+[Object]
+rockslab.mesh
+1896 904 1233
+1 1 1
+0 180 0
+no sound
+Terrain/CalmWater
+[Object]
+rockslab.mesh
+1853 845 1296
+1 1 1
+0 180 0
+no sound
+Terrain/LakeWater
+[Object]
+rockslab.mesh
+1779 786 1315
+1 1 1
+0 180 0
+no sound
+Terrain/LakeWater
+[Object]
+rockslab.mesh
+1702 712 1335
+1 1 1
+0 180 0
+no sound
+Terrain/CalmWater
+[Object]
+rockslab.mesh
+1622 649 1355
+1 1 1
+0 180 0
+no sound
+Terrain/CalmWater
+[Object]
+rockslab.mesh
+1546 591 1375
+1 1 1
+0 180 0
+no sound
+Terrain/CalmWater
+[Object]
+rockslab.mesh
+1465 532 1396
+1 1 1
+0 180 0
+no sound
+Terrain/CalmWater
+[Object]
+rockslab.mesh
+1397 482 1413
+1 1 1
+0 180 0
+no sound
+Terrain/CalmWater
+[CollBox]
+2257 982 741
+800 18 800
+[CollBox]
+1945 966 1160
+40 9 40
+[CollBox]
+1896 904 1233
+40 9 40
+[CollBox]
+1853 845 1296
+40 9 40
+[CollBox]
+1779 786 1315
+40 9 40
+[CollBox]
+1702 712 1335
+40 9 40
+[CollBox]
+1622 649 1355
+40 9 40
+[CollBox]
+1546 591 1375
+40 9 40
+[CollBox]
+1465 532 1396
+40 9 40
+[CollBox]
+1397 482 1413
+40 9 40
+[Object]
+rockslab.mesh
+1292 449 1519
+1 1 1
+0 180 0
+no sound
+Terrain/CalmWater
+[CollBox]
+1292 449 1519
+40 9 40
+[Object]
+rockslab.mesh
+1350 467 1457
+0.5 1 0.5
+0 180 0
+no sound
+Terrain/CalmWater
+[CollBox]
+1350 467 1457
+20 9 20
+[Particle]
+Horrorup
+2255 1048 812
+[Particle]
+Ghostfire
+1914 1000 871
+[Particle]
+Ghostfire
+1900 1000 637
+[Particle]
+Ghostfire
+2021 1000 466
+[Particle]
+Ghostfire
+2231 1000 317
+[Particle]
+Ghostfire
+2483 1000 447
+[Particle]
+Ghostfire
+2612 1000 629
+[Particle]
+Ghostfire
+2645 1000 871
+[Particle]
+Ghostfire
+2475 1000 1023
+[Particle]
+Ghostfire
+2228 1000 1113
+[Particle]
+Ghostfire
+4312 364 3505
+ghostloop.mp3
+[Particle]
+Ghostfire
+2018 333 3240
+ghostloop.mp3
+#

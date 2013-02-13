@@ -1,0 +1,181 @@
+material Terrain/Flower
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			//lighting off
+			cull_hardware none
+			cull_software none
+			scene_blend alpha_blend
+			alpha_rejection greater_equal 200
+			
+			texture_unit
+			{
+				texture flower.png
+			}
+		}
+	}
+}
+material Terrain/GreatFallsTerrain
+{
+    receive_shadows on
+    technique
+    {
+        pass
+        {
+            lighting off
+            texture_unit
+            {
+                texture rock_tex1.png
+                scale 0.1 0.1
+            }
+        }
+        pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_func equal
+            texture_unit
+            {
+                texture GreatFallsterrainmask.png
+                alpha_op_ex source1 src_texture src_texture
+                colour_op_ex source2 src_texture src_texture
+            }
+            texture_unit
+            {
+              	texture fallssandtex.png
+		scale 0.02 0.02
+                colour_op_ex blend_diffuse_alpha src_texture src_current
+            }
+        }
+        pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_func equal
+            texture_unit
+            {
+                texture GreatFallsterrainmask2.png
+                alpha_op_ex source1 src_texture src_texture
+                colour_op_ex source2 src_texture src_texture
+            }
+            texture_unit
+            {
+              	texture fallsgrasstex.png
+		scale 0.02 0.02
+                colour_op_ex blend_diffuse_alpha src_texture src_current
+            }
+        }
+    }
+}
+material Terrain/LakeWater
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture Water01.png
+				scale 1 1
+				scroll_anim -0.03 0.05
+				rotate 90
+			}
+			texture_unit
+			{
+				texture Water04.png
+				scale 1 1 
+				scroll_anim -0.05 0.01
+				rotate 90
+			}
+		}
+	}
+}
+material Terrain/RapidWater
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture Water01.png
+				scale 1 1
+				scroll_anim -1 0.05
+				rotate 90
+			}
+			texture_unit
+			{
+				texture Water04.png
+				scale 1 1 
+				scroll_anim -1.01 0.01
+				rotate 90
+			}
+		}
+	}
+}
+material Bee
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			fog_override true
+			texture_unit
+			{
+				texture beez.png
+			}
+		}
+	}
+}
+material Portal/GreatFalls
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			//depth_write off
+
+			texture_unit
+			{
+				texture portalGreatFalls.png
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+			//depth_write off
+
+			texture_unit
+			{
+				texture portalGreatFalls.png
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}

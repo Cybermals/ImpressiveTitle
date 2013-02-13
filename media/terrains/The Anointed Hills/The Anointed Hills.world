@@ -1,0 +1,528 @@
+[Initialize]
+theanointedhillsterrain.cfg
+7000
+7000
+1646 53 53
+[Grass]
+yellowGrass
+ordainedgrass.png
+grass_tex.jpg
+[WeatherCycle]
+ThunderstormRain
+[Portal]
+4605 285 103
+25
+Badlands
+[Portal]
+6893 287 823
+25
+Forest
+[WaterPlane]
+3500 200 3500
+20
+20
+Terrain/OrdainedWater
+water1.wav
+[WaterPlane]
+645.285 282 6441.1
+1.5
+1.5
+Terrain/CalmWater
+water1.wav
+[Particle]
+WaterfallSmoke
+699.983 255 6256.2
+[Particle]
+WaterfallSmoke
+467.733 265 6386.04
+[Particle]
+WaterfallSmoke
+388 265 6605.69
+[Particle]
+WaterfallSmoke
+584 261 6648
+[Particle]
+Geyser
+822 307 6480 
+Steam2.wav
+[Particle]
+Geyser
+255 306 6417 
+Steam2.wav
+[Particle]
+Geyser
+256 361 6789 
+Steam2.wav
+[Object]
+DeadTree2.mesh
+2308 328 840
+4.0 4.7 4.0
+0 0 0
+no sound
+OrdainedTreeMat
+[WaterPlane]
+2317.4 558 770.942
+.08
+.08
+Terrain/OrdainedLedge
+no sound
+true
+[WaterPlane]
+2432.59 627.348 6511.16
+.02
+.02
+Terrain/OrdainedLedge
+no sound
+true
+[WaterPlane]
+2285.4 586.389 664.905
+.06
+.06
+Terrain/OrdainedLedge
+no sound
+true
+[WaterPlane]
+2310.1 498.056 612.537
+.08
+.08
+Terrain/OrdainedLedge
+no sound
+true
+[WaterPlane]
+2312.76 521 663.027
+.08
+.08
+Terrain/OrdainedLedge
+no sound
+true
+[WaterPlane]
+2335.97 540 704.039
+.05
+.05
+Terrain/OrdainedLedge
+no sound
+true
+[WaterPlane]
+2409.17 593 719.772
+.07
+.07
+Terrain/OrdainedLedge
+no sound
+true
+[WaterPlane]
+2434.85 629 646.442
+.05
+.05
+Terrain/OrdainedLedge
+no sound
+true
+[Object]
+DeadTree3.mesh
+1746 367 2067
+1.5 2.5 1.5
+0 0 0
+no sound
+OrdainedTreeMat
+[Object]
+DeadTree1.mesh
+918 333 3178
+1.0 2.0 1.0
+0 0 0
+no sound
+OrdainedTreeMat
+[Object]
+DeadTree3.mesh
+1620 339 4075
+2.0 2.4 2.0
+3 0 3
+no sound
+OrdainedTreeMat
+[Object]
+DeadTree2.mesh
+2385 434 5998
+2.4 2.8 2.4
+7 0 7
+no sound
+OrdainedTreeMat
+[Object]
+DeadTree1.mesh
+3035 299 4594
+2.0 2.7 2.0
+60 4 3
+no sound
+OrdainedTreeMat
+[Object]
+DeadTree3.mesh
+3018.92 312 4739.58
+2.0 2.7 2.0
+-8 1 3
+no sound
+OrdainedTreeMat
+[Object]
+DeadTree1.mesh
+6109.85 325 713.197
+2.0 2.4 2.0
+3 4 3
+no sound
+OrdainedTreeMat
+[Object]
+DeadTree3.mesh
+4193.94 451 1569.33
+1.8 2.7 1.8
+5 4 3
+no sound
+OrdainedTreeMat
+[Object]
+DeadTree1.mesh
+4341 388 3665
+1.0 1.4 1.0
+3 0 0
+no sound
+OrdainedTreeMat
+[Object]
+plant1.mesh
+3454 468.5 5763
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3443 469.5 5784
+1.0 1.1 1.0
+2 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3403 472.5 5709
+1.0 1.1 1.0
+8 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3415 471.5 5755
+1.0 1.1 1.0
+12 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3408 481.5 5805
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3504 475.5 5602
+1.0 1.1 1.0
+5 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3317 436.5 5634
+1.0 1.1 1.0
+9 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3087 325.5 5417
+1.0 1.1 1.0
+16 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3032 300.5 4614
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+2969 297.5 4572
+1.0 1.1 1.0
+7 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3041 300.5 4555
+1.0 1.1 1.0
+23 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3173 309.5 4551
+1.0 1.1 1.0
+14 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3235 326.5 4332
+1.0 1.1 1.0
+4 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3796 307.5 4878
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3632 235.5 4531
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+4809 436.5 4937
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+4778 444.5 4981
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+5495 349.5 5088
+1.0 1.1 1.0
+25 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+5551 325.5 5107
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+6091 515.5 5464
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+6031 492.5 5328
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3869 417.5 5550
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+5971 372.5 5847
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+5963 459.5 4611
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+6140 430.5 4570
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+5895 383.5 4359
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+5794 411.5 4421
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+5710 339.5 4241
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+5769 321.5 4021
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+6014 336.5 4106
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+6220 306.5 3991
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+5320 344.5 3380
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+4856 4386.5 3263
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+4680 373.5 3359
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+4699 351.5 3502
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+4508 348.5 3545
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+4528 300.5 3930
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+4254 315.5 4118
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+2995 325.5 3269
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+2716 337.5 2918
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+2939 325.5 2072
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3105 306.5 4667
+1.0 1.1 1.0
+3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3066 312.5 4729
+1.0 1.1 1.0
+-3 0 0
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+2967 304.5 4706
+1.0 1.1 1.0
+3 0 12
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3178 303.5 4614
+1.0 1.1 1.0
+5 0 -12
+no sound
+OrdainedFlower
+[Object]
+plant1.mesh
+3078 315.5 4947
+1.0 1.1 1.0
+7 0 3
+no sound
+OrdainedFlower
+[Particle]
+OrdainedFog
+5752 300 2950
+[Particle]
+OrdainedFog
+5902 300 3069
+[Particle]
+OrdainedFog
+5922 300 3201
+[Particle]
+OrdainedFog
+5788 300 3274
+[Particle]
+OrdainedFog
+5655 300 3283
+[Particle]
+OrdainedFog
+5510 300 3215
+[Particle]
+OrdainedFog
+5500 300 3112
+[Particle]
+OrdainedFog
+5541 300 2996
+#

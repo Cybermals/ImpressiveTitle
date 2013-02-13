@@ -1,0 +1,29 @@
+[Initialize]
+forestterrain.cfg
+5000
+5000
+900 2000 1
+[Grass]
+grass
+grassdensitymap2.png
+grass_tex.jpg
+[RandomTrees]
+fir14_25.mesh
+fir06_30.mesh
+fir05_30.mesh
+350
+[RandomBushes]
+farn1.mesh
+plant2.mesh
+shroom1_1.mesh
+[Portal]
+940 120 780
+25
+Default
+[WaterPlane]
+1100 280 900
+2.2
+2.2
+Terrain/CalmWater
+water1.wav
+#

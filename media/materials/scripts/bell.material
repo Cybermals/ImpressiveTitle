@@ -1,0 +1,32 @@
+material bellMat
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture bellTex.png
+			}
+		}
+	}
+}
+material bellLeafMat
+{
+	technique
+	{
+		pass
+		{
+			depth_write off
+			scene_blend alpha_blend
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture bellTex.png
+			}
+		}
+	}
+}

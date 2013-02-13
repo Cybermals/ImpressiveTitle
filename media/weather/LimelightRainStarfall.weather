@@ -1,0 +1,24 @@
+[Limelight]
+Start=1
+End=1000
+Weather=Limelight
+Rate=50
+
+[Rain]
+Start=1001
+End=1600
+SkyShader=0.5 0.5 0.5
+Weather=Rain
+Rate=1000
+
+[Limelight2]
+Start=1601
+End=6600
+Weather=Limelight
+Rate=50
+
+[Starfall]
+Start=6601
+End=7000
+Weather=Starfall
+Rate=100

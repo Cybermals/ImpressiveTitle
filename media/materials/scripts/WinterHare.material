@@ -1,0 +1,22 @@
+material WinterHareMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			scene_blend alpha_blend
+			depth_write on
+			texture_unit
+			{
+				texture WinterHareTex.png
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}

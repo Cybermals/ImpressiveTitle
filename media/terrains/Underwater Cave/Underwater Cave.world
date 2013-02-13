@@ -1,0 +1,65 @@
+[Initialize]
+underwaterCaveterrain.cfg
+1000
+1000
+450 450 100
+[Interior]
+245
+Terrain/UnderwaterCeiling
+[NewBushes]
+underwaterCaveObjects.cfg
+[WeatherCycle]
+None
+[SphereWall]
+500 0 500
+490
+false
+[Gate]
+GateMatWhite
+889 130 147
+HydroPillar
+736 607 168
+[Light]
+870 130 166
+0.75 0.74 0.72
+[Billboard]
+870 130 166
+60 60
+CaveLight
+[Gate]
+GateMatWhite
+147 32 870
+Serpent's Pass
+557 198
+[Light]
+175 32 848
+0.75 0.74 0.72
+[Billboard]
+175 32 848
+100 100
+CaveLight
+[WaterPlane]
+500 30 500
+20
+20
+Terrain/LargeWater
+[Particle]
+WaterSplash
+827 28 208
+water1.wav
+[Light]
+94 148 273
+0.05 0.74 1
+[Particle]
+Fireflywest
+94 148 273
+[Particle]
+Fireflynorth
+94 148 273
+[Particle]
+Fireflyeast
+298 148 448
+[Particle]
+Fireflysouth
+298 148 448
+#

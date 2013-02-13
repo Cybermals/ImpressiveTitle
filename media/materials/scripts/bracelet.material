@@ -1,0 +1,60 @@
+material braceletMat
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture braceletTex.jpg
+			}
+		}
+	}
+}
+material braceletMat2
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture braceletTex2.jpg
+			}
+		}
+	}
+}
+material braceletMat3
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture bellTex.png
+			}
+		}
+	}
+}
+material braceletMat5
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture braceletTex5.jpg
+			}
+		}
+	}
+}

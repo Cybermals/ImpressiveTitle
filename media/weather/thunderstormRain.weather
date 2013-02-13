@@ -1,0 +1,17 @@
+[Thunderstorm]
+Start=900
+End=1500
+SkyShader=0.5 0.5 0.5
+Weather=Rain
+Rate=1000
+Effect=Lightning
+Effect=Thunder
+Effect=LightningThunder
+EffectFrequency=0.0008
+
+[Rain]
+Start=5700
+End=6100
+SkyShader=0.5 0.5 0.5
+Weather=Rain
+Rate=1500

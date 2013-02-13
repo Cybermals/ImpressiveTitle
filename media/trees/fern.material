@@ -1,0 +1,37 @@
+material fernLeafMat
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+
+			alpha_rejection greater_equal 128
+
+			texture_unit
+			{
+				texture fernLeaf.png
+			}
+		}
+	}
+}
+material fernStalkMat
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture acaciaBark.jpg
+			}
+		}
+	}
+}

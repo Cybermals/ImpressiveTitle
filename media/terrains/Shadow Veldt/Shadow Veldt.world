@@ -1,0 +1,382 @@
+[Initialize]
+shadowveldtterrain.cfg
+6000
+6000
+316 4251 314.118
+[SpawnCritters]
+sv_Critters.cfg
+[Portal]
+5679 400 1524
+25
+Volcano
+[Portal]
+3881 517 586
+25
+Badlands
+[Portal]
+823 574 3099
+15
+Default
+[Portal]
+3655 340 5713
+15
+Forest
+[WaterPlane]
+1229 384 1529
+1.4
+1.4
+Terrain/ShadowVeldtWater
+water1.wav
+[WaterPlane]
+449 183 5155
+1.2
+1.2
+Terrain/ShadowVeldtWater
+water1.wav
+[WaterPlane]
+4637 329 4097
+1.8
+1.8
+Terrain/ShadowVeldtWater
+water1.wav
+[WaterPlane]
+4714 385 1399
+1.2
+1.65
+Terrain/ShadowVeldtWater
+water1.wav
+[Object]
+JungleTree.mesh
+464 182.5 5752
+3.0 2.5 3.0
+0 0 0
+no sound
+[Object]
+JungleTree.mesh
+1303 182.5 5378
+3.0 2.5 3.0
+0 0 0
+no sound
+[Object]
+JungleTree.mesh
+670 186.5 4532
+3.0 2.5 3.0
+0 0 0
+no sound
+[Object]
+JungleTree.mesh
+441 184.5 4691
+3.0 2.5 3.0
+0 0 0
+no sound
+[Object]
+JungleTree.mesh
+187 186.5 4754
+3.0 2.5 3.0
+0 0 0
+no sound
+[Object]
+JungleTree.mesh
+834 186.5 5629
+2.5 2.3 5.5
+0 0 0
+[Object]
+JungleTree.mesh
+318 235 4820
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+897 233 4667
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+1112 180 5362
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+635 183 4771
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+506 183 4564
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+350 177 4883
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+142 183 4946
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+205 160 5437
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+1211 190 5195
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+1447 143 5304
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+1271 162 5550
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+986 182 5551
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+825 140 5793
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+1094 150 5808
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+306 158 5845
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+270 90 5308
+2.0 1.8 2.0
+0 0 0
+[Object]
+JungleTree.mesh
+989 105 4869
+2.0 1.8 2.0
+0 0 0
+
+[Object]
+DeadTree1.mesh
+5296 476.5 1590
+1.8 2.2 1.8
+13 0 0
+no sound
+DeadVeldtTreeMat
+[Object]
+DeadTree1.mesh
+5165 410.5 1675
+1.0 1.4 1.0
+26 67 0
+no sound
+DeadVeldtTreeMat
+[Object]
+DeadTree1.mesh
+5276 430.5 1699
+0.4 0.8 0.4
+5 90 0
+no sound
+DeadVeldtTreeMat
+[Object]
+DeadTree2.mesh
+3774 500 3819
+1.4 1.8 1.4
+-54 60 0
+no sound
+DeadVeldtTreeMat
+[Object]
+DeadTree1.mesh
+3774 440 3734
+1.2 1.6 1.2
+13 21 0
+no sound
+DeadVeldtTreeMat
+[Object]
+DeadTree1.mesh
+3845 443 3787
+0.4 0.6 0.4
+-7 60 0
+no sound
+DeadVeldtTreeMat
+[Object]
+Tree1.mesh
+3569 331 5716
+2.0 1.7 2.0
+0 0 0
+[Object]
+Tree1.mesh
+3612 327.5 5820
+1.3 1.0 1.3
+0 30 0
+[Object]
+Tree1.mesh
+3368 327.5 5835
+1.3 1.2 1.3
+0 77 0
+[Object]
+Tree1.mesh
+2980 327.5 5651
+2.0 2.0 2.0
+0 23 0
+[Object]
+Tree1.mesh
+2738 313.5 5849
+2.0 1.8 2.0
+0 0 0
+[Object]
+Tree1.mesh
+2668 327.5 5485
+2.0 2.0 2.0
+0 55 0
+[Object]
+Tree1.mesh
+2531 313.5 5718
+2.0 2.0 2.0
+0 33 0
+[Object]
+Tree1.mesh
+2328 313.5 5873
+2.0 2.0 2.0
+0 23 0
+[Object]
+Tree1.mesh
+2480 334.5 5335
+2.3 2.3 2.3
+0 77 0
+[Object]
+Tree1.mesh
+2581 313.5 5780
+.5 .75 .5
+0 0 0
+[Object]
+Tree1.mesh
+2760 317.5 5649
+.5 .75 .5
+0 0 0
+[Object]
+Tree1.mesh
+3038 327.5 5717
+.5 .75 .5
+0 0 0
+[Object]
+Tree1.mesh
+3205 327.5 5908
+.5 .75 .5
+0 0 0
+[Object]
+Tree1.mesh
+3497 330.5 5754
+.5 .75 .5
+0 0 0
+[Object]
+Tree1.mesh
+3747 327.5 5784
+.5 .75 .5
+0 0 0
+[Object]
+Tree1.mesh
+3597 327.5 5963
+.5 .75 .5
+0 0 0
+[Object]
+Tree1.mesh
+2257 320.5 5474
+.5 .75 .5
+0 0 0
+[Object]
+Tree1.mesh
+2036 320.5 5064
+.5 .75 .5
+0 0 0
+[Object]
+Tree1.mesh
+416 306.5 4369
+.5 .75 .5
+0 0 0
+[Object]
+Tree1.mesh
+192 313.5 4334
+.5 .75 .5
+0 0 0
+[Object]
+Tree1.mesh
+233 304.5 4590
+.5 .75 .5
+0 0 0
+[Object]
+Tree1.mesh
+443 337.5 4175
+.5 .75 .5
+0 0 0
+[Light]
+1227 405 1647
+0.75 0 0
+[Light]
+4610 435 1647
+0.75 0 0
+[Light]
+4387 365 3846
+0.75 0 0
+[Gate]
+GateMatBlack
+4673 425 975
+Flame Grotto
+476 852
+[Object]
+rose.mesh
+1341 330 4080
+2.0 2.0 2.0
+0 0 0
+[Object]
+super_cherryblossom.mesh
+1396 434 3525
+1.8 1.8 1.8
+0 34 0
+
+[Object]
+super_cherryblossom.mesh
+1729 434 3199
+1.4 1.4 1.4
+0 89 0
+
+[Object]
+super_cherryblossom.mesh
+848 434 3808
+1.3 1.3 1.3
+0 0 0
+
+[Object]
+super_cherryblossom.mesh
+1396 434 3525
+1.8 1.8 1.8
+0 34 0
+
+[CollBox]
+3785 520 3816
+20 3 30
+[CollBox]
+3769 508 3815
+30 3 30
+[CollBox]
+3776 532 3784
+30 3 40
+[CollBox]
+3760 539 3748
+32 3 32
+[CollBox]
+3727 533 3738
+20 3 20
+[CollBox]
+1289 397 4025
+20 3 20
+#

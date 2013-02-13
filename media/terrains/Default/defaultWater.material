@@ -1,0 +1,185 @@
+material Terrain/Water
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture Water01.png
+				scale 2.5 2.5
+				scroll_anim -0.15 -0.15
+			}
+			texture_unit
+			{
+				texture Water02.png
+				scale 2.5 2.5
+				scroll_anim -0.25 0.1
+			}
+		}
+	}
+}
+material Terrain/CalmWater
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture Water01.png
+				scale 2.5 2.5
+				scroll_anim -0.03 -0.05
+				rotate 90
+			}
+			texture_unit
+			{
+				texture Water02.png
+				scale 2.5 2.5
+				scroll_anim -0.05 0.01
+				rotate 90
+			}
+		}
+	}
+}
+material Terrain/LargeWater
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture Water01.png
+				scale 0.05 0.05
+				scroll_anim -0.03 -0.05
+				rotate 90
+			}
+			texture_unit
+			{
+				texture Water02.png
+				scale 0.05 0.05 
+				scroll_anim -0.05 0.01
+				rotate 90
+			}
+		}
+	}
+}
+material Waterfall
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture waterfall.png
+				scroll_anim 0 0.75
+			}
+			texture_unit
+			{
+				texture waterfallmask.png
+				colour_op alpha_blend
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material Terrain/FrozenWater
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture Water01.png
+				scale 0.05 0.05
+				rotate 90
+			}
+			texture_unit
+			{
+				texture Water02.png
+				scale 0.05 0.05 
+				rotate 90
+			}
+		}
+	}
+}
+material Terrain/Magma
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+
+			texture_unit
+			{
+				texture magma_tex.jpg
+				scale 2.5 2.5
+				scroll_anim -0.03 -0.05
+			}
+		}
+	}
+}
+material Terrain/LargeMagma
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+
+			texture_unit
+			{
+				texture magma_tex.jpg
+				scale 0.05 0.05
+				scroll_anim -0.03 -0.05
+				colour_op modulate
+			}
+			texture_unit
+			{
+				texture magma_tex.jpg
+				scale 0.07 0.07 
+				scroll_anim -0.05 0.01
+				colour_op add
+				rotate 90
+			}
+		}
+	}
+}

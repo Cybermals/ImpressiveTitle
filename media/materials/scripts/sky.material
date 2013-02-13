@@ -1,0 +1,204 @@
+fragment_program skyShader_PS cg
+{
+	source MagixPS.cg
+	
+	entry_point skyShader_main
+	
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named colorMod float4 1 1 1 1
+		//param_named colorAdd float4 0 0 0 0	
+	}
+}
+material skyMat
+{
+	receive_shadows off
+	technique 1
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			fog_override true
+			fragment_program_ref skyShader_PS
+			{
+				param_named_auto colorMod custom 1
+				//param_named_auto colorAdd custom 2
+			}
+			texture_unit
+			{
+				texture skyTex.jpg
+				tex_coord_set 0
+			}
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			fog_override true
+			texture_unit
+			{
+				texture skyTex.jpg
+			}
+			texture_unit
+			{
+				colour_op_ex modulate src_manual src_current 1 1 1 1
+			}
+			//texture_unit
+			//{
+			//	colour_op_ex add src_manual src_current 0 0 0 0
+			//}
+		}
+	}
+}
+material cloudMat
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend alpha_blend
+			fog_override true
+
+			texture_unit
+			{
+				texture cloud.PNG
+			}
+		}
+	}
+}
+material Sky/CloudDome
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			//lighting off
+			ambient 0 0 0 0
+			diffuse 0 0 0 0
+			specular 0 0 0 0
+			emissive 1 1 1 1
+			depth_write off
+			scene_blend add
+			fog_override true
+			texture_unit
+			{
+				texture cloudTex.jpg
+				scroll_anim 0.005 0.001
+			}
+			texture_unit
+			{
+				texture cloudMask.jpg
+				colour_op_ex modulate src_texture src_current
+			}
+		}
+	}
+}
+material Sky/SunMat
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture sun.PNG
+			}
+		}
+	}
+}
+material Sky/SunRadiance
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			//lighting off
+			ambient 0 0 0 0
+			diffuse 0 0 0 0
+			specular 0 0 0 0
+			emissive 1 1 1 1
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture sunRadiance.PNG
+			}
+		}
+	}
+}
+material Sky/MoonMat
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture moon.PNG
+			}
+		}
+	}
+}
+material Sky/StarMat
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture star2.PNG
+			}
+		}
+	}
+}
+material bgMat
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend alpha_blend
+			fog_override true
+
+			texture_unit
+			{
+				texture bgTex.png
+			}
+		}
+	}
+}

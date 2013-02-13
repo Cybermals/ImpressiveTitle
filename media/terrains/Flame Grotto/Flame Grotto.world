@@ -1,0 +1,241 @@
+[Initialize]
+flamegrottoterrain.cfg
+1000
+1000
+500 500 100
+[Interior]
+245
+flameGrottoCeiling
+[Gate]
+GateMatWhite
+524 137 896
+Shadow Veldt
+4665 1096
+[WeatherCycle]
+None
+[Light]
+524 142 896
+0.75 0.74 0.72
+[SphereWall]
+520 0 520
+400
+false
+[WaterPlane]
+324 60 308
+1
+1
+Terrain/flameGrottoMagma
+water1.wav
+[WaterPlane]
+754 94 235
+.7
+.7
+Terrain/flameGrottoMagma
+water1.wav
+[Object]
+Waterfall.mesh
+569 94.5 281
+0.7 0.5 0.5
+0 270 0
+no sound
+flameGrottoMagmaFall
+[Light]
+688 110 288
+0.75 0.17 0.10
+[Light]
+295 80 335
+0.75 0.17 0.10
+[Billboard]
+297 70 294
+430 430
+shadowveldtRedGlow
+[Billboard]
+717 100 310
+430 430
+shadowveldtRedGlow
+[Billboard]
+466 70 271
+430 430
+shadowveldtRedGlow
+[Billboard]
+326 70 405
+430 430
+shadowveldtRedGlow
+[Billboard]
+573 95 290
+430 430
+shadowveldtRedGlow
+[Billboard]
+814 145 665
+180 180
+shadowveldtRedGlow
+[Billboard]
+560 115 172
+180 180
+shadowveldtRedGlow
+[Billboard]
+789 127 544
+45 45
+shadowveldtRedGlow
+[Billboard]
+762 124 729
+45 45
+shadowveldtRedGlow
+[Billboard]
+507 95 181
+45 45
+shadowveldtRedGlow
+[Billboard]
+392 73 171
+45 45
+shadowveldtRedGlow
+[Billboard]
+250 110 675
+180 180
+shadowveldtRedGlow
+[Billboard]
+246 106 748
+50 50
+shadowveldtRedGlow
+[Billboard]
+246 106 748
+50 50
+shadowveldtRedGlow
+[Billboard]
+212 113 755
+45 45
+shadowveldtRedGlow
+[Object]
+Crystal.mesh
+559 97.7 180
+1.5 1.5 1.5
+0 0 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+565 99.3 172
+2.7 2.7 2.7
+23 95 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+593 107.1 206
+0.4 0.4 0.4
+0 34 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+509 87.5 180
+1.0 1.0 1.0
+5 145 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+394 68.6 172
+0.8 0.8 0.8
+0 78 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+843 100.5 400
+1.1 1.1 1.1
+0 230 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+814 128 676
+2.6 2.6 2.6
+11 11 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+839 128 660
+1.8 1.8 1.8
+12 134 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+763 118 729
+0.8 0.8 0.8
+0 230 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+807 126 652
+1.4 1.4 1.4
+0 230 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+821 127.5 662
+0.8 0.8 0.8
+0 100 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+824 127.5 688
+0.8 0.8 0.8
+0 0 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+790 121.5 545
+0.8 0.8 0.8
+0 212 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+836 127.5 682
+0.8 0.8 0.8
+0 230 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+268 100.5 673
+0.8 0.8 0.8
+0 133 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+215 100.5 756
+1.0 1.0 1.0
+0 0 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+242 97.5 687
+1.4 1.4 1.4
+0 34 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+247 99.5 749
+1.2 1.2 1.2
+0 0 0
+no sound
+flameGrottoCrystal
+[Object]
+Crystal.mesh
+243 100.5 665
+1.7 1.7 1.7
+0 89 0
+no sound
+flameGrottoCrystal
+#

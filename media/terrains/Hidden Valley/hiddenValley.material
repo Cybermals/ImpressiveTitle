@@ -1,0 +1,71 @@
+material Terrain/HiddenValleyTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture grass_tex2.png
+				scale 0.025 0.025
+			}
+		}
+	}
+}
+material Waterfall2
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture waterfall2.png
+				scroll_anim 0 0.75
+			}
+			texture_unit
+			{
+				texture waterfallmask.png
+				colour_op alpha_blend
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GateMatValley
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalHiddenValley.jpg
+				env_map spherical
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalHiddenValley.jpg
+				env_map spherical
+			}
+		}
+	}
+}

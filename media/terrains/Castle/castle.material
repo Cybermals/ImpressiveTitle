@@ -1,0 +1,283 @@
+material Terrain/castleterrain
+{
+    receive_shadows on
+    technique
+    {
+        pass
+        {
+            lighting off
+            texture_unit
+            {
+                texture crystal_tex2.jpg
+                scale 0.05 0.05
+ scroll_anim -0.01 -0.01
+            }
+        }
+	pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_func equal
+            texture_unit
+            {
+                texture castleterrainmask.png
+                alpha_op_ex source1 src_texture src_texture
+                colour_op_ex source2 src_texture src_texture
+            }
+            texture_unit
+            {
+              	texture grass_tex2.png
+		scale 0.05 0.05
+                colour_op_ex blend_diffuse_alpha src_texture src_current
+            }
+        }
+        pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_func equal
+            texture_unit
+            {
+                texture castleterrainmask2.png
+                alpha_op_ex source1 src_texture src_texture
+                colour_op_ex source2 src_texture src_texture
+            }
+            texture_unit
+            {
+              	texture rock_tex1.png
+		scale 0.05 0.05
+                colour_op_ex blend_diffuse_alpha src_texture src_current
+            }
+        }
+        
+    }
+}
+material Portal/Castle
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalCastle.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalCastle.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material elight
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture light.png
+			}
+		}
+	}
+}
+material edark
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture dark.png
+			}
+		}
+	}
+}
+material eearth
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture earth.png
+			}
+		}
+	}
+}
+material efire
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture fire.png
+			}
+		}
+	}
+}
+material eice
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture ice.png
+			}
+		}
+	}
+}
+material elife
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture life.png
+			}
+		}
+	}
+}
+material ewater
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture water.png
+			}
+		}
+	}
+}
+material eair
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture air.png
+			}
+		}
+	}
+}
+material magiclight
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				anim_texture magiclight0.png magiclight1.png magiclight2.png magiclight3.png magiclight4.png magiclight4.png magiclight3.png magiclight2.png magiclight1.png magiclight0.png 1
+			}
+		}
+	}
+}
+material secretgate
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture rock_tex1.png
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture rock_tex1.png
+			}
+		}
+	}
+}

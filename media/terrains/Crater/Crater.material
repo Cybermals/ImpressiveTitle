@@ -1,0 +1,58 @@
+material Terrain/craterterrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture dust_tex2.jpg
+				scale 0.01 0.01
+			}
+			texture_unit
+			{
+				texture craterterrainmask.png
+				colour_op alpha_blend
+			}
+			texture_unit
+			{
+				texture grassy_tex.jpg
+				scale 0.02 0.02
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+	}
+}
+material Portal/Crater
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalCrater.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalCrater.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}

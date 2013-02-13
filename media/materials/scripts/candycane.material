@@ -1,0 +1,13 @@
+material candycaneMat
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture candycaneTex.jpg
+			}
+		}
+	}
+}

@@ -1,0 +1,59 @@
+[Initialize]
+savannahstonefieldcaveterrain.cfg
+390
+390
+264 80 40
+[Interior]
+70
+Terrain/SavannahCaveCeiling
+[Gate]
+GateMatWhite
+264 20 10
+Savannah
+14490 3240
+[WeatherCycle]
+None
+[Light]
+264 18 24
+0.75 0.74 0.72
+[Billboard]
+264 18 30
+80 80
+CaveLight
+[Light]
+318 32 96
+0 0.74 1
+[Billboard]
+318 37 96
+8 8
+BlueGlow
+[Object]
+Crystal.mesh
+318 33 96
+0.7 0.7 0.7
+0 120 0
+[Light]
+348 36 60
+0 0.74 1
+[Billboard]
+348 37 60
+5 5
+BlueGlow
+[Object]
+Crystal.mesh
+348 32 60
+0.9 0.9 0.9
+0 -60 0
+[Light]
+324 35 48
+0 0.74 1
+[Billboard]
+324 37 48
+3 3
+BlueGlow
+[Object]
+Crystal.mesh
+324 32 48
+0.5 0.5 0.5
+0 60 0
+#

@@ -1,0 +1,212 @@
+material default
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture tailTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material TeethMat/TWOSIDE
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.050000 0.050000 0.050000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture teethTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material EyeMat/TWOSIDE
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.050000 0.050000 0.050000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture eyeTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material TailMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture tailTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material BodyMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture bodyTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material HeadMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture headTex1.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material ManeMat/TWOSIDE
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture  maneTex3.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material ManeMat2/TWOSIDE
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture maneTex3.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material ManeMat3/TWOSIDE
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture maneTex3.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material WingMat/TWOSIDE
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture wingsTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}

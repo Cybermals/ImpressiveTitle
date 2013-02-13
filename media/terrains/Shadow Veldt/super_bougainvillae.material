@@ -1,0 +1,48 @@
+material superBougainvillaeMat/flower
+{
+    technique
+    {
+        pass
+        {
+            scene_blend alpha_blend
+            depth_write off
+            texture_unit
+            {
+                texture bougainvillea_petals.png
+                filtering trilinear
+            }
+        }
+    }
+}
+
+material superBougainvillaeMat/bark
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture bougainvillea_bark.jpg
+                filtering trilinear
+            }
+        }
+    }
+}
+
+material superBougainvillaeMat/leave
+{
+    technique
+    {
+        pass
+        {
+            scene_blend alpha_blend
+            depth_write off
+            texture_unit
+            {
+                texture bougainvillea_leaf.png
+                filtering trilinear
+            }
+        }
+    }
+}

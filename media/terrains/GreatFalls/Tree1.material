@@ -1,0 +1,41 @@
+material Tree1/leaves/TWOSIDE
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.5 0.5 0.5 1
+			diffuse 0.6 0.6 0.6 1
+			cull_hardware none
+			cull_software none
+			alpha_rejection greater_equal 128
+			texture_unit
+			{
+				texture leaf01.png
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material Tree1/trunk
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.5 0.5 0.5 1
+			diffuse 0.6 0.6 0.6 1
+			texture_unit
+			{
+				texture trunk01.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}

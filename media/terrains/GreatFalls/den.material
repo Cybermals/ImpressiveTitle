@@ -1,0 +1,57 @@
+
+material DefaultSettings
+{
+	technique
+	{
+		pass
+		{
+		}
+
+	}
+
+}
+
+material den/TEXFACE/rockTex.jpg
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture rockTex.jpg
+			}
+		}
+
+	}
+
+}
+
+material pass
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			diffuse 0 0 0 1
+			specular 0.5 0.5 0.5 1 12.5
+			scene_blend add
+		}
+
+	}
+
+}
+
+material }
+{
+	technique
+	{
+		pass
+		{
+		}
+
+	}
+
+}

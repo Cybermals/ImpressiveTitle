@@ -1,0 +1,41 @@
+[Initialize]
+waterfallcaveterrain.cfg
+1000
+1000
+500 500 100
+[Trees]
+WaterfallCaveObjects.cfg
+[Interior]
+200
+WaterfallCaveCeiling
+[Gate]
+GateMatWhite
+470 130 944
+Waterfall
+1590 1199
+[WeatherCycle]
+None
+[WaterPlane]
+500 120 500
+2
+2
+Terrain/CalmWater
+water1.wav
+[Light]
+470 130 944
+0.75 0.74 0.72
+[Billboard]
+472 130 895
+60 60
+CaveLight
+[SphereWall]
+500 0 500
+400
+false
+[Light]
+500 132 505
+0.1 0.9 1
+[Light]
+495 132 495
+0.1 0.9 1
+#

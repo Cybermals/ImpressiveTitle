@@ -1,0 +1,11 @@
+[Starfall 1]
+Start=1900
+End=2300
+Weather=Starfall
+Rate=100
+
+[Rain 2]
+Start=4700
+End=5100
+Weather=Starfall
+Rate=100

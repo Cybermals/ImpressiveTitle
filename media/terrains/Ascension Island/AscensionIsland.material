@@ -1,0 +1,31 @@
+material Portal/Ascension_Island
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalAscensionIsland.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalAscensionIsland.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}

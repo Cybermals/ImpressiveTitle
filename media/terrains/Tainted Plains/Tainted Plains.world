@@ -1,0 +1,25 @@
+[Initialize]
+taintedplainsterrain.cfg
+12000
+12000
+3000 3000 100
+500 500
+[WeatherCycle]
+Weirdsky
+[FreezeTime]
+0
+[NewTrees]
+taintedplainsTrees.cfg
+[NewBushes]
+taintedplainsObjects.cfg
+[WaterPlane]
+5384 90 5660
+3
+3
+Terrain/bloodWater
+[Gate]
+GateMatShriekingHill
+2371 117 7525
+Shrieking Hill
+941 3697
+#

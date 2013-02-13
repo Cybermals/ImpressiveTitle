@@ -1,0 +1,22 @@
+[Initialize]
+valleyPlainsterrain.cfg
+15000
+15000
+2500 2500 100
+1000 1000
+[NewTrees]
+valleyPlainsTrees.cfg
+[NewBushes]
+valleyPlainsObjects.cfg
+[WeatherCycle]
+RainStarfall
+[Gate]
+GateMatValley
+13500 15 13500
+Hidden Valley
+1330 1519
+[Portal]
+1000 30 1000
+20
+Savannah
+#

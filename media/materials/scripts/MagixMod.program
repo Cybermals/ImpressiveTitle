@@ -1,0 +1,150 @@
+fragment_program BodyModColour_PS cg
+{
+	source MagixPS.cg
+	
+	entry_point body_tex_mod
+	
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named colorMod1 float4 1 0 0 1
+		param_named colorMod2 float4 0 1 0 1
+	}
+}
+fragment_program BodyMark_PS cg
+{
+	source MagixPS.cg
+	
+	entry_point body_mark
+	
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named colorMod1 float4 1 0 0 1
+		param_named colorMod2 float4 0 1 0 1
+		param_named colorMod3 float4 0 0 0 1
+	}
+}
+fragment_program HeadModColour_PS cg
+{
+	source MagixPS.cg
+	
+	entry_point head_tex_mod
+	
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named colorMod1 float4 0.6 0.25 0.1 1
+		param_named colorMod2 float4 0.9 0.75 0.25 1
+		param_named colorMod3 float4 0.2 0.05 0.05 1
+		param_named colorMod4 float4 0.4 0.1 0.05 1
+		param_named colorMod5 float4 0.7 0.3 0.15 1
+		param_named colorMod6 float4 0 0.5 0.5 1
+		param_named colorMod7 float4 0.4 0.1 0.05 1
+	}
+}
+fragment_program HeadMark_PS cg
+{
+	source MagixPS.cg
+	
+	entry_point head_mark
+	
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named colorMod1 float4 0.6 0.25 0.1 1
+		param_named colorMod2 float4 0.9 0.75 0.25 1
+		param_named colorMod3 float4 0.2 0.05 0.05 1
+		param_named colorMod4 float4 0.4 0.1 0.05 1
+		param_named colorMod5 float4 0.7 0.3 0.15 1
+		param_named colorMod6 float4 0 0.5 0.5 1
+		param_named colorMod7 float4 0.4 0.1 0.05 1
+		param_named colorMod8 float4 0 0 0 1
+	}
+}
+fragment_program ManeModColour_PS cg
+{
+	source MagixPS.cg
+	
+	entry_point mane_tex_mod
+	
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named colorMod1 float4 0 0 0 1
+	}
+}
+fragment_program TailModColour_PS cg
+{
+	source MagixPS.cg
+	
+	entry_point tail_tex_mod
+	
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named colorMod1 float4 1 0 0 1
+		param_named colorMod2 float4 0 1 0 1
+	}
+}
+fragment_program TailMark_PS cg
+{
+	source MagixPS.cg
+	
+	entry_point tail_mark
+	
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named colorMod1 float4 1 0 0 1
+		param_named colorMod2 float4 0 1 0 1
+		param_named colorMod3 float4 0 0 0 1
+	}
+}
+fragment_program EyeModColour_PS cg
+{
+	source MagixPS.cg
+	
+	entry_point eye_tex_mod
+	
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named colorMod1 float4 1 0 0 1
+		param_named colorMod2 float4 0 1 0 1
+	}
+}
+fragment_program WingModColour_PS cg
+{
+	source MagixPS.cg
+	
+	entry_point wing_tex_mod
+	
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named colorMod1 float4 0 0 0 1
+	}
+}
+fragment_program FullModColour_PS cg
+{
+	source MagixPS.cg
+	
+	entry_point full_tex_mod
+	
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named colorMod1 float4 0 0 0 0
+	}
+}

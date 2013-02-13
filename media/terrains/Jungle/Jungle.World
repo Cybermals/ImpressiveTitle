@@ -1,0 +1,85 @@
+[Initialize]
+jungleterrain.cfg
+25000
+25000
+4000 4000 100
+[Grass]
+yellowGrass
+grassdensitymap.png
+grass_tex.jpg
+[RandomTrees]
+fir14_25.mesh
+fir06_30.mesh
+fir05_30.mesh
+25000
+[RandomBushes]
+farn2.mesh
+shroom2_2.mesh
+shroom1_1.mesh
+[WeatherCycle]
+Thunderstorm
+[Portal]
+2010 1166 2506
+25
+Desert
+[Portal]
+361 1186 22766
+50
+Default
+[Portal]
+7714 609 2261
+50
+Ocean
+[WaterPlane]
+5561 910 1701
+100
+100
+Terrain/LargeWater
+water1.wav
+
+[WaterPlane]
+348 1200 22580
+0.18
+0.21
+Terrain/Water
+water1.wav
+[Object]
+Waterfall.mesh
+440 1195 22581
+1.5 1 2
+0 90 0
+[Particle]
+WaterfallSmoke
+600 911 22536
+waterfall.mp3
+[Object]
+Waterfall.mesh
+483 1015 22532
+3 0.5 1.5
+0 90 0
+
+
+[WaterPlane]
+3000 1210 4500
+1.85
+1.25
+Terrain/Water
+water1.wav
+[Particle]
+Geyser
+2844 1214 4391 
+Steam2.wav
+[Particle]
+WaterfallSmoke
+2823 1199 4535
+[Particle]
+Geyser
+3062 1211 4440 
+Steam1.wav
+[Particle]
+WaterfallSmoke
+2700 1212 4629
+[Particle]
+WaterfallSmoke
+3218 1211 4487
+#

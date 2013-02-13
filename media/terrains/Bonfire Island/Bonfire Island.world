@@ -1,0 +1,30 @@
+[Initialize]
+bonfireIslandterrain.cfg
+5000
+5000
+3000 3000 100
+500 500
+[WeatherCycle]
+DarkskyFireworks
+[FreezeTime]
+0
+[NewTrees]
+bonfireIslandTrees.cfg
+[WaterPlane]
+2500 55 2500
+30
+30
+Terrain/LargeWater
+[Gate]
+GateMatBlack
+1820 80 2249
+Another Tunnel;10
+2507 2455
+[Particle]
+Bonfire
+2500 77 2500
+fireloop.wav
+[Particle]
+BonfireSpark
+2500 77 2500
+#

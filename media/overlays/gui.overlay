@@ -1,0 +1,2452 @@
+template container BorderPanel(GUITemplate/BasicBorderPanel)
+{
+    left 0
+    top 0
+    width 1
+    height 1
+
+    material GUIMat/StatsBlockCenter
+    border_size 0.005 0.005 0.006665 0.006665
+    border_material GUIMat/StatsBlockBorder
+    border_topleft_uv 0.0000 1.0000 0.1914 0.7969
+    border_top_uv 0.1914 1.0000 0.8086 0.7969
+    border_topright_uv 0.8086 1.0000 1.0000 0.7969
+    border_left_uv 0.0000 0.7969 0.1914 0.2148
+    border_right_uv 0.8086 0.7969 1.0000 0.2148
+    border_bottomleft_uv 0.0000 0.2148 0.1914 0.0000
+    border_bottom_uv 0.1914 0.2148 0.8086 0.0000
+    border_bottomright_uv 0.8086 0.2148 1.0000 0.0000
+}
+template element TextArea(GUITemplate/BasicText)
+{
+    font_name TempusSans
+    char_height 0.05
+    colour_top 1 1 0
+    colour_bottom 1 0.2 0.2
+    left 0.005
+    top 0.005
+    width 0.12
+    height 0.09
+}
+template element TextArea(GUITemplate/CenteredText)
+{
+    font_name TahomaBold
+    char_height 0.03
+    colour_top 1 1 0
+    colour_bottom 1 0.2 0.2
+    left 0
+    top -0.0125
+    width 0.12
+    height 0.09
+    alignment center
+    horz_align center
+    vert_align center
+}
+template container Panel(GUITemplate/BasicButton)
+{
+    left 0
+    top 0
+    width 1
+    height 1
+    material GUIMat/ButtonUp
+}
+template container Panel(GUITemplate/BasicSlider)
+{
+    left 0
+    top 0
+    width 1
+    height 1
+    material GUIMat/Slider
+}
+template container Panel(GUITemplate/ArrowLeftButton)
+{
+    left 0.05
+    top 0
+    width 0.05
+    height 0.05
+    material GUIMat/ButtonUp
+}
+template container Panel(GUITemplate/ArrowRightButton)
+{
+    left 0.4
+    top 0
+    width 0.05
+    height 0.05
+    material GUIMat/ButtonUp
+}
+template element TextArea(GUITemplate/ArrowLeftButtonText)
+{
+    font_name BlueHighway
+    char_height 0.1
+    colour_top 1 1 0
+    colour_bottom 1 0.2 0.2
+    left 0
+    top -0.03
+    width 0.12
+    height 0.09
+    alignment center
+    horz_align center
+    vert_align center
+    caption <
+}
+template element TextArea(GUITemplate/ArrowRightButtonText)
+{
+    font_name BlueHighway
+    char_height 0.1
+    colour_top 1 1 0
+    colour_bottom 1 0.2 0.2
+    left 0.005
+    top -0.03
+    width 0.12
+    height 0.09
+    alignment center
+    horz_align center
+    vert_align center
+    caption >
+}
+template container Panel(GUITemplate/CheckBox)
+{
+    left 0
+    top 0
+    width 0.03
+    height 0.03
+    material GUIMat/CheckBoxFalse
+}
+
+GUIOverlay/Fader
+{
+	zorder 501
+	container Panel(GUI/Fader)
+	{
+		left 0
+		top 0
+		width 1
+		height 1
+		material GUIMat/Fader
+	}
+}
+GUIOverlay/Cursor
+{
+	zorder 500
+	container Panel(GUI/Cursor)
+	{
+		metrics_mode pixels
+		left 0
+		top 0
+		width 30
+		height 30
+		material GUIMat/Cursor
+	}
+}
+GUIOverlay/AlertBox
+{
+	zorder 499
+	container BorderPanel(GUI/AlertBox) : GUITemplate/BasicBorderPanel
+	{
+		left 0
+		top 0
+		width 0.2
+		height 0.05
+		element TextArea(GUI/AlertBoxText) : GUITemplate/BasicText
+		{
+			left 0
+   			top 0
+			width 0.25
+			height 0.055
+			char_height 0.05
+			alignment center
+   			horz_align center
+			caption Alert
+		}
+	}
+}
+GUIOverlay/Credits
+{
+	zorder 498
+	container Panel(GUI/Credits)
+	{
+		left 0
+		top 0
+		width 1
+		height 1
+		material GUIMat/CreditsBackdrop
+		element TextArea(GUI/CreditsCaption) : GUITemplate/BasicText
+		{
+			left 0
+   			top 0
+			char_height 0.07
+			alignment center
+   			horz_align center
+			caption Credits
+		}
+		container Panel(GUI/GameOverContinueButton) : GUITemplate/BasicButton
+		{
+			left 0.42
+			top 0.6
+			width 0.16
+			height 0.05
+
+			element TextArea(GUI/GameOverContinueButtonText) : GUITemplate/CenteredText
+			{
+				caption Continue
+			}
+        	}
+		container Panel(GUI/GameOverQuitButton) : GUITemplate/BasicButton
+		{
+			left 0.42
+			top 0.75
+			width 0.16
+			height 0.05
+
+			element TextArea(GUI/GameOverQuitButtonText) : GUITemplate/CenteredText
+			{
+				caption Quit
+			}
+        	}
+	}
+}
+GUIOverlay/Backdrop
+{
+	zorder 480
+	container Panel(GUI/Backdrop)
+	{
+		left 0
+		top 0
+		width 1
+		height 1
+		material GUIMat/Backdrop1
+		element TextArea(GUI/LoadingText) : GUITemplate/BasicText
+		{
+			left 0.65
+   			top 0.8
+			char_height 0.1
+			caption Loading...
+		}
+		element TextArea(GUI/CinematicCaption) : GUITemplate/BasicText
+		{
+			left 0
+   			top 0.875
+			alignment center
+   			horz_align center
+			char_height 0.06
+			caption Caption
+		}
+	}
+}
+GUIOverlay/HPPanel
+{
+	zorder 490
+	container Panel(GUI/HPPanel)
+	{
+		left 0.7
+		top 0.85
+		width 0.25
+		height 0.025
+		material GUIMat/BlackPanel
+		container Panel(GUI/HPBar)
+		{
+			left 0
+			top 0
+			width 0.25
+			height 0.025
+			material GUIMat/HPBar
+		}
+		element TextArea(GUI/SkillText) : GUITemplate/BasicText
+		{
+			left 0.25
+   			top -0.07
+			alignment right
+			char_height 0.06
+			caption Attack
+		}
+		element TextArea(GUI/PickupText) : GUITemplate/BasicText
+		{
+			left 0.25
+   			top -0.13
+			alignment right
+			char_height 0.05
+			caption Pickup
+		}
+	}
+}
+GUIOverlay/TargetPanel
+{
+	zorder 490
+	container Panel(GUI/TargetPanel)
+	{
+		left 0.02
+		top 0.02
+		width 0.3
+		height 0.1
+		material GUIMat/BlackPanel
+
+		element TextArea(GUI/TargetText) : GUITemplate/BasicText
+		{
+			left 0.275
+   			top 0.02
+			char_height 0.035
+			alignment right
+			caption Target
+		}
+		element Panel(GUI/TargetHP)
+		{
+			left 0.025
+			top 0.055
+			width 0.25
+			height 0.015
+			material GUIMat/HPBar
+		}
+		element Panel(GUI/TargetHPBar1)
+		{
+			left 0.255
+			top 0.075
+			width 0.02
+			height 0.015
+			material GUIMat/HPBar
+		}
+		element Panel(GUI/TargetHPBar2)
+		{
+			left 0.23
+			top 0.075
+			width 0.02
+			height 0.015
+			material GUIMat/HPBar
+		}
+		element Panel(GUI/TargetHPBar3)
+		{
+			left 0.205
+			top 0.075
+			width 0.02
+			height 0.015
+			material GUIMat/HPBar
+		}
+		element Panel(GUI/TargetHPBar4)
+		{
+			left 0.18
+			top 0.075
+			width 0.02
+			height 0.015
+			material GUIMat/HPBar
+		}
+		element Panel(GUI/TargetHPBar5)
+		{
+			left 0.155
+			top 0.075
+			width 0.02
+			height 0.015
+			material GUIMat/HPBar
+		}
+		element Panel(GUI/TargetHPBar6)
+		{
+			left 0.13
+			top 0.075
+			width 0.02
+			height 0.015
+			material GUIMat/HPBar
+		}
+		element Panel(GUI/TargetHPBar7)
+		{
+			left 0.105
+			top 0.075
+			width 0.02
+			height 0.015
+			material GUIMat/HPBar
+		}
+		element Panel(GUI/TargetHPBar8)
+		{
+			left 0.08
+			top 0.075
+			width 0.02
+			height 0.015
+			material GUIMat/HPBar
+		}
+		element Panel(GUI/TargetHPBar9)
+		{
+			left 0.055
+			top 0.075
+			width 0.02
+			height 0.015
+			material GUIMat/HPBar
+		}
+		element Panel(GUI/TargetHPBar10)
+		{
+			left 0.03
+			top 0.075
+			width 0.02
+			height 0.015
+			material GUIMat/HPBar
+		}
+	}
+}
+GUIOverlay/Options
+{
+	zorder 498
+	container BorderPanel(GUI/Options) : GUITemplate/BasicBorderPanel
+	{
+		left 0.35
+		top 0.325
+		width 0.3
+		height 0.45
+
+		container Panel(GUI/OptionResumeButton) : GUITemplate/BasicButton
+		{
+			left 0.075
+			top 0.05
+			width 0.15
+			height 0.05
+
+			element TextArea(GUI/OptionResumeButtonText) : GUITemplate/CenteredText
+			{
+				caption Resume
+			}
+        	}
+		container Panel(GUI/OptionSettingsButton) : GUITemplate/BasicButton
+		{
+			left 0.075
+			top 0.125
+			width 0.15
+			height 0.05
+
+			element TextArea(GUI/OptionSettingsButtonText) : GUITemplate/CenteredText
+			{
+				caption Settings
+			}
+        	}
+		container Panel(GUI/OptionInterfaceButton) : GUITemplate/BasicButton
+		{
+			left 0.075
+			top 0.2
+			width 0.15
+			height 0.05
+
+			element TextArea(GUI/OptionInterfaceButtonText) : GUITemplate/CenteredText
+			{
+				caption Interface
+			}
+        	}
+		container Panel(GUI/OptionRestartButton) : GUITemplate/BasicButton
+		{
+			left 0.075
+			top 0.275
+			width 0.15
+			height 0.05
+
+			element TextArea(GUI/OptionRestartButtonText) : GUITemplate/CenteredText
+			{
+				caption Restart
+			}
+        	}
+		container Panel(GUI/OptionQuitButton) : GUITemplate/BasicButton
+		{
+			left 0.075
+			top 0.35
+			width 0.15
+			height 0.05
+
+			element TextArea(GUI/OptionQuitButtonText) : GUITemplate/CenteredText
+			{
+				caption Quit
+			}
+        	}
+	}
+	container BorderPanel(GUI/Settings) : GUITemplate/BasicBorderPanel
+	{
+		left 0.225
+		top 0.075
+		width 0.55
+		height 0.675
+
+		element TextArea(GUI/SettingsText1) : GUITemplate/BasicText
+		{
+			left 0.225
+   			top 0.05
+			alignment right
+			caption Music
+		}
+		element TextArea(GUI/SettingsText2) : GUITemplate/BasicText
+		{
+			left 0.225
+   			top 0.125
+			alignment right
+			caption GUI Sound
+		}
+		element TextArea(GUI/SettingsText3) : GUITemplate/BasicText
+		{
+			left 0.225
+   			top 0.2
+			alignment right
+			caption Sound
+		}
+		element TextArea(GUI/SettingsText4) : GUITemplate/BasicText
+		{
+			left 0.225
+   			top 0.275
+			alignment right
+			caption Shadows
+		}
+		element TextArea(GUI/SettingsText5) : GUITemplate/BasicText
+		{
+			left 0.225
+   			top 0.35
+			alignment right
+			caption Bloom Effect
+		}
+		element TextArea(GUI/SettingsText6) : GUITemplate/BasicText
+		{
+			left 0.225
+   			top 0.425
+			alignment right
+			caption Paged Geometry
+		}
+		element TextArea(GUI/SettingsText7) : GUITemplate/BasicText
+		{
+			left 0.225
+   			top 0.5
+			alignment right
+			caption View Distance
+		}
+		container Panel(GUI/SettingsButton1) : GUITemplate/BasicButton
+		{
+			left 0.325
+			top 0.275
+			width 0.1
+			height 0.05
+
+			element TextArea(GUI/SettingsButtonText1) : GUITemplate/CenteredText
+			{
+				caption Off
+			}
+        	}
+		container Panel(GUI/SettingsButton2) : GUITemplate/BasicButton
+		{
+			left 0.325
+			top 0.35
+			width 0.1
+			height 0.05
+
+			element TextArea(GUI/SettingsButtonText2) : GUITemplate/CenteredText
+			{
+				caption Off
+			}
+        	}
+		container Panel(GUI/SettingsButton3) : GUITemplate/BasicButton
+		{
+			left 0.325
+			top 0.425
+			width 0.1
+			height 0.05
+
+			element TextArea(GUI/SettingsButtonText3) : GUITemplate/CenteredText
+			{
+				caption Off
+			}
+        	}
+		container Panel(GUI/SettingsButtonBack) : GUITemplate/BasicButton
+		{
+			left 0.215
+			top 0.575
+			width 0.12
+			height 0.05
+
+			element TextArea(GUI/SettingsButtonBackText) : GUITemplate/CenteredText
+			{
+				caption Back
+			}
+        	}
+		element Panel(GUI/SettingsSlider1) : GUITemplate/BasicSlider
+		{
+			left 0.245
+			top 0.06
+			width 0.25
+			height 0.025
+        	}
+		element Panel(GUI/SettingsSliderMarker1) : GUITemplate/BasicButton
+		{
+			left 0.245
+			top 0.04
+			width 0.025
+			height 0.06
+        	}
+		element Panel(GUI/SettingsSlider2) : GUITemplate/BasicSlider
+		{
+			left 0.245
+			top 0.135
+			width 0.25
+			height 0.025
+        	}
+		element Panel(GUI/SettingsSliderMarker2) : GUITemplate/BasicButton
+		{
+			left 0.245
+			top 0.115
+			width 0.025
+			height 0.06
+        	}
+		element Panel(GUI/SettingsSlider3) : GUITemplate/BasicSlider
+		{
+			left 0.245
+			top 0.21
+			width 0.25
+			height 0.025
+        	}
+		element Panel(GUI/SettingsSliderMarker3) : GUITemplate/BasicButton
+		{
+			left 0.245
+			top 0.19
+			width 0.025
+			height 0.06
+        	}
+		element Panel(GUI/SettingsSlider4) : GUITemplate/BasicSlider
+		{
+			left 0.245
+			top 0.51
+			width 0.25
+			height 0.025
+        	}
+		element Panel(GUI/SettingsSliderMarker4) : GUITemplate/BasicButton
+		{
+			left 0.245
+			top 0.49
+			width 0.025
+			height 0.06
+        	}
+	}
+	container BorderPanel(GUI/Interface) : GUITemplate/BasicBorderPanel
+	{
+		left 0.25
+		top 0.075
+		width 0.5
+		height 0.815
+
+		element TextArea(GUI/InterfaceText1) : GUITemplate/BasicText
+		{
+			left 0.01
+   			top 0.052
+			char_height 0.04
+			caption Use Tablet [hotkey:insert]
+		}
+		element TextArea(GUI/InterfaceText2) : GUITemplate/BasicText
+		{
+			left 0.2
+   			top 0.125
+			alignment right
+			caption Sensitivity
+		}
+		element TextArea(GUI/InterfaceText3) : GUITemplate/BasicText
+		{
+			left 0.27
+   			top 0.2
+			alignment right
+			char_height 0.045
+			caption General Name Display
+		}
+		element TextArea(GUI/InterfaceText4) : GUITemplate/BasicText
+		{
+			left 0.27
+   			top 0.275
+			alignment right
+			char_height 0.045
+			caption Local Name Display
+		}
+		element TextArea(GUI/InterfaceText5) : GUITemplate/BasicText
+		{
+			left 0.27
+   			top 0.35
+			alignment right
+			char_height 0.045
+			caption Channel Button Blink
+		}
+		element TextArea(GUI/InterfaceText6) : GUITemplate/BasicText
+		{
+			left 0.27
+   			top 0.425
+			alignment right
+			char_height 0.045
+			caption Run Mode
+		}
+		element TextArea(GUI/InterfaceText7) : GUITemplate/BasicText
+		{
+			left 0.27
+   			top 0.5
+			alignment right
+			char_height 0.045
+			caption Double Jump
+		}
+		element TextArea(GUI/InterfaceText8) : GUITemplate/BasicText
+		{
+			left 0.27
+   			top 0.575
+			alignment right
+			char_height 0.045
+			caption Auto LipSync
+		}
+		element TextArea(GUI/InterfaceText9) : GUITemplate/BasicText
+		{
+			left 0.27
+   			top 0.65
+			alignment right
+			char_height 0.045
+			caption Use Windows Cursor
+		}
+		container Panel(GUI/InterfaceButton1) : GUITemplate/BasicButton
+		{
+			left 0.3
+			top 0.05
+			width 0.1
+			height 0.05
+
+			element TextArea(GUI/InterfaceButtonText1) : GUITemplate/CenteredText
+			{
+				caption Off
+			}
+        	}
+		container Panel(GUI/InterfaceButton2) : GUITemplate/BasicButton
+		{
+			left 0.3
+			top 0.2
+			width 0.15
+			height 0.05
+
+			element TextArea(GUI/InterfaceButtonText2) : GUITemplate/CenteredText
+			{
+				caption Username
+			}
+        	}
+		container Panel(GUI/InterfaceButton3) : GUITemplate/BasicButton
+		{
+			left 0.3
+			top 0.275
+			width 0.15
+			height 0.05
+
+			element TextArea(GUI/InterfaceButtonText3) : GUITemplate/CenteredText
+			{
+				caption Character
+			}
+        	}
+		container Panel(GUI/InterfaceButton4) : GUITemplate/BasicButton
+		{
+			left 0.3
+			top 0.35
+			width 0.1
+			height 0.05
+
+			element TextArea(GUI/InterfaceButtonText4) : GUITemplate/CenteredText
+			{
+				caption On
+			}
+        	}
+		container Panel(GUI/InterfaceButton5) : GUITemplate/BasicButton
+		{
+			left 0.3
+			top 0.425
+			width 0.1
+			height 0.05
+
+			element TextArea(GUI/InterfaceButtonText5) : GUITemplate/CenteredText
+			{
+				caption Absolute
+			}
+        	}
+		container Panel(GUI/InterfaceButton6) : GUITemplate/BasicButton
+		{
+			left 0.3
+			top 0.5
+			width 0.1
+			height 0.05
+
+			element TextArea(GUI/InterfaceButtonText6) : GUITemplate/CenteredText
+			{
+				caption On
+			}
+        	}
+		container Panel(GUI/InterfaceButton7) : GUITemplate/BasicButton
+		{
+			left 0.3
+			top 0.575
+			width 0.1
+			height 0.05
+
+			element TextArea(GUI/InterfaceButtonText7) : GUITemplate/CenteredText
+			{
+				caption Off
+			}
+        	}
+		container Panel(GUI/InterfaceButton8) : GUITemplate/BasicButton
+		{
+			left 0.3
+			top 0.65
+			width 0.1
+			height 0.05
+
+			element TextArea(GUI/InterfaceButtonText8) : GUITemplate/CenteredText
+			{
+				caption Off
+			}
+        	}
+		container Panel(GUI/InterfaceButtonBack) : GUITemplate/BasicButton
+		{
+			left 0.19
+			top 0.725
+			width 0.12
+			height 0.05
+
+			element TextArea(GUI/InterfaceButtonBackText) : GUITemplate/CenteredText
+			{
+				caption Back
+			}
+        	}
+		element Panel(GUI/InterfaceSlider1) : GUITemplate/BasicSlider
+		{
+			left 0.22
+			top 0.135
+			width 0.25
+			height 0.025
+        	}
+		element Panel(GUI/InterfaceSliderMarker1) : GUITemplate/BasicButton
+		{
+			left 0.22
+			top 0.115
+			width 0.025
+			height 0.06
+        	}
+	}
+}
+GUIOverlay/StartScreen
+{
+	zorder 490
+	container BorderPanel(GUI/StartScreenBox)
+	{
+		left 0
+		top 0
+		width 0.5
+		height 0.5
+		container Panel(GUI/StartScreenTitle)
+		{
+			left 0.1
+			top 0.25
+			width 0.8
+			height 0.12
+			material GUIMat/Title
+        	}
+		container Panel(GUI/StartScreenButton1) : GUITemplate/BasicButton
+		{
+			left 0.22
+			top 0.45
+			width 0.16
+			height 0.05
+
+			element TextArea(GUI/StartScreenButtonText1) : GUITemplate/CenteredText
+			{
+				caption New Game
+			}
+        	}
+		container Panel(GUI/StartScreenButton2) : GUITemplate/BasicButton
+		{
+			left 0.22
+			top 0.55
+			width 0.16
+			height 0.05
+
+			element TextArea(GUI/StartScreenButtonText2) : GUITemplate/CenteredText
+			{
+				font_name TahomaBold
+				caption Multiplayer
+			}
+        	}
+		container Panel(GUI/StartScreenButton3) : GUITemplate/BasicButton
+		{
+			left 0.22
+			top 0.65
+			width 0.16
+			height 0.05
+
+			element TextArea(GUI/StartScreenButtonText3) : GUITemplate/CenteredText
+			{
+				caption Quit
+			}
+        	}
+		container Panel(GUI/UpdateBox)
+		{
+			left 0.55
+			top 0.4
+			width 0.38
+			height 0.38
+			material GUIMat/StatsBlockCenter
+
+			element TextArea(GUI/UpdateBoxText) : GUITemplate/BasicText
+			{
+				font_name Tahoma
+    				char_height 0.03
+				left 0.008
+   				top 0.008
+				width 0.38
+				height 0.38
+				caption Version 0.5
+			}
+        	}
+	}
+}
+GUIOverlay/LogonScreen
+{
+	zorder 490
+	container BorderPanel(GUI/LogonBox)
+	{
+		left 0.05
+		top 0.05
+		width 0.5
+		height 0.8
+		material GUIMat/StartScreen
+
+		element TextArea(GUI/LogonText1) : GUITemplate/BasicText
+		{
+			left 0.25
+   			top 0.10
+			char_height 0.08
+			caption Multiplayer
+			alignment center
+		}
+		element TextArea(GUI/LogonUsernameText) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.05
+   			top 0.25
+			width 0.6
+			height 0.035
+			caption Username: 
+		}
+		element TextArea(GUI/LogonPasswordText) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.05
+   			top 0.30
+			width 0.6
+			height 0.035
+			caption Password: 
+		}
+		container Panel(GUI/LogonButtonBack) : GUITemplate/BasicButton
+		{
+			left 0.16
+			top 0.67
+			width 0.17
+			height 0.04
+
+			element TextArea(GUI/LogonButtonTextBack) : GUITemplate/CenteredText
+			{
+				caption Back
+			}
+        	}
+		container Panel(GUI/LogonButton1) : GUITemplate/BasicButton
+		{
+			left 0.16
+			top 0.45
+			width 0.17
+			height 0.04
+
+			element TextArea(GUI/LogonButtonText1) : GUITemplate/CenteredText
+			{
+				caption Log In
+			}
+        	}
+		container Panel(GUI/LogonButton2) : GUITemplate/BasicButton
+		{
+			left 0.16
+			top 0.53
+			width 0.17
+			height 0.04
+
+			element TextArea(GUI/LogonButtonText2) : GUITemplate/CenteredText
+			{
+				caption New Account
+			}
+        	}
+		container Panel(GUI/LogonButton3) : GUITemplate/BasicButton
+		{
+			left 0.16
+			top 0.6
+			width 0.17
+			height 0.04
+
+			element TextArea(GUI/LogonButtonText3) : GUITemplate/CenteredText
+			{
+				caption Change Password
+			}
+        	}
+		container Panel(GUI/LogonCheckBox) : GUITemplate/CheckBox
+		{
+			left 0.38
+			top 0.302
+        	}
+	}
+}
+GUIOverlay/CreateAccountScreen
+{
+	zorder 490
+	container BorderPanel(GUI/CreateAccountBox)
+	{
+		left 0.05
+		top 0.05
+		width 0.5
+		height 0.8
+		material GUIMat/StartScreen
+
+		element TextArea(GUI/CreateAccountText) : GUITemplate/BasicText
+		{
+			left 0.25
+   			top 0.10
+			char_height 0.08
+			caption Create New Account
+			alignment center
+		}
+		element TextArea(GUI/CreateAccountText1) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.05
+   			top 0.20
+			width 0.6
+			height 0.035
+			caption Username: 
+		}
+		element TextArea(GUI/CreateAccountText2) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.05
+   			top 0.25
+			width 0.6
+			height 0.035
+			caption Password: 
+		}
+		element TextArea(GUI/CreateAccountText3) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.05
+   			top 0.30
+			width 0.6
+			height 0.035
+			caption Confirm Password: 
+		}
+		element TextArea(GUI/CreateAccountText4) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.05
+   			top 0.35
+			width 0.8
+			height 0.035
+			caption Email: 
+		}
+		element TextArea(GUI/CreateAccountText5) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.05
+   			top 0.40
+			width 0.45
+			height 0.07
+			caption Security Question: 
+		}
+		element TextArea(GUI/CreateAccountText6) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.05
+   			top 0.50
+			width 0.45
+			height 0.07
+			caption Answer: 
+		}
+		container Panel(GUI/CreateAccountButtonBack) : GUITemplate/BasicButton
+		{
+			left 0.155
+			top 0.65
+			width 0.18
+			height 0.04
+
+			element TextArea(GUI/CreateAccountButtonTextBack) : GUITemplate/CenteredText
+			{
+				caption Back
+			}
+        	}
+		container Panel(GUI/CreateAccountButton1) : GUITemplate/BasicButton
+		{
+			left 0.155
+			top 0.60
+			width 0.18
+			height 0.04
+
+			element TextArea(GUI/CreateAccountButtonText1) : GUITemplate/CenteredText
+			{
+				caption Create Account
+			}
+        	}
+	}
+}
+GUIOverlay/EditAccountScreen
+{
+	zorder 490
+	container BorderPanel(GUI/EditAccountBox)
+	{
+		left 0.05
+		top 0.05
+		width 0.5
+		height 0.8
+		material GUIMat/StartScreen
+
+		element TextArea(GUI/EditAccountText) : GUITemplate/BasicText
+		{
+			left 0.25
+   			top 0.10
+			char_height 0.08
+			caption Change Password
+			alignment center
+		}
+		element TextArea(GUI/EditAccountText1) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.05
+   			top 0.20
+			width 0.6
+			height 0.035
+			caption Username: 
+		}
+		element TextArea(GUI/EditAccountText2) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.05
+   			top 0.25
+			width 0.6
+			height 0.035
+			caption Old Password: 
+		}
+		element TextArea(GUI/EditAccountText3) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.05
+   			top 0.35
+			width 0.6
+			height 0.035
+			caption New Password: 
+		}
+		element TextArea(GUI/EditAccountText4) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.05
+   			top 0.4
+			width 0.8
+			height 0.035
+			caption Confirm Password: 
+		}
+		container Panel(GUI/EditAccountButtonBack) : GUITemplate/BasicButton
+		{
+			left 0.155
+			top 0.65
+			width 0.18
+			height 0.04
+
+			element TextArea(GUI/EditAccountButtonTextBack) : GUITemplate/CenteredText
+			{
+				caption Back
+			}
+        	}
+		container Panel(GUI/EditAccountButton1) : GUITemplate/BasicButton
+		{
+			left 0.155
+			top 0.60
+			width 0.18
+			height 0.04
+
+			element TextArea(GUI/EditAccountButtonText1) : GUITemplate/CenteredText
+			{
+				caption Confirm
+			}
+        	}
+	}
+}
+GUIOverlay/CampaignScreen
+{
+	zorder 490
+	container BorderPanel(GUI/CampaignBox)
+	{
+		left 0.05
+		top 0.05
+		width 0.5
+		height 0.8
+		material GUIMat/StartScreen
+
+		element TextArea(GUI/CampaignText1) : GUITemplate/BasicText
+		{
+			left 0.25
+   			top 0.10
+			char_height 0.08
+			caption Campaign
+			alignment center
+		}
+		element TextArea(GUI/CampaignText2) : GUITemplate/BasicText
+		{
+			left 0.25
+   			top 0.20
+			char_height 0.06
+			caption Page 1
+			alignment center
+		}
+		container Panel(GUI/CampaignButtonBack) : GUITemplate/BasicButton
+		{
+			left 0.08
+			top 0.62
+			width 0.15
+			height 0.04
+
+			element TextArea(GUI/CampaignButtonTextBack) : GUITemplate/CenteredText
+			{
+				caption Back
+			}
+        	}
+		container Panel(GUI/CampaignButtonNext) : GUITemplate/BasicButton
+		{
+			left 0.26
+			top 0.62
+			width 0.15
+			height 0.04
+
+			element TextArea(GUI/CampaignButtonTextNext) : GUITemplate/CenteredText
+			{
+				caption Next
+			}
+        	}
+		container Panel(GUI/CampaignButton1) : GUITemplate/BasicButton
+		{
+			left 0.17
+			top 0.3
+			width 0.15
+			height 0.04
+
+			element TextArea(GUI/CampaignButtonText1) : GUITemplate/CenteredText
+			{
+				caption Campaign1
+			}
+        	}
+		container Panel(GUI/CampaignButton2) : GUITemplate/BasicButton
+		{
+			left 0.17
+			top 0.39
+			width 0.15
+			height 0.04
+
+			element TextArea(GUI/CampaignButtonText2) : GUITemplate/CenteredText
+			{
+				caption Campaign2
+			}
+        	}
+		container Panel(GUI/CampaignButton3) : GUITemplate/BasicButton
+		{
+			left 0.17
+			top 0.48
+			width 0.15
+			height 0.04
+
+			element TextArea(GUI/CampaignButtonText3) : GUITemplate/CenteredText
+			{
+				caption Campaign3
+			}
+        	}
+	}
+}
+GUIOverlay/Server
+{
+	zorder 490
+	container BorderPanel(GUI/ServerBox) : GUITemplate/BasicBorderPanel
+	{
+		left 0.35
+		top 0.25
+		width 0.3
+		height 0.3
+
+		element TextArea(GUI/ServerBoxText) : GUITemplate/BasicText
+		{
+			left 0.15
+   			top 0.05
+			width 0.8
+			height 0.055
+			char_height 0.05
+			alignment center
+			caption Select Server
+		}
+		container Panel(GUI/ServerButton1) : GUITemplate/BasicButton
+		{
+			left 0.075
+			top 0.125
+			width 0.15
+			height 0.05
+
+			element TextArea(GUI/ServerButtonText1) : GUITemplate/CenteredText
+			{
+				caption RP Server
+			}
+        	}
+		container Panel(GUI/ServerButton2) : GUITemplate/BasicButton
+		{
+			left 0.075
+			top 0.2
+			width 0.15
+			height 0.05
+
+			element TextArea(GUI/ServerButtonText2) : GUITemplate/CenteredText
+			{
+				caption Chat Server
+			}
+        	}
+	}
+}
+GUIOverlay/CharScreen
+{
+	zorder 490
+	container BorderPanel(GUI/CharScreenBox)
+	{
+		left 0.05
+		top 0.05
+		width 0.5
+		height 0.8
+		material GUIMat/StartScreen
+
+		element TextArea(GUI/CharScreenNameText) : GUITemplate/BasicText
+		{
+			left 0.05
+   			top 0.1
+			width 0.8
+			height 0.055
+			char_height 0.05
+			caption Name
+		}
+		element TextArea(GUI/CharScreenText1) : GUITemplate/BasicText
+		{
+			left 0.25
+   			top 0.20
+			char_height 0.08
+			caption Male
+			alignment center
+		}
+		element TextArea(GUI/CharScreenText2) : GUITemplate/BasicText
+		{
+			left 0.25
+   			top 0.28
+			char_height 0.08
+			caption Mane 1
+			alignment center
+		}
+		element TextArea(GUI/CharScreenText3) : GUITemplate/BasicText
+		{
+			left 0.25
+   			top 0.36
+			char_height 0.08
+			caption Head 1
+			alignment center
+		}
+		element TextArea(GUI/CharScreenText4) : GUITemplate/BasicText
+		{
+			left 0.25
+   			top 0.44
+			char_height 0.08
+			caption Tail 1
+			alignment center
+		}
+		container Panel(GUI/CharScreenButtonL1) : GUITemplate/ArrowLeftButton
+		{
+			top 0.20
+
+			element TextArea(GUI/CharScreenButtonTextL1) : GUITemplate/ArrowLeftButtonText
+			{
+			}
+        	}
+		container Panel(GUI/CharScreenButtonR1) : GUITemplate/ArrowRightButton
+		{
+			top 0.20
+
+			element TextArea(GUI/CharScreenButtonTextR1) : GUITemplate/ArrowRightButtonText
+			{
+			}
+        	}
+		container Panel(GUI/CharScreenButtonL2) : GUITemplate/ArrowLeftButton
+		{
+			top 0.28
+
+			element TextArea(GUI/CharScreenButtonTextL2) : GUITemplate/ArrowLeftButtonText
+			{
+			}
+        	}
+		container Panel(GUI/CharScreenButtonR2) : GUITemplate/ArrowRightButton
+		{
+			top 0.28
+
+			element TextArea(GUI/CharScreenButtonTextR2) : GUITemplate/ArrowRightButtonText
+			{
+			}
+        	}
+		container Panel(GUI/CharScreenButtonL3) : GUITemplate/ArrowLeftButton
+		{
+			top 0.36
+
+			element TextArea(GUI/CharScreenButtonTextL3) : GUITemplate/ArrowLeftButtonText
+			{
+			}
+        	}
+		container Panel(GUI/CharScreenButtonR3) : GUITemplate/ArrowRightButton
+		{
+			top 0.36
+
+			element TextArea(GUI/CharScreenButtonTextR3) : GUITemplate/ArrowRightButtonText
+			{
+			}
+        	}
+		container Panel(GUI/CharScreenButtonL4) : GUITemplate/ArrowLeftButton
+		{
+			top 0.44
+
+			element TextArea(GUI/CharScreenButtonTextL4) : GUITemplate/ArrowLeftButtonText
+			{
+			}
+        	}
+		container Panel(GUI/CharScreenButtonR4) : GUITemplate/ArrowRightButton
+		{
+			top 0.44
+
+			element TextArea(GUI/CharScreenButtonTextR4) : GUITemplate/ArrowRightButtonText
+			{
+			}
+        	}
+		container Panel(GUI/CharScreenButtonBack) : GUITemplate/BasicButton
+		{
+			left 0.05
+			top 0.6
+			width 0.15
+			height 0.04
+
+			element TextArea(GUI/CharScreenButtonTextBack) : GUITemplate/CenteredText
+			{
+				caption Back
+			}
+        	}
+		container Panel(GUI/CharScreenButtonNext) : GUITemplate/BasicButton
+		{
+			left 0.3
+			top 0.6
+			width 0.15
+			height 0.04
+
+			element TextArea(GUI/CharScreenButtonTextNext) : GUITemplate/CenteredText
+			{
+				caption Next
+			}
+        	}
+		container Panel(GUI/CharScreenButtonDelete) : GUITemplate/BasicButton
+		{
+			left 0.3
+			top 0.6
+			width 0.15
+			height 0.04
+
+			element TextArea(GUI/CharScreenButtonTextDelete) : GUITemplate/CenteredText
+			{
+				caption Delete
+			}
+        	}
+		element Panel(GUI/CharScreenSlider1) : GUITemplate/BasicSlider
+		{
+			left 0.05
+			top 0.30
+			width 0.25
+			height 0.025
+        	}
+		element Panel(GUI/CharScreenSliderMarker1) : GUITemplate/BasicButton
+		{
+			left 0.05
+			top 0.28
+			width 0.025
+			height 0.06
+        	}
+		element Panel(GUI/CharScreenSlider2) : GUITemplate/BasicSlider
+		{
+			left 0.05
+			top 0.38
+			width 0.25
+			height 0.025
+        	}
+		element Panel(GUI/CharScreenSliderMarker2) : GUITemplate/BasicButton
+		{
+			left 0.05
+			top 0.36
+			width 0.025
+			height 0.06
+        	}
+		element Panel(GUI/CharScreenSlider3) : GUITemplate/BasicSlider
+		{
+			left 0.05
+			top 0.46
+			width 0.25
+			height 0.025
+        	}
+		element Panel(GUI/CharScreenSliderMarker3) : GUITemplate/BasicButton
+		{
+			left 0.05
+			top 0.44
+			width 0.025
+			height 0.06
+        	}
+		element Panel(GUI/CharScreenColourBox)
+		{
+			left 0.1
+			top 0.2
+			width 0.3
+			height 0.05
+			material GUIMat/ColourBox
+        	}
+	}
+}
+GUIOverlay/Chat
+{
+	zorder 487
+	container BorderPanel(GUI/TextInputBox) : GUITemplate/BasicBorderPanel
+	{
+		left 0.01
+		top 0.9
+		width 0.48
+		height 0.07
+
+		element TextArea(GUI/TextInputBoxText) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.028
+			left 0.008
+   			top 0.008
+			width 0.52
+			height 0.056
+		}
+		container Panel(GUI/TextInputBoxButton) : GUITemplate/BasicButton
+		{
+			left 0.40
+			top 0.005
+			width 0.07
+			height 0.03
+
+			element TextArea(GUI/TextInputBoxButtonText) : GUITemplate/CenteredText
+			{
+				caption Say
+			}
+        	}
+		container Panel(GUI/TextInputBoxButton2) : GUITemplate/BasicButton
+		{
+			left 0.40
+			top 0.035
+			width 0.07
+			height 0.03
+
+			element TextArea(GUI/TextInputBoxButtonText2) : GUITemplate/CenteredText
+			{
+				caption Hide
+			}
+        	}
+		container Panel(GUI/TextInputBoxButton3) : GUITemplate/BasicButton
+		{
+			left 0.37
+			top -0.03
+			width 0.1
+			height 0.03
+
+			element TextArea(GUI/TextInputBoxButtonText3) : GUITemplate/CenteredText
+			{
+				caption Local
+			}
+        	}
+	}
+	container BorderPanel(GUI/TextOutputBox) : GUITemplate/BasicBorderPanel
+	{
+		left 0.01
+		top 0.68
+		width 0.48
+		height 0.19
+
+		element TextArea(GUI/TextOutputBoxText) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.026
+			left 0.008
+   			top 0.008
+			width 0.52
+		}
+		container Panel(GUI/TextOutputBoxButton) : GUITemplate/BasicButton
+		{
+			left 0.40
+			top -0.03
+			width 0.07
+			height 0.03
+
+			element TextArea(GUI/TextOutputBoxButtonText) : GUITemplate/CenteredText
+			{
+				caption Hide
+			}
+        	}
+		element Panel(GUI/TextOutputBoxSizer) : GUITemplate/BasicButton
+		{
+			left 0
+			top 0
+			width 0.48
+			height 0.01
+        	}
+		element Panel(GUI/TextOutputBoxScroller) : GUITemplate/BasicSlider
+		{
+			left 0.442
+			top 0.025
+			width 0.02
+			height 0.145
+        	}
+		element Panel(GUI/TextOutputBoxScrollerMarker) : GUITemplate/BasicButton
+		{
+			left 0.43
+			top 0.145
+			width 0.045
+			height 0.045
+        	}
+	}
+}
+GUIOverlay/ListSelectBox
+{
+	zorder 491
+	container BorderPanel(GUI/ListSelectBox) : GUITemplate/BasicBorderPanel
+	{
+		left 0
+		top 0
+		width 0.1
+		height 0.12
+
+		container Panel(GUI/ListSelectButton1) : GUITemplate/BasicButton
+		{
+			left 0
+			top 0
+			width 0.1
+			height 0.04
+
+			element TextArea(GUI/ListSelectButtonText1) : GUITemplate/CenteredText
+			{
+				caption PM
+			}
+        	}
+		container Panel(GUI/ListSelectButton2) : GUITemplate/BasicButton
+		{
+			left 0
+			top 0.04
+			width 0.1
+			height 0.04
+
+			element TextArea(GUI/ListSelectButtonText2) : GUITemplate/CenteredText
+			{
+				caption Where
+			}
+        	}
+		container Panel(GUI/ListSelectButton3) : GUITemplate/BasicButton
+		{
+			left 0
+			top 0.08
+			width 0.1
+			height 0.04
+
+			element TextArea(GUI/ListSelectButtonText3) : GUITemplate/CenteredText
+			{
+				caption Remove
+			}
+        	}
+	}
+	container Panel(GUI/ListSelectHighlight)
+	{
+		left 0
+		top 0
+		width 0.15
+		height 0.2
+		material GUIMat/ListSelectHighlight
+	}
+}
+GUIOverlay/SelectBox
+{
+	zorder 490
+	container Panel(GUI/SelectPanel)
+	{
+		left 0
+		top 0
+		width 0.15
+		height 0.2
+		material GUIMat/SelectPanel
+	}
+	container BorderPanel(GUI/SelectBox)
+	{
+		left 0
+		top 0
+		width 0.15
+		height 0.2
+
+		element TextArea(GUI/SelectBoxText) : GUITemplate/CenteredText
+		{
+			caption Target
+		}
+
+		container Panel(GUI/SelectButton1) : GUITemplate/BasicButton
+		{
+			left 0.025
+			top 0
+			width 0.1
+			height 0.04
+
+			element TextArea(GUI/SelectButtonText1) : GUITemplate/CenteredText
+			{
+				caption Add Friend
+			}
+        	}
+		container Panel(GUI/SelectButton2) : GUITemplate/BasicButton
+		{
+			left 0.025
+			top 0.16
+			width 0.1
+			height 0.04
+
+			element TextArea(GUI/SelectButtonText2) : GUITemplate/CenteredText
+			{
+				caption Block
+			}
+        	}
+		container Panel(GUI/SelectButton3) : GUITemplate/BasicButton
+		{
+			left -0.05
+			top 0.04
+			width 0.1
+			height 0.04
+
+			element TextArea(GUI/SelectButtonText3) : GUITemplate/CenteredText
+			{
+				caption View Bio
+			}
+        	}
+		container Panel(GUI/SelectButton4) : GUITemplate/BasicButton
+		{
+			left 0.1
+			top 0.04
+			width 0.1
+			height 0.04
+
+			element TextArea(GUI/SelectButtonText4) : GUITemplate/CenteredText
+			{
+				caption Attack
+			}
+        	}
+	}
+}
+GUIOverlay/PseudoShader
+{
+	zorder 449
+	container Panel(GUI/PseudoShader)
+	{
+		left 0
+		top 0
+		width 1
+		height 1
+		material PseudoShader/Underwater
+	}
+}
+GUIOverlay/MiniMap2
+{
+	zorder 491
+	container Panel(GUI/MiniMap2)
+	{
+		left 0.83
+		top 0.02
+		width 0.15
+		height 0.2
+		container Panel(GUI/MiniMapArrow)
+		{
+			left 0.06
+			top 0.08
+			width 0.03
+			height 0.04
+			material GUIMat/MiniMapArrow
+		}
+	}
+	container TextArea(GUI/MiniMapTag) : GUITemplate/BasicText
+	{
+		font_name Tahoma
+    		char_height 0.03
+		alignment right
+	}
+}
+GUIOverlay/MiniMap
+{
+	zorder 490
+	container Panel(GUI/MiniMap)
+	{
+		left 0.83
+		top 0.02
+		width 0.15
+		height 0.2
+		material GUIMat/MiniMap
+		container Panel(GUI/MiniMapButton1) : GUITemplate/BasicButton
+		{
+			left 0.08
+			top 0.205
+			width 0.035
+			height 0.025
+
+			element TextArea(GUI/MiniMapButtonText1) : GUITemplate/CenteredText
+			{
+				caption -
+			}
+        	}
+		container Panel(GUI/MiniMapButton2) : GUITemplate/BasicButton
+		{
+			left 0.115
+			top 0.205
+			width 0.035
+			height 0.025
+
+			element TextArea(GUI/MiniMapButtonText2) : GUITemplate/CenteredText
+			{
+				caption +
+			}
+        	}
+		container Panel(GUI/MiniMapCone)
+		{
+			left 0
+			top 0
+			width 0.15
+			height 0.2
+			material GUIMat/MiniMapCone
+		}
+	}
+}
+GUIOverlay/Multiplayer
+{
+	zorder 490
+	container BorderPanel(GUI/MultiplayerBox)
+	{
+		left 0.7
+		top 0.9
+		width 0
+		height 0
+
+		container Panel(GUI/MultiplayerButton1) : GUITemplate/BasicButton
+		{
+			left 0
+			top 0
+			width 0.04
+			height 0.04
+
+			element TextArea(GUI/MultiplayerButtonText1) : GUITemplate/CenteredText
+			{
+				caption H
+			}
+        	}
+		container Panel(GUI/MultiplayerButton2) : GUITemplate/BasicButton
+		{
+			left 0.04
+			top 0
+			width 0.04
+			height 0.04
+
+			element TextArea(GUI/MultiplayerButtonText2) : GUITemplate/CenteredText
+			{
+				caption B
+			}
+        	}
+		container Panel(GUI/MultiplayerButton3) : GUITemplate/BasicButton
+		{
+			left 0.08
+			top 0
+			width 0.04
+			height 0.04
+
+			element TextArea(GUI/MultiplayerButtonText3) : GUITemplate/CenteredText
+			{
+			
+				caption N
+			}
+        	}
+		container Panel(GUI/MultiplayerButton4) : GUITemplate/BasicButton
+		{
+			left 0.12
+			top 0
+			width 0.04
+			height 0.04
+
+			element TextArea(GUI/MultiplayerButtonText4) : GUITemplate/CenteredText
+			{
+				caption I
+			}
+        	}
+		container Panel(GUI/MultiplayerButton5) : GUITemplate/BasicButton
+		{
+			left 0.16
+			top 0
+			width 0.04
+			height 0.04
+
+			element TextArea(GUI/MultiplayerButtonText5) : GUITemplate/CenteredText
+			{
+				caption J
+			}
+        	}
+		container Panel(GUI/MultiplayerButton6) : GUITemplate/BasicButton
+		{
+			left 0.2
+			top 0
+			width 0.04
+			height 0.04
+
+			element TextArea(GUI/MultiplayerButtonText6) : GUITemplate/CenteredText
+			{
+				caption P
+			}
+        	}
+	}
+}
+GUIOverlay/EmoteBox
+{
+	zorder 487
+	container BorderPanel(GUI/EmoteBox) : GUITemplate/BasicBorderPanel
+	{
+		left 0.65
+		top 0.12
+		width 0.25
+		height 0.53
+
+		element TextArea(GUI/EmoteBoxText) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.026
+			left 0.008
+   			top 0.008
+		}
+		container Panel(GUI/EmoteButton) : GUITemplate/BasicButton
+		{
+			left 0.18
+			top -0.03
+			width 0.07
+			height 0.03
+
+			element TextArea(GUI/EmoteButtonText) : GUITemplate/CenteredText
+			{
+				caption Close
+			}
+        	}
+		container Panel(GUI/EmoteMover) : GUITemplate/BasicButton
+		{
+			left 0
+			top -0.03
+			width 0.18
+			height 0.03
+			element TextArea(GUI/EmoteMoverText) : GUITemplate/CenteredText
+			{
+				caption -Expressions-
+			}
+        	}
+		element Panel(GUI/EmoteScroller) : GUITemplate/BasicSlider
+		{
+			left 0.212
+			top 0.025
+			width 0.02
+			height 0.48
+        	}
+		element Panel(GUI/EmoteScrollerMarker) : GUITemplate/BasicButton
+		{
+			left 0.2
+			top 0
+			width 0.045
+			height 0.045
+        	}
+	}
+}
+GUIOverlay/ItemBox
+{
+	zorder 487
+	container BorderPanel(GUI/ItemBox) : GUITemplate/BasicBorderPanel
+	{
+		left 0.15
+		top 0.3
+		width 0.215
+		height 0.225
+
+		element TextArea(GUI/ItemBoxText) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.026
+			left 0.008
+   			top 0.008
+		}
+		container Panel(GUI/ItemButton) : GUITemplate/BasicButton
+		{
+			left 0.165
+			top -0.03
+			width 0.05
+			height 0.03
+
+			element TextArea(GUI/ItemButtonText) : GUITemplate/CenteredText
+			{
+				caption Close
+			}
+        	}
+		container Panel(GUI/ItemMover) : GUITemplate/BasicButton
+		{
+			left 0
+			top -0.03
+			width 0.165
+			height 0.03
+			element TextArea(GUI/ItemMoverText) : GUITemplate/CenteredText
+			{
+				caption -Items-
+			}
+        	}
+		container Panel(GUI/ItemButton1) : GUITemplate/BasicButton
+		{
+			left 0.0445
+			top 0.18
+			width 0.12
+			height 0.04
+
+			element TextArea(GUI/ItemButtonText1) : GUITemplate/CenteredText
+			{
+				caption Stash
+			}
+        	}
+	}
+}
+GUIOverlay/FriendBox
+{
+	zorder 487
+	container BorderPanel(GUI/FriendBox) : GUITemplate/BasicBorderPanel
+	{
+		left 0.55
+		top 0.12
+		width 0.25
+		height 0.53
+
+		element TextArea(GUI/FriendBoxText) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.026
+			left 0.008
+   			top 0.008
+		}
+		container Panel(GUI/FriendButton) : GUITemplate/BasicButton
+		{
+			left 0.18
+			top -0.03
+			width 0.07
+			height 0.03
+
+			element TextArea(GUI/FriendButtonText) : GUITemplate/CenteredText
+			{
+				caption Close
+			}
+        	}
+		container Panel(GUI/FriendMover) : GUITemplate/BasicButton
+		{
+			left 0
+			top -0.03
+			width 0.18
+			height 0.03
+			element TextArea(GUI/FriendMoverText) : GUITemplate/CenteredText
+			{
+				caption -Friends-
+			}
+        	}
+		element Panel(GUI/FriendScroller) : GUITemplate/BasicSlider
+		{
+			left 0.212
+			top 0.025
+			width 0.02
+			height 0.48
+        	}
+		element Panel(GUI/FriendScrollerMarker) : GUITemplate/BasicButton
+		{
+			left 0.2
+			top 0
+			width 0.045
+			height 0.045
+        	}
+	}
+}
+GUIOverlay/BioBox
+{
+	zorder 487
+	container BorderPanel(GUI/BioBox) : GUITemplate/BasicBorderPanel
+	{
+		left 0.3
+		top 0.12
+		width 0.25
+		height 0.53
+
+		element TextArea(GUI/BioBoxName) : GUITemplate/BasicText
+		{
+			left 0.008
+   			top 0.008
+			caption Name
+		}
+		element TextArea(GUI/BioBoxText) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.026
+			left 0.008
+   			top 0.06
+			width 0.28
+			height 0.48
+			caption None
+		}
+		container Panel(GUI/BioButton) : GUITemplate/BasicButton
+		{
+			left 0.18
+			top -0.03
+			width 0.07
+			height 0.03
+
+			element TextArea(GUI/BioButtonText) : GUITemplate/CenteredText
+			{
+				caption Close
+			}
+        	}
+		container Panel(GUI/BioMover) : GUITemplate/BasicButton
+		{
+			left 0
+			top -0.03
+			width 0.18
+			height 0.03
+			element TextArea(GUI/BioMoverText) : GUITemplate/CenteredText
+			{
+				caption -Bio-
+			}
+        	}
+		element Panel(GUI/BioScroller) : GUITemplate/BasicSlider
+		{
+			left 0.212
+			top 0.025
+			width 0.02
+			height 0.48
+        	}
+		element Panel(GUI/BioScrollerMarker) : GUITemplate/BasicButton
+		{
+			left 0.2
+			top 0
+			width 0.045
+			height 0.045
+        	}
+	}
+}
+GUIOverlay/TargetBioBox
+{
+	zorder 487
+	container BorderPanel(GUI/TargetBioBox) : GUITemplate/BasicBorderPanel
+	{
+		left 0.45
+		top 0.12
+		width 0.25
+		height 0.53
+
+		element TextArea(GUI/TargetBioBoxName) : GUITemplate/BasicText
+		{
+			left 0.008
+   			top 0.008
+			caption Name
+		}
+		element TextArea(GUI/TargetBioBoxText) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.026
+			left 0.008
+   			top 0.06
+			width 0.28
+			height 0.48
+			caption None
+		}
+		container Panel(GUI/TargetBioButton) : GUITemplate/BasicButton
+		{
+			left 0.18
+			top -0.03
+			width 0.07
+			height 0.03
+
+			element TextArea(GUI/TargetBioButtonText) : GUITemplate/CenteredText
+			{
+				caption Close
+			}
+        	}
+		container Panel(GUI/TargetBioMover) : GUITemplate/BasicButton
+		{
+			left 0
+			top -0.03
+			width 0.18
+			height 0.03
+			element TextArea(GUI/TargetBioMoverText) : GUITemplate/CenteredText
+			{
+				caption -Bio-
+			}
+        	}
+		element Panel(GUI/TargetBioScroller) : GUITemplate/BasicSlider
+		{
+			left 0.212
+			top 0.025
+			width 0.02
+			height 0.48
+        	}
+		element Panel(GUI/TargetBioScrollerMarker) : GUITemplate/BasicButton
+		{
+			left 0.2
+			top 0
+			width 0.045
+			height 0.045
+        	}
+	}
+}
+GUIOverlay/HomeBox
+{
+	zorder 487
+	container BorderPanel(GUI/HomeBox) : GUITemplate/BasicBorderPanel
+	{
+		left 0.15
+		top 0.12
+		width 0.15
+		height 0.28
+
+		container Panel(GUI/HomeButton) : GUITemplate/BasicButton
+		{
+			left 0.1
+			top -0.03
+			width 0.05
+			height 0.03
+
+			element TextArea(GUI/HomeButtonText) : GUITemplate/CenteredText
+			{
+				caption Close
+			}
+        	}
+		container Panel(GUI/HomeMover) : GUITemplate/BasicButton
+		{
+			left 0
+			top -0.03
+			width 0.1
+			height 0.03
+			element TextArea(GUI/HomeMoverText) : GUITemplate/CenteredText
+			{
+				caption -Home-
+			}
+        	}
+		container Panel(GUI/HomeButton1) : GUITemplate/BasicButton
+		{
+			left 0.015
+			top 0
+			width 0.12
+			height 0.04
+
+			element TextArea(GUI/HomeButtonText1) : GUITemplate/CenteredText
+			{
+				caption Set Home
+			}
+        	}
+		container Panel(GUI/HomeButton2) : GUITemplate/BasicButton
+		{
+			left 0.015
+			top 0.05
+			width 0.12
+			height 0.04
+
+			element TextArea(GUI/HomeButtonText2) : GUITemplate/CenteredText
+			{
+				caption Go Home
+			}
+        	}
+		container Panel(GUI/HomeButton3) : GUITemplate/BasicButton
+		{
+			left 0.015
+			top 0.1
+			width 0.12
+			height 0.04
+
+			element TextArea(GUI/HomeButtonText3) : GUITemplate/CenteredText
+			{
+				caption Reset Home
+			}
+        	}
+		element TextArea(GUI/DimensionText1) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.017
+   			top 0.15
+			width 0.12
+			height 0.04
+			caption -Dimension-
+		}
+		element TextArea(GUI/DimensionText2) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.035
+			left 0.02
+   			top 0.2
+			width 0.12
+			height 0.04
+			caption 0
+		}
+		container Panel(GUI/HomeButton4) : GUITemplate/BasicButton
+		{
+			left 0.075
+			top 0.195
+			width 0.06
+			height 0.04
+
+			element TextArea(GUI/HomeButtonText4) : GUITemplate/CenteredText
+			{
+				caption Change
+			}
+        	}
+	}
+}
+GUIOverlay/PartyBox
+{
+	zorder 487
+	container BorderPanel(GUI/PartyBox) : GUITemplate/BasicBorderPanel
+	{
+		left 0.15
+		top 0.12
+		width 0.215
+		height 0.225
+
+		element TextArea(GUI/PartyBoxText) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.026
+			left 0.008
+   			top 0.008
+		}
+		container Panel(GUI/PartyButton) : GUITemplate/BasicButton
+		{
+			left 0.165
+			top -0.03
+			width 0.05
+			height 0.03
+
+			element TextArea(GUI/PartyButtonText) : GUITemplate/CenteredText
+			{
+				caption Close
+			}
+        	}
+		container Panel(GUI/PartyMover) : GUITemplate/BasicButton
+		{
+			left 0
+			top -0.03
+			width 0.165
+			height 0.03
+			element TextArea(GUI/PartyMoverText) : GUITemplate/CenteredText
+			{
+				caption -Party-
+			}
+        	}
+		container Panel(GUI/PartyButton1) : GUITemplate/BasicButton
+		{
+			left 0.0445
+			top 0.18
+			width 0.12
+			height 0.04
+
+			element TextArea(GUI/PartyButtonText1) : GUITemplate/CenteredText
+			{
+				caption Leave Party
+			}
+        	}
+		element TextArea(GUI/PartyBoxText2) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.026
+			left 0.008
+   			top 0.23
+		}
+		container Panel(GUI/PartyButton2) : GUITemplate/BasicButton
+		{
+			left 0.005
+			top 0.3
+			width 0.1
+			height 0.04
+
+			element TextArea(GUI/PartyButtonText2) : GUITemplate/CenteredText
+			{
+				caption Accept
+			}
+        	}
+		container Panel(GUI/PartyButton3) : GUITemplate/BasicButton
+		{
+			left 0.11
+			top 0.3
+			width 0.1
+			height 0.04
+
+			element TextArea(GUI/PartyButtonText3) : GUITemplate/CenteredText
+			{
+				caption Deny
+			}
+        	}
+	}
+}
+GUIOverlay/StashBox
+{
+	zorder 487
+	container BorderPanel(GUI/StashBox) : GUITemplate/BasicBorderPanel
+	{
+		left 0.37
+		top 0.3
+		width 0.215
+		height 0.225
+
+		element TextArea(GUI/StashBoxText) : GUITemplate/BasicText
+		{
+			font_name Tahoma
+    			char_height 0.026
+			left 0.008
+   			top 0.008
+		}
+		container Panel(GUI/StashButton) : GUITemplate/BasicButton
+		{
+			left 0.165
+			top -0.03
+			width 0.05
+			height 0.03
+
+			element TextArea(GUI/StashButtonText) : GUITemplate/CenteredText
+			{
+				caption Close
+			}
+        	}
+		container Panel(GUI/StashMover) : GUITemplate/BasicButton
+		{
+			left 0
+			top -0.03
+			width 0.165
+			height 0.03
+			element TextArea(GUI/StashMoverText) : GUITemplate/CenteredText
+			{
+				caption -Stash-
+			}
+        	}
+		element Panel(GUI/StashScroller) : GUITemplate/BasicSlider
+		{
+			left 0.177
+			top 0.025
+			width 0.02
+			height 0.175
+        	}
+		element Panel(GUI/StashScrollerMarker) : GUITemplate/BasicButton
+		{
+			left 0.165
+			top 0
+			width 0.045
+			height 0.045
+        	}
+	}
+}

@@ -1,0 +1,281 @@
+material Terrain/DefaultTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture grass_tex2.png
+				scale 0.025 0.025
+			}
+		}
+	}
+}
+material Terrain/WaterfallTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture grass_tex2.png
+				scale 0.1 0.1
+			}
+			texture_unit
+			{
+				texture waterfallterrainmask.png
+				colour_op alpha_blend
+			}
+			texture_unit
+			{
+				texture rock_tex1.png
+				scale 0.1 0.1
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+	}
+}
+material Terrain/ForestTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture soil_tex.png
+				scale 0.01 0.01
+			}
+			texture_unit
+			{
+				texture forestterrainmask.png
+				colour_op alpha_blend
+			}
+			texture_unit
+			{
+				texture grass_tex2.png
+				scale 0.05 0.05
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+	}
+}
+material Terrain/ReallyBigTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture grass_tex3.jpg
+				scale 0.005 0.005
+			}
+			texture_unit
+			{
+				texture terrain_detail2.jpg
+				scale 0.01 0.01
+				colour_op modulate
+			}
+		}
+	}
+}
+material Terrain/MarshTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture sand_tex.png
+				scale 0.02 0.02
+			}
+			texture_unit
+			{
+				texture terrain_detail2.jpg
+				scale 0.05 0.05
+				colour_op modulate
+			}
+		}
+	}
+}
+material Terrain/GorgeTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture canyon_tex.jpg
+				scale 0.02 0.02
+			}
+			texture_unit
+			{
+				texture terrain_detail.jpg
+				scale 0.05 0.05
+				colour_op modulate
+			}
+		}
+	}
+}
+material Terrain/IceTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture ice_tex.jpg
+				scale 0.02 0.02
+			}
+		}
+	}
+}
+material Terrain/LavaTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture lava_tex.jpg
+				scale 0.02 0.02
+			}
+		}
+	}
+}
+material Terrain/IslandTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture sand_tex.png
+				scale 0.01 0.01
+			}
+			texture_unit
+			{
+				texture islandterrainmask.png
+				colour_op alpha_blend
+			}
+			texture_unit
+			{
+				texture grass_tex2.png
+				scale 0.02 0.02
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+	}
+}
+material Terrain/DesertTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture desertsand.jpg
+				scale 0.02 0.02
+			}
+		}
+	}
+}
+material Terrain/JungleTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture jungle.jpg
+				scale 0.02 0.02
+			}
+		}
+	}
+}
+material Terrain/OasisTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture grassy_tex.jpg
+				scale 0.02 0.02
+			}
+			texture_unit
+			{
+				texture oasisterrainmask.png
+				colour_op alpha_blend
+			}
+			texture_unit
+			{
+				texture sand_tex2.png
+				scale 0.01 0.01
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+	}
+}
+material Terrain/VolcanoTerrain
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture dust_texdark.jpg
+				scale 0.01 0.01
+			}
+			texture_unit
+			{
+				texture volcanoterrainmask.png
+				colour_op alpha_blend
+			}
+			texture_unit
+			{
+				texture rock_tex2.png
+				scale 0.01 0.01
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+	}
+}

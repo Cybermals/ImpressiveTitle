@@ -1,0 +1,39 @@
+[Initialize]
+marshterrain.cfg
+10000
+10000
+2500 2500 100
+[Grass]
+yellowGrass
+grassdensitymap.png
+grass_tex.jpg
+[RandomTrees]
+fir14_25.mesh
+fir06_30.mesh
+fir05_30.mesh
+100
+[WeatherCycle]
+HeavyRain
+[Portal]
+2500 300 2000
+25
+Default
+[Portal]
+8600 120 2200
+50
+Ice
+[Portal]
+8600 120 2000
+50
+Ocean
+[Portal]
+2900 420 3450
+25
+Island
+[WaterPlane]
+5000 200 5000
+27
+27
+Terrain/LargeWater
+water1.wav
+#

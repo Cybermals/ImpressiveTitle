@@ -1,0 +1,188 @@
+[Initialize]
+savannahterrain.cfg
+20490
+20490
+18680 4060 160
+[Grass]
+grass
+savannahgrassdensity.png
+grass_tex.jpg
+[NewTrees]
+SavannahTrees.cfg
+[NewBushes]
+SavannahBushes.cfg
+[WeatherCycle]
+ThunderstormRain
+[Portal]
+18370 110 4050
+25
+Forest
+[Portal]
+18900 150 3840
+25
+Default
+[Portal]
+18460 110 3850
+25
+Ocean
+[Portal]
+18680 160 3750
+25
+Oasis
+[Portal]
+18910 175 4290
+25
+Island
+[Portal]
+19000 120 4070
+25
+GreatFalls
+[Object]
+Waterfall.mesh
+19040 181 4070
+0.6 0.8 0.6
+0 -90 0
+[Particle]
+WaterfallSmoke
+19040 125 4070
+waterfall.mp3
+[Portal]
+18460 170 4290
+30
+ReallyBig
+[Gate]
+GateMatBlack
+10705 303 12250
+Savannah Kopje Cave
+450 150
+[Gate]
+GateMatBlack
+14564 45 3272
+Savannah Stonefield Cave
+264 80
+[Gate]
+GateMatBlack
+1579 258 18070
+Savannah Forest Cave
+224 80
+[Object]
+Waterfall.mesh
+2915 153.5 14145
+1.5 1.0 0.9
+0 180 0
+[Particle]
+WaterfallSmoke
+2930 90.0 14120
+waterfall.mp3
+[WaterPlane]
+2900 153.5 14905
+5
+3
+Terrain/MidWater
+water1.wav
+[Object]
+Waterfall.mesh
+14775 153.5 3695
+0.6 1.0 0.6
+0 -90 0
+[Particle]
+WaterfallSmoke
+14755 27.0 3695
+waterfall.mp3
+[WaterPlane]
+17280 153.5 3200
+10
+6
+Terrain/MidWater
+water1.wav
+[WaterPlane]
+18640 153.5 6200
+6
+6
+Terrain/MidWater
+water1.wav
+[Object]
+Waterfall.mesh
+7470 153.5 12040
+0.6 1.0 0.5
+0 180 0
+[Particle]
+WaterfallSmoke
+7470 88.0 12040
+waterfall.mp3
+[WaterPlane]
+8300 153.5 14050
+6
+8
+Terrain/MidWater
+water1.wav
+[WaterPlane]
+10170 153.5 17050
+4
+4
+Terrain/MidWater
+water1.wav
+[Object]
+Waterfall.mesh
+7050 94.0 9320
+1.8 1.0 0.9
+0 180 0
+[Particle]
+WaterfallSmoke
+7050 27.0 9260
+waterfall.mp3
+[WaterPlane]
+6980 94.0 10830
+6
+6
+Terrain/MidWater
+water1.wav
+[WaterPlane]
+2980 94.0 13610
+10
+8
+Terrain/MidWater
+water1.wav
+[WaterPlane]
+7500 30.0 7500
+30
+30
+Terrain/LargeWater
+water1.wav
+[Gate]
+Savannah/Gate
+18500 160 4550
+Savannah
+5200 14880
+[Gate]
+Savannah/Gate
+5200 175 14760
+Savannah
+18500 4650
+[WaterPlane]
+3640 182.5 18170
+6
+3
+Terrain/MidWater
+water1.wav
+[WaterPlane]
+16472 302.6 14203
+0.05
+0.04
+Terrain/SavannahRock
+no sound
+true
+[WaterPlane]
+9995 283.0 12445
+0.5
+0.5
+Terrain/MidWater
+water1.wav
+[WaterPlane]
+8279 163.3 14100
+0.165
+0.015
+Terrain/SavannahRock
+no sound
+true
+#

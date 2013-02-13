@@ -1,0 +1,13 @@
+material antlerMat
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture antlerTex.jpg
+			}
+		}
+	}
+}

@@ -1,0 +1,29 @@
+[Weirdsky 1]
+Start=900
+End=1500
+SkyShader=1.0 0.7 0.5
+
+[Weirdsky 2]
+Start=1800
+End=2400
+SkyShader=0.5 1.0 0.5
+
+[Weirdsky 3]
+Start=2700
+End=3300
+SkyShader=0.5 0 0.5
+
+[Weirdsky 4]
+Start=3600
+End=4200
+SkyShader=1.0 1.0 0
+
+[Weirdsky 5]
+Start=4500
+End=5100
+SkyShader=0.5 0.7 1.0
+
+[Weirdsky 6]
+Start=5400
+End=6100
+SkyShader=0 0 0

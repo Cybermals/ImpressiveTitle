@@ -1,0 +1,40 @@
+particle_system WaterfallSmoke
+{
+    material WaterfallSmoke
+    particle_width 70
+    particle_height 70
+    cull_each false
+    quota 10000
+
+    emitter Box
+    {
+        angle 55
+        emission_rate 2
+        time_to_live 4
+        direction 0 1 0
+        velocity_min 10
+        velocity_max 20
+	colour  1 1 1 0
+	width 20
+	height 300
+	depth 1
+    }
+
+    affector LinearForce
+    {
+        force_vector 0.1 0.5 0.1
+        force_application add
+    }
+    affector Scaler
+    {
+        rate 4
+    }
+    affector ColourFader2
+    {
+        alpha1 +0.5
+
+        alpha2 -0.5
+
+        state_change 2
+    }
+}

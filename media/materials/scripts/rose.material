@@ -1,0 +1,30 @@
+material roseMat
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture roseTex.jpg
+			}
+		}
+	}
+}
+material noteMat
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture noteTex.jpg
+			}
+		}
+	}
+}

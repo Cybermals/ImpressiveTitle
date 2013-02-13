@@ -1,0 +1,56 @@
+[Initialize]
+suntempleterrain.cfg
+5000
+5000
+1040 830 100
+[Grass]
+yellowGrass
+grassdensitymap9.png
+grass_tex.jpg
+[WeatherCycle]
+Starfall
+[Portal]
+916 260 1986
+25
+Default
+[Portal]
+4415 260 2318
+25
+Castle
+[WaterPlane]
+2500 220 2500
+10
+10
+Terrain/LargeWater
+water1.wav
+[WaterPlane]
+2800 260 1930
+0.45
+0.45
+Terrain/Healwater
+water1.wav
+[WaterPlane]
+3890 248 4190
+1
+0.45
+Terrain/Healwater
+water1.wav
+[WaterPlane]
+3124 245 4663
+1
+1
+Terrain/Healwater
+water1.wav
+[WaterPlane]
+1250 240 3800
+0.3
+0.3
+Terrain/Healwater
+water1.wav
+[WaterPlane]
+4544 240 884
+0.3
+0.3
+Terrain/Healwater
+water1.wav
+#

@@ -1,0 +1,14 @@
+material drawPointMat
+{
+	technique
+	{
+		pass
+		{
+			scene_blend add
+			texture_unit
+			{
+				texture blue.jpg
+			}
+		}
+	}
+}

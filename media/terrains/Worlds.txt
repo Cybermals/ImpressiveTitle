@@ -1,0 +1,58 @@
+Default
+Waterfall
+Forest
+ReallyBig
+Marsh
+Gorge
+Ocean
+Ice
+Lava
+Island
+Desert
+Jungle
+Labyrinth
+Oasis
+Volcano
+Crater
+Castle
+Paradise
+Badlands
+Graveyard
+Pride
+Sun Temple
+Savannah
+GreatFalls
+First Cave
+Ice Cave
+Lava Cave
+Waterfall Cave
+Savannah Kopje Cave
+Savannah Forest Cave
+Savannah Stonefield Cave
+Ascension Island
+HydroPillar
+Underwater Cave
+Serpent's Pass
+Last Cave
+Secret Tunnel
+Hidden Valley
+Valley Plains
+Playground
+Haven
+Bonfire Island
+Another Tunnel;1
+Another Tunnel;2
+Another Tunnel;3
+Another Tunnel;4
+Another Tunnel;5
+Another Tunnel;6
+Another Tunnel;7
+Another Tunnel;8
+Another Tunnel;9
+Another Tunnel;10
+Tainted Plains
+Shrieking Hill
+The Anointed Hills
+Wyvern Hills
+Shadow Veldt
+#

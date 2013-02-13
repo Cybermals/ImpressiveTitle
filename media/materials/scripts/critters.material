@@ -1,0 +1,214 @@
+material hareMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture hareTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material penguinMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture penguinTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material penguin2Mat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture penguinTex2.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material hawkMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture hawkTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material mantarayMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture mantarayTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material salmonMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture salmonTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material gazelleMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture gazelleTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material zebraMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture zebraTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material giraffeMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture giraffeTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material elephantMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture elephantTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material wildebeestMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			texture_unit
+			{
+				texture wildebeestTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}

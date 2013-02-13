@@ -1,0 +1,629 @@
+[Initialize]
+castleterrain.cfg
+5000
+5000
+2900 4900 100
+[Grass]
+Terrain/Flower
+grassdensitymap5.png
+flower2.png
+[SpawnCritters]
+castleCritters.cfg
+[WeatherCycle]
+SnowStarfall
+[MapEffect]
+Exhale
+[Portal]
+800 500 650
+25
+Default
+[Portal]
+4243 640 1150
+25
+Sun Temple
+[Gate]
+secretgate
+4000 539 4101
+Castle
+4060 100072 3833
+[Gate]
+GateMatWhite
+3943 100117 3968
+Castle
+3876 653 4375
+[WaterPlane]
+4000 419 4000
+20
+20
+Terrain/LargeWater
+water1.wav
+[Object]
+rockslab.mesh
+4060 99996 3838
+5 5 5
+0 0 0
+[CollBox]
+4060 100001 3838
+157 40 157
+[Object]
+rockslab.mesh
+3949 100074 3961
+2.5 2.5 2.5
+0 0 0
+[CollBox]
+3949 100080 3961
+78 20 78
+[Object]
+bubble1.mesh
+3896 520 3933
+4 .4 8
+0 0 0
+no sound
+CaveMat
+[Object]
+DeadTree1.mesh
+4021 539 4125
+2.9 3.0 2.9
+0 0 0
+[CollBox]
+4033 657 4122
+25 10 25
+[CollBox]
+3997 707 4163
+25 10 25
+[CollBox]
+3996 757 4086
+25 10 25
+[CollBox]
+4027 550 4117
+50 36 50
+[CollBox]
+4005 540 4130
+50 70 50
+[Object]
+bubble1.mesh
+3833 491 3904
+.6 1.4 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+488 436 3778
+5 .4 8
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+2354 622 1036
+44 .3 45
+0 0 0
+no sound
+castleroofMat
+[Object]
+savannahTree.mesh
+3769 533 4044
+.5 .75 .5
+0 0 0
+[Object]
+savannahTree.mesh
+3904 618 3755
+1 1 1
+0 0 0
+[Object]
+savannahTree.mesh
+3492 540 3213
+.5 .4 .5
+0 0 0
+[Object]
+savannahTree.mesh
+1179 523 4420
+1 3 1
+0 0 0
+[Object]
+savannahTree.mesh
+1277 541 303
+.25 .5 .25
+0 0 0
+[Object]
+savannahTree.mesh
+3484 586 2533
+1 1.5 1
+0 0 0
+[Object]
+savannahTree.mesh
+1674 524 2966
+1 .75 1
+0 0 0
+[Object]
+crystal.mesh
+2384 469 1092
+9 7.25 9
+0 0 0
+[Billboard]
+1780 535 818
+75 75
+elight
+[Billboard]
+1780 535 923
+75 75
+edark
+[Billboard]
+1786 535 1013
+75 75
+efire
+[Billboard]
+1786 535 1103
+75 75
+eice
+[Billboard]
+2891 535 1124
+75 75
+eearth
+[Billboard]
+2894 540 1022
+75 75
+elife
+[Billboard]
+2890 535 901
+75 75
+ewater
+[Billboard]
+2896 535 809
+75 75
+eair
+[Billboard]
+2319 1400 2057
+350 350
+magiclight
+[Object]
+bubble1.mesh
+627 480 2141
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+505 474 2060
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+332 466 2091
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+706 505 2320
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+584 490 2417
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+437 466 2446
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+296 434 2315
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+savannahTree.mesh
+272 445 2559
+1.75 1.60 1.75
+0 0 0
+[Object]
+farn1.mesh
+4000 539 4101
+5 4.5 5
+0 0 0
+[Object]
+bubble1.mesh
+4005 540 4130
+.7 1.6 .7
+0 80 0
+no sound
+RuneMat
+[Object]
+farn1.mesh
+4030 574 4084
+2 2.5 2
+0 0 0
+[Object]
+farn1.mesh
+4739 503 3356
+6 6.5 6
+0 0 0
+[Object]
+fir05_30.mesh
+3693 543 3409
+2.5 2 2.5
+0 100 0
+[Object]
+fir05_30.mesh
+4292 496 1360
+2.5 2 2.5
+0 100 0
+[Object]
+fir05_30.mesh
+2070 469 2427
+2.5 2 2.5
+0 100 0
+[Object]
+fir05_30.mesh
+470 464 3387
+2.5 2 2.5
+0 100 0
+[Object]
+plant1.mesh
+3373 458 4892
+2.5 2 2.5
+0 100 0
+[Object]
+plant1.mesh
+2029 529 3653
+1 1 1
+0 100 0
+[Object]
+plant2.mesh
+637 496 2485
+2 2 2
+0 100 0
+[Object]
+plant2.mesh
+1657 474 2227
+2 2 2
+0 100 0
+[Object]
+plant2.mesh
+3389 606 2469
+3 3 3
+0 100 0
+[Object]
+plant2.mesh
+3728 571 3524
+2 2 2
+0 100 0
+[Object]
+plant2.mesh
+4657 422 3226
+2 2 2
+0 100 0
+plant3mat
+[Object]
+plant2.mesh
+4188 501 3850
+2 2 2
+0 100 0
+plant3mat
+[Object]
+plant2.mesh
+4539 546 4352
+2 2 2
+0 100 0
+plant3mat
+[Object]
+plant2.mesh
+2038 472 4575
+2 2 2
+0 100 0
+plant3mat
+[Object]
+plant2.mesh
+1001 430 3579
+2 2 2
+0 100 0
+plant3mat
+[Particle]
+flame
+4065 100045 3838
+[Particle]
+flame
+4065 100045 3836
+[Particle]
+flame
+4065 100045 3834
+[Object]
+DeadTree1.mesh
+4065 100045 3823
+.4 .4 .4
+90 0 0
+[Object]
+bubble1.mesh
+4047 100045 3781
+.35 2 3.5
+45 96 0
+no sound
+RuneMat
+[Object]
+bubble1.mesh
+4019 100034 3818
+.5 1.7 .5
+0 0 0
+no sound
+RuneMat
+[Object]
+bubble1.mesh
+4065 100037 3930 
+.8 1.5 .8
+0 90 0
+no sound
+RuneMat2
+[Object]
+acaciaTree.mesh
+4042 100045 3773
+1 1 1
+0 90 0
+no sound
+[Object]
+farn1.mesh
+4115 100045 3869
+2 2 2
+0 0 0
+[Particle]
+Fireflynorth
+4068 100069 3869
+[Particle]
+Fireflysouth
+4068 100069 3869
+[Particle]
+Fireflyeast
+4068 100069 3869
+[Particle]
+Fireflywest
+4068 100069 3869
+[Object]
+rockslab.mesh
+3004 612 1600
+2 2 2
+0 0 0
+castleMat
+[Object]
+rockslab.mesh
+2984 689 1866
+2 2 2
+0 0 0
+castleMat
+[Object]
+rockslab.mesh
+2908 732 2039
+2 2 2
+0 0 0
+castleMat
+[Object]
+rockslab.mesh
+2762 790 2173
+2 2 2
+0 0 0
+castleMat
+[Object]
+rockslab.mesh
+2652 877 2322
+2 2 2
+0 0 0
+castleMat
+[Object]
+rockslab.mesh
+2497 991 2475
+2 2 2
+0 0 0
+castleMat
+[Object]
+rockslab.mesh
+2214 1056 2681
+2 2 2
+0 0 0
+castleMat
+[Object]
+rockslab.mesh
+2003 1116 2807
+2 2 2
+0 0 0
+castleMat
+[Object]
+rockslab.mesh
+1708 1218 2919
+7.2 7.2 7.2
+0 0 0
+castleMat
+[Object]
+rockslab.mesh
+1891 1218 2676
+2 2 2
+0 0 0
+castleMat
+[CollBox]
+3004 597 1600
+55 30 55
+[CollBox]
+2984 684 1866
+55 30 55
+[CollBox]
+2908 728 2039
+55 30 55
+[CollBox]
+2762 785 2173
+55 30 55
+[CollBox]
+2652 872 2322
+55 30 55
+[CollBox]
+2497 986 2475
+55 30 55
+[CollBox]
+2214 1051 2681
+55 30 55
+[CollBox]
+2003 1111 2807
+55 30 55
+[CollBox]
+1708 1213 2919
+207 70 207
+[CollBox]
+1891 1213 2676
+55 30 55
+[CollBox]
+2469 936 2273
+55 30 55
+[CollBox]
+2441 1034 2683
+55 30 55
+[Object]
+rockslab.mesh
+2469 941 2273
+2 2 2
+0 0 0
+castleMat
+[Object]
+rockslab.mesh
+2441 1039 2683
+2 2 2
+0 0 0
+castleMat
+[CollBox]
+2912 758 2174
+55 30 55
+[Object]
+rockslab.mesh
+2912 763 2174
+2 2 2
+0 0 0
+castleMat
+[CollBox]
+2737 851 2239
+55 30 55
+[Object]
+rockslab.mesh
+2737 858 2239
+2 2 2
+0 0 0
+castleMat
+[Object]
+fir05_30.mesh
+1668 1283 2978
+5 5.5 5
+0 100 0
+[Object]
+fireshard.mesh
+4065 100095 3836
+3 3 3
+0 100 0
+[CollBox]
+2354 622 1036
+1150 6 1150
+[Object]
+Waterfall.mesh
+2905 733 2073
+.15 1 .52
+0 0 0
+[Particle]
+WaterSplash
+2905 731 2073
+water1.wav
+[Particle]
+WaterfallSmoke
+2903 405 2107
+water1.wav
+[Object]
+Monsterskeleton.mesh
+4912 494 4868
+20 20 20
+0 0 0
+[Object]
+Monsterskeleton.mesh
+848 496 3456
+2.6 2.6 2.6
+0 0 0
+[Object]
+bubble1.mesh
+672 631 2872
+.5 3 .5
+0 0 0
+no sound
+RuneMat
+[Object]
+farn2.mesh
+672 631 2872
+5 5 5
+0 0 0
+[Object]
+Feather.mesh
+1496 942 4635
+120 120 120
+180 0 0
+[CollBox]
+1496 909 4496
+40 8 90
+[Object]
+Deadtree2.mesh
+4894 494 4947
+1 .7 1.4
+0 0 0
+[Object]
+bubble1.mesh
+4927 482 4934
+.9 2 .9
+0 0 0
+no sound
+RuneMat
+[Object]
+Deadtree1.mesh
+4112 475 2952
+3 6 3
+270 0 0
+[CollBox]
+4121 490 2863
+30 3 200
+[Object]
+grassPatch.mesh
+3562 549 3400
+2 2 2
+0 0 0
+[Object]
+grassPatch.mesh
+3871 499 3929
+1.8 .7 1.8
+0 0 0
+[Object]
+grassPatch.mesh
+2303 463 3521
+2 2 2
+0 0 0
+[Object]
+grassPatch.mesh
+4260 547 4150
+2 2 2
+0 0 0
+[CollBox]
+3905 529 3928
+100 4 120
+[Object]
+farn2.mesh
+3914 533 3894
+3 3 3
+0 0 0
+[Object]
+Rose.mesh
+3988 100045 3816
+5 5 5
+90 20 0
+#

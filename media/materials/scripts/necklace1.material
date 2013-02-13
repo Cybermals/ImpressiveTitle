@@ -1,0 +1,15 @@
+material necklaceMat2
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture necklaceTex2.jpg
+			}
+		}
+	}
+}

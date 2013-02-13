@@ -1,0 +1,27 @@
+material Terrain/TaintedPlains
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture soil_tex.png
+				scale 0.01 0.01
+			}
+			texture_unit
+			{
+				texture taintedplainsterrainmask.png
+				colour_op alpha_blend
+			}
+			texture_unit
+			{
+				texture stone_tex.png
+				scale 0.05 0.05
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+	}
+}

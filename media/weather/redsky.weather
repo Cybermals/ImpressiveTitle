@@ -1,0 +1,4 @@
+[Redsky]
+Constant=true
+SkyShader=1 0.7 0.5
+SkyAdder=0.5 0.3 0

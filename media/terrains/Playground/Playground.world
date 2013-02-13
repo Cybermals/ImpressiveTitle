@@ -1,0 +1,620 @@
+[Initialize]
+Playgroundterrain.cfg
+9000
+9000
+895 490 796
+[Grass]
+Terrain/Flower
+Playgroundgrassmask.png
+Flower2.png
+[NewTrees]
+PlaygroundTrees.cfg
+[NewBushes]
+PlaygroundBushes.cfg
+[WeatherCycle]
+ThunderstormRain
+[SpawnCritters]
+PlaygroundCritters.cfg
+[RandomTrees]
+fern.mesh
+acaciatree.mesh
+Tree1.mesh
+400
+[Portal]
+2720 159 2819
+25
+Savannah
+[Portal]
+1369 384 4590
+25
+Desert
+[Portal]
+1019 163 8301
+25
+GreatFalls
+[Portal]
+7607 167 8205
+25
+Default
+[Portal]
+8289 170 658
+25
+Forest
+[WaterPlane]
+4276 132 3769
+30
+30
+Terrain/LargeWater
+[WaterPlane]
+415 727 7176
+1.2
+1.2
+Terrain/RapidWater
+waterfall.mp3
+[CollBox]
+4670 694 7366
+380 3 380
+[CollBox]
+3865 579 7717
+200 10 200
+[CollBox]
+5416 579 6929
+200 10 200
+[CollBox]
+5315 579 8105
+200 10 200
+[CollBox]
+5158 589 8063
+40 10 40
+[CollBox]
+5011 589 8031
+40 10 40
+[CollBox]
+4899 589 8002
+40 10 40
+[CollBox]
+4785 589 7972
+40 10 40
+[CollBox]
+4662 589 7940
+40 10 40
+[CollBox]
+4518 589 7902
+40 10 40
+[CollBox]
+4366 589 7862
+40 10 40
+[CollBox]
+4237 589 7828
+40 10 40
+[CollBox]
+4106 589 7794
+40 10 40
+[CollBox]
+4010 589 7733
+40 10 40
+[CollBox]
+4886 697 7266
+40 10 40
+[CollBox]
+4942 691 7231
+40 10 40
+[CollBox]
+4996 684 7196
+40 10 40
+[CollBox]
+5071 664 7150
+40 10 40
+[CollBox]
+5141 644 7106
+40 10 40
+[CollBox]
+5202 624 7069
+40 10 40
+[CollBox]
+5274 603 7024
+40 10 40
+[CollBox]
+5384 589 7108
+40 10 40
+[CollBox]
+5377 589 7212
+40 10 40
+[CollBox]
+5369 589 7316
+40 10 40
+[CollBox]
+5362 589 7417
+40 10 40
+[CollBox]
+5356 589 7512
+40 10 40
+[CollBox]
+5349 589 7602
+40 10 40
+[CollBox]
+5343 589 7695
+40 10 40
+[CollBox]
+5336 589 7794
+40 10 40
+[CollBox]
+5329 589 7891
+40 10 40
+[CollBox]
+3696 589 7628
+40 10 40
+[CollBox]
+3629 556 7708
+40 10 40
+[CollBox]
+3684 521 7813
+40 10 40
+[CollBox]
+3760 495 7854
+40 10 40
+[CollBox]
+3861 464 7856
+40 10 40
+[CollBox]
+3950 432 7835
+40 10 40
+[CollBox]
+4028 408 7801
+40 10 40
+[CollBox]
+4011 375 7709
+40 10 40
+[CollBox]
+3974 348 7625
+40 10 40
+[CollBox]
+3909 329 7567
+40 10 40
+[CollBox]
+3834 305 7560
+40 10 40
+[Billboard]
+3298 1037 4690
+350 350
+star
+[CollBox]
+5663 398 3795
+250 1.9 250
+[CollBox]
+5663 274 3795
+250 1.9 250
+[Object]
+bubble1.mesh
+5273 269 5928
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+5446 269 5887
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+5716 266 6024
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+5960 266 5975
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6208 271 6056
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6365 270 6032
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6537 266 6118
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6684 270 6010
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6842 264 6173
+.6 2.5 .9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+7390 270 6028
+1.6 3.5 1.9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+7426 271 6233
+1.6 3.5 1.9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+7422 270 6468
+1.6 3.5 1.9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+7418 270 6733
+1.6 3.5 1.9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+7395 267 6958
+1.6 3.5 1.9
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+7256 259 7166
+1.6 3.5 1.9
+0 0 0
+no sound
+CaveMat
+[CollBox]
+3946 908 1775
+560 19 560
+[CollBox]
+3946 1029 1775
+300 18.5 300
+[CollBox]
+4282 872 1722
+40 9 40
+[Object]
+Crystal.mesh
+3946 1047 1775
+19 19 19
+0 0 0
+[Billboard]
+3946 1325 1775
+140 140
+eheart
+[CollBox]
+4134 990 1699
+40 9 40
+[Object]
+salmon.mesh
+2094 61 2427
+1 1 1
+0 60 0
+water1.wav
+[Object]
+bubble1.mesh
+6224 275 5384
+1.1 4.5 1.1
+90 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6222 139 5503
+1 4.5 1
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6223 137 5396
+1 4.5 1
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6250 137 5313
+1 4.5 1
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6296 137 5218
+1 4.5 1
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6422 137 5173
+1 4.5 1
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6563 137 5257
+1 4.5 1
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6612 137 5401
+1 4.5 1
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6480 137 5548
+1 4.5 1
+0 0 0
+no sound
+CaveMat
+[Object]
+bubble1.mesh
+6326 144 5537
+1 4.5 1
+90 0 30
+no sound
+CaveMat
+[CollSphere]
+6405 137 5401
+11 11
+[CollSphere]
+7068 923 1302
+32
+[CollBox]
+3946 819 1775
+40 9 40
+[Billboard]
+3946 845 1775
+75 75
+eflame
+[CollBox]
+3768 819 1634
+30 9 30
+[CollBox]
+4098 819 1856
+30 9 30
+[CollBox]
+4024 819 1929
+30 9 30
+[CollBox]
+4158 819 1777
+30 9 30
+[CollBox]
+4136 819 1611
+30 9 30
+[CollBox]
+3938 819 1534
+30 9 30
+[CollBox]
+4038 819 1532
+30 9 30
+[CollBox]
+3693 819 1815
+30 9 30
+[CollBox]
+3770 819 1941
+30 9 30
+[WaterPlane]
+3958 825 1642
+0.1
+0.1
+Terrain/Healwater
+[CollSphere]
+3935 809 1667
+20
+[CollSphere]
+3982 811 1617
+20
+[CollSphere]
+3933 811 1617
+20
+[CollSphere]
+3982 811 1665
+20
+[CollSphere]
+3981 811 1629
+20
+[CollSphere]
+3982 811 1652
+20
+[CollSphere]
+3951 811 1666
+20
+[CollSphere]
+3965 811 1666
+20
+[CollSphere]
+3932 811 1632
+20
+[CollSphere]
+3933 811 1653
+20
+[CollSphere]
+3966 809 1617
+20
+[CollSphere]
+3944 811 1616
+20
+[CollSphere]
+3985 811 1639
+20
+[CollSphere]
+3930 811 1643
+20
+[CollBox]
+3957 961 1769
+40 1 40
+[Particle]
+PawFirePink
+4652 967 7364
+[Particle]
+PawFirePink
+4656 697 7358
+[Particle]
+PawFirePink
+4660 697 7358
+[Particle]
+PawFirePink
+4657 697 7364
+[Particle]
+PawFirePink
+4652 697 7362
+[Particle]
+PawFirePink
+4652 697 7360
+[Particle]
+PawFirePink
+4653 697 7360
+[Particle]
+PawFirePink
+4654 697 7357
+[Particle]
+PawFirePink
+4658 697 7358
+[Particle]
+PawFirePink
+4656 697 7361
+[Particle]
+PawFirePink
+4654 697 7363
+[Particle]
+PawFirePink
+4659 697 7361
+[Particle]
+PawFirePink
+4652 700 7364
+[Particle]
+PawFirePink
+4656 700 7358
+[Particle]
+PawFirePink
+4660 700 7358
+[Particle]
+PawFirePink
+4657 700 7364
+[Particle]
+PawFirePink
+4652 700 7362
+[Particle]
+PawFirePink
+4652 700 7360
+[Particle]
+PawFirePink
+4653 700 7360
+[Particle]
+PawFirePink
+4654 700 7357
+[Particle]
+PawFirePink
+4658 700 7358
+[Particle]
+PawFirePink
+4656 700 7361
+[Particle]
+PawFirePink
+4654 700 7363
+[Particle]
+PawFirePink
+4659 700 7361
+[CollBox]
+4619 697 7483
+30 9 30
+[CollBox]
+4578 697 7435
+30 9 30
+[CollBox]
+4639 697 7251
+30 9 30
+[CollBox]
+4592 697 7284
+30 9 30
+[CollBox]
+4757 697 7432
+30 9 30
+[CollBox]
+4704 697 7454
+30 9 30
+[CollBox]
+4525 697 7351
+40 18 40
+[Particle]
+WaterSplash
+3960 819 1638
+[Particle]
+WaterfallSmoke
+6144 137 3509
+[Particle]
+Fireflyup
+5743 137 3850
+[Particle]
+Fireflyup
+5748 137 3767
+[Particle]
+Fireflyup
+5720 137 3688
+[Particle]
+Fireflyup
+4654 697 7364
+[Particle]
+Fireflyup
+4654 697 7364
+[Particle]
+WaterfallSmoke
+869 117 7234
+[Particle]
+WaterfallSmoke
+924 117 7192
+[Particle]
+BlueFlame
+4619 718 7483
+[Particle]
+BlueFlame
+4578 718 7435
+[Particle]
+BlueFlame
+4639 718 7251
+[Particle]
+BlueFlame
+4592 718 7284
+[Particle]
+BlueFlame
+4757 718 7432
+[Particle]
+BlueFlame
+4704 718 7454
+[Particle]
+BlueFlame
+4525 738 7351
+#

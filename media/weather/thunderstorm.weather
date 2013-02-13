@@ -1,0 +1,10 @@
+[Rain]
+Start=100
+End=7000
+SkyShader=0.5 0.5 0.5
+Weather=Rain
+Rate=1000
+Effect=Lightning
+Effect=Thunder
+Effect=LightningThunder
+EffectFrequency=0.0008

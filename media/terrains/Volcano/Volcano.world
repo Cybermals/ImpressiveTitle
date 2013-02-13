@@ -1,0 +1,108 @@
+[Initialize]
+volcanoterrain.cfg
+7500
+7500
+977 6329 100
+[WeatherCycle]
+Redsky
+[Portal]
+1088 880 6323
+25
+Default
+[Portal]
+6735 660 4669
+25
+Oasis
+[Portal]
+3968 1650 3910
+25
+Jungle
+[Portal]
+5075 1100 3325
+25
+Lava
+[Portal]
+568 910 2445
+25
+Crater
+[Portal]
+3365 15 3718
+25
+Ocean
+[WaterPlane]
+3240 1700 3778
+1.2
+1.2
+Terrain/Magma
+lava1.wav
+[WaterPlane]
+6050 600 1725
+1.4
+1.4
+Terrain/Magma
+lava1.wav
+[WaterPlane]
+6892 425 6677
+5.5
+7.5
+Terrain/Magma
+lava1.wav
+[WaterPlane]
+2125 295 6485
+1.5
+1.5
+Terrain/CalmWater
+water1.wav
+[WaterPlane]
+2435 460 405
+2
+2
+Terrain/CalmWater
+water1.wav
+[Particle]
+WaterfallSmoke
+2148 290 6611
+[Particle]
+WaterfallSmoke
+2060 290 6498
+[Particle]
+WaterfallSmoke
+2160 290 6400
+[Particle]
+WaterfallSmoke
+2703 455 385
+[Particle]
+WaterfallSmoke
+2431 455 471
+[Particle]
+WaterfallSmoke
+2283 455 391
+[Particle]
+WaterfallSmoke
+2207 455 396
+[Particle]
+WaterfallSmoke
+2574 455 498
+[Particle]
+WaterfallSmoke
+2549 455 370
+[Particle]
+WaterfallSmoke
+2159 455 450
+[Particle]
+Geyser
+1962 502 294 
+Steam2.wav
+[Particle]
+Geyser
+5640 902 3660 
+Steam2.wav
+[Particle]
+Geyser
+510 895 2476
+Steam2.wav
+[Particle]
+Geyser
+2364 510 6585
+Steam2.wav
+#

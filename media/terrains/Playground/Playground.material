@@ -1,0 +1,187 @@
+material Terrain/PlaygroundTerrain
+{
+    receive_shadows on
+    technique
+    {
+        pass
+        {
+            lighting off
+            texture_unit
+            {
+                texture grass_tex2.png
+                scale 0.01 0.01
+            }
+        }
+	pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_func equal
+            texture_unit
+            {
+                texture Playgroundterrainmask1.png
+                alpha_op_ex source1 src_texture src_texture
+                colour_op_ex source2 src_texture src_texture
+            }
+            texture_unit
+            {
+              	texture suntemple.png
+		scale 0.01 0.01
+                colour_op_ex blend_diffuse_alpha src_texture src_current
+            }
+        }
+        pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_func equal
+            texture_unit
+            {
+                texture Playgroundterrainmask2.png
+                alpha_op_ex source1 src_texture src_texture
+                colour_op_ex source2 src_texture src_texture
+            }
+            texture_unit
+            {
+              	texture sand_tex2.png
+		scale 0.01 0.01
+                colour_op_ex blend_diffuse_alpha src_texture src_current
+            }
+        }
+    }
+}
+material Portal/Playground
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture PortalPlayground.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture PortalPlayground.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Waterfall2
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture waterfall2.png
+				scroll_anim 0 0.75
+			}
+			texture_unit
+			{
+				texture waterfallmask.png
+				colour_op alpha_blend
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material rockMat2
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.500000 0.500000 0.500000 1.000000
+			diffuse 0.640000 0.640000 0.640000 1.000000
+			specular 0.500000 0.500000 0.500000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture rock_tex2.png
+			}
+		}
+	}
+}
+material eflame
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture flames1.png
+			}
+		}
+	}
+}
+material eheart
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture heart.png
+			}
+		}
+	}
+}
+material star
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				anim_texture star0.png star1.png star2.png star3.png star4.png star4.png star3.png star2.png star1.png star0.png 1
+			}
+		}
+	}
+}

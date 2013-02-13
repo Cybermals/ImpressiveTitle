@@ -1,0 +1,65 @@
+material superCherryBlossomMat/smallflower
+{
+    technique
+    {
+        pass
+        {
+            alpha_rejection greater_equal 128
+            texture_unit
+            {
+                texture super_cherryblossom_flowertex.png
+
+                filtering trilinear
+            }
+        }
+    }
+}
+
+material superCherryBlossomMat/bark
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture super_cherryblossom_trunktex.jpg
+                filtering trilinear
+            }
+        }
+    }
+}
+
+material superCherryBlossomMat/bigflower
+{
+    technique
+    {
+        pass
+        {
+            alpha_rejection greater_equal 128
+            texture_unit
+            {
+                texture super_cherryblossom_flowertex.png
+
+                filtering trilinear
+            }
+        }
+    }
+}
+
+material superCherryBlossomMat/smallleave
+{
+    technique
+    {
+        pass
+        {
+            alpha_rejection greater_equal 128
+            texture_unit
+            {
+                texture super_cherryblossom_flowertex.png
+
+                filtering trilinear
+            }
+        }
+    }
+}

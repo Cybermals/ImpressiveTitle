@@ -1,0 +1,68 @@
+material Terrain/SavannahCaveCeiling
+{
+    receive_shadows on
+    technique
+    {
+        pass
+        {
+            lighting off
+            texture_unit
+            {
+                texture ceilingTex.jpg
+		scale 0.05 0.05
+            }
+        }
+    }
+}
+material Terrain/SavannahForestCave
+{
+    receive_shadows on
+    technique
+    {
+        pass
+        {
+            lighting off
+            texture_unit
+            {
+                texture ceilingTex.jpg
+		scale 0.05 0.05
+            }
+        }
+	pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_func equal
+            texture_unit
+            {
+		texture savannahforestcaveterrainmask1.png
+                alpha_op_ex source1 src_texture src_texture
+                colour_op_ex source2 src_texture src_texture
+            }
+            texture_unit
+            {
+              	texture sand_savannah.png
+		scale 0.10 0.10
+                colour_op_ex blend_diffuse_alpha src_texture src_current
+            }
+        }
+	pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_func equal
+            texture_unit
+            {
+                texture savannahforestcaveterrainmask2.png
+                alpha_op_ex source1 src_texture src_texture
+                colour_op_ex source2 src_texture src_texture
+            }
+            texture_unit
+            {
+              	texture stone_savannah.png
+		scale 0.10 0.10
+                colour_op_ex blend_diffuse_alpha src_texture src_current
+            }
+        }
+    }
+}

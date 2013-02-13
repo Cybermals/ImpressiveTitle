@@ -1,0 +1,40 @@
+material Terrain/HydroPillar
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture ceilingTex.jpg
+				scale 0.2 0.2
+			}
+		}
+	}
+}
+material Terrain/UnderwaterCeiling
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture ceilingTex.jpg
+				scale 0.2 0.2
+			}
+			texture_unit
+			{
+				texture Water02.png
+				scroll_anim 0.05 -0.02
+				rotate -90
+				scale 0.2 0.2
+				colour_op modulate
+			}
+		}
+	}
+}

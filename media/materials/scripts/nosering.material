@@ -1,0 +1,32 @@
+material NoseRingMat
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			specular 2 2 2 10
+			texture_unit
+			{
+				texture eyepatchTex.jpg
+			}
+		}
+	}
+}
+material earringMat
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			specular 2 2 2 10
+			texture_unit
+			{
+				texture earringTex.jpg
+			}
+		}
+	}
+}

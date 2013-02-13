@@ -1,0 +1,271 @@
+[Initialize]
+hiddenValleyterrain.cfg
+10000
+10000
+2500 2500 100
+[NewTrees]
+hiddenValleyTrees.cfg
+[NewBushes]
+hiddenValleyObjects.cfg
+[SpawnCritters]
+hiddenValleyCritters.cfg
+[WeatherCycle]
+RainStarfall
+[BoxWall]
+5000 0 5000
+8000 8000
+false
+[Gate]
+GateMatBlack
+5490 140 9010
+Secret Tunnel
+2483 2417
+[Gate]
+GateMatValley
+1177 145 1429
+Valley Plains
+13330 13164
+[Gate]
+GateMatBlack
+9000 145 1000
+Another Tunnel;1
+564 445
+[WaterPlane]
+5000 70 7500
+25
+25
+Terrain/LargeWater
+[Particle]
+WaterfallSmoke
+8887 60 8810
+waterfall.mp3
+[Particle]
+WaterfallSmoke
+8566 60 8891
+waterfall.mp3
+[Particle]
+WaterfallSmoke
+8945 60 8515
+waterfall.mp3
+[Particle]
+WaterfallSmoke
+1608 60 8911
+waterfall.mp3
+[Particle]
+WaterfallSmoke
+1091 60 8804
+waterfall.mp3
+[Particle]
+WaterfallSmoke
+1069 60 8189
+waterfall.mp3
+[CollBox]
+6785 605 3038
+300 2 300
+[Particle]
+PawFirePink
+6801 607 3048
+[Particle]
+PawFirePink
+6800 607 3057
+[Particle]
+PawFirePink
+6799 607 3053
+[Particle]
+PawFirePink
+6804 607 3053
+[Particle]
+PawFirePink
+6801 607 3054
+[Particle]
+PawFirePink
+6800 607 3051
+[CollBox]
+6881 607 2982
+30 6.5 30
+[CollBox]
+6880 607 3094
+30 6.5 30
+[CollBox]
+6895 607 3020
+30 6.5 30
+[CollBox]
+6890 607 3057
+30 6.5 30
+[CollBox]
+6552 540 3077
+40 10 40
+[CollBox]
+6557 459 3190
+40 10 40
+[CollBox]
+6607 383 3307
+40 10 40
+[CollBox]
+6706 320 3377
+40 10 40
+[CollBox]
+6839 266 3357
+40 10 40
+[CollBox]
+6904 209 3262
+40 10 40
+[CollBox]
+6941 178 3191
+30 2 30
+[CollBox]
+7971 136 1951
+200 10 200
+[CollBox]
+7899 146 1925
+30 6.5 30
+[CollBox]
+7966 146 1891
+30 6.5 30
+[CollBox]
+8011 146 1909
+30 6.5 30
+[CollBox]
+8025 146 1970
+30 6.5 30
+[WaterPlane]
+6495 100 3674
+12
+12
+Terrain/LargeWater
+[CollBox]
+6577 420 3231
+30 10 30
+[CollBox]
+6547 500 3142
+30 10 30
+[CollBox]
+5959 498 2535
+280 20 280
+[CollBox]
+6138 518 2609
+40 10 40
+[CollBox]
+6560 572 2892
+40 10 40
+[CollBox]
+6241 539 2667
+40 10 40
+[CollBox]
+6435 566 2800
+40 10 40
+[CollBox]
+6347 568 2730
+40 10 40
+[CollBox]
+5970 518 2480
+30 10 30
+[CollBox]
+6019 518 2479
+30 10 30
+[CollBox]
+5977 518 2580
+30 10 30
+[CollBox]
+6045 518 2578
+30 10 30
+[WaterPlane]
+7297 142 1904
+0.3
+0.3
+Terrain/CalmWater
+water1.wav
+[CollSphere]
+7297 135 1835
+17
+[CollSphere]
+7306 135 1980
+17
+[CollSphere]
+7279 135 1973
+17
+[CollSphere]
+7221 135 1922
+17
+[CollSphere]
+7224 135 1888
+17
+[CollSphere]
+7273 135 1829
+17
+[CollSphere]
+7321 135 1831
+17
+[CollSphere]
+7372 135 1889
+17
+[CollSphere]
+7371 135 1923
+17
+[CollSphere]
+7375 135 1861
+17
+[CollSphere]
+7372 135 1944
+17
+[CollSphere]
+7330 135 1980
+17
+[CollSphere]
+7254 135 1979
+17
+[CollSphere]
+7221 135 1948
+17
+[CollSphere]
+7221 135 1861
+17
+[CollSphere]
+7250 135 1833
+17
+[CollSphere]
+7344 135 1827
+17
+[CollSphere]
+7372 135 1828
+17
+[CollSphere]
+7223 135 1978
+17
+[CollSphere]
+7223 135 1830
+17
+[CollSphere]
+7364 135 1978
+17
+[CollSphere]
+7765 134 2136
+17
+[CollSphere]
+7692 134 2205
+17
+[CollSphere]
+7607 134 2271
+17
+[CollSphere]
+7513 134 2338
+17
+[CollSphere]
+7432 134 2394
+17
+[CollSphere]
+7509 134 2488
+17
+[CollSphere]
+7598 134 2435
+17
+[CollSphere]
+7714 134 2358
+17
+[CollSphere]
+7780 134 2307
+17
+[CollSphere]
+7889 134 2208
+17
+#

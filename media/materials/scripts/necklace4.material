@@ -1,0 +1,36 @@
+material necklaceMat9
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture necklaceTex9.jpg
+			}
+		}
+	}
+}
+
+material rubynecklaceMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			diffuse 0.800000 0.800000 0.800000
+			specular 1.000000 1.000000 1.000000 12.500000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture necklace12Tex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}

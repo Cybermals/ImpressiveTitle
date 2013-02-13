@@ -1,0 +1,284 @@
+The system is: Windows - 6.1 - x86
+Determining if the C compiler works passed with the following output:
+Change Dir: C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp
+
+Run Build Command:C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe cmTryCompileExec4259975275.vcxproj /p:Configuration=Debug
+Microsoft (R) Build Engine Version 4.0.30319.1
+[Microsoft .NET Framework, Version 4.0.30319.1]
+Copyright (C) Microsoft Corporation 2007. All rights reserved.
+
+Build started 11-08-2012 15:54:44.
+Project "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\cmTryCompileExec4259975275.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTryCompileExec4259975275.dir\Debug\".
+  Creating directory "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\".
+InitializeBuildStatus:
+  Creating "cmTryCompileExec4259975275.dir\Debug\cmTryCompileExec4259975275.unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTryCompileExec4259975275.dir\Debug\\" /Fd"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec4259975275.pdb" /Gd /TC /analyze- /errorReport:queue testCCompiler.c  /Zm1000 
+  Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 16.00.30319.01 for 80x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTryCompileExec4259975275.dir\Debug\\" /Fd"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec4259975275.pdb" /Gd /TC /analyze- /errorReport:queue testCCompiler.c  /Zm1000 
+  
+  testCCompiler.c
+ManifestResourceCompile:
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"cmTryCompileExec4259975275.dir\Debug\cmTryCompileExec4259975275.exe.embed.manifest.res" cmTryCompileExec4259975275.dir\Debug\cmTryCompileExec4259975275_manifest.rc 
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec4259975275.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /ManifestFile:"cmTryCompileExec4259975275.dir\Debug\cmTryCompileExec4259975275.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec4259975275.pdb" /SUBSYSTEM:CONSOLE /STACK:"10000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec4259975275.lib" /MACHINE:X86 cmTryCompileExec4259975275.dir\Debug\cmTryCompileExec4259975275.exe.embed.manifest.res
+  cmTryCompileExec4259975275.dir\Debug\testCCompiler.obj  /machine:X86 /debug 
+Manifest:
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"cmTryCompileExec4259975275.dir\Debug\cmTryCompileExec4259975275.exe.embed.manifest" /manifest cmTryCompileExec4259975275.dir\Debug\cmTryCompileExec4259975275.exe.intermediate.manifest
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"cmTryCompileExec4259975275.dir\Debug\cmTryCompileExec4259975275.exe.embed.manifest.res" cmTryCompileExec4259975275.dir\Debug\cmTryCompileExec4259975275_manifest.rc 
+LinkEmbedManifest:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec4259975275.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /ManifestFile:"cmTryCompileExec4259975275.dir\Debug\cmTryCompileExec4259975275.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec4259975275.pdb" /SUBSYSTEM:CONSOLE /STACK:"10000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec4259975275.lib" /MACHINE:X86 cmTryCompileExec4259975275.dir\Debug\cmTryCompileExec4259975275.exe.embed.manifest.res
+  cmTryCompileExec4259975275.dir\Debug\testCCompiler.obj  /machine:X86 /debug 
+  cmTryCompileExec4259975275.vcxproj -> C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec4259975275.exe
+FinalizeBuildStatus:
+  Deleting file "cmTryCompileExec4259975275.dir\Debug\cmTryCompileExec4259975275.unsuccessfulbuild".
+  Touching "cmTryCompileExec4259975275.dir\Debug\cmTryCompileExec4259975275.lastbuildstate".
+Done Building Project "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\cmTryCompileExec4259975275.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:04.47
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp
+
+Run Build Command:C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe cmTryCompileExec160760838.vcxproj /p:Configuration=Debug
+Microsoft (R) Build Engine Version 4.0.30319.1
+[Microsoft .NET Framework, Version 4.0.30319.1]
+Copyright (C) Microsoft Corporation 2007. All rights reserved.
+
+Build started 11-08-2012 15:54:49.
+Project "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\cmTryCompileExec160760838.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTryCompileExec160760838.dir\Debug\".
+  Creating directory "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\".
+InitializeBuildStatus:
+  Creating "cmTryCompileExec160760838.dir\Debug\cmTryCompileExec160760838.unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTryCompileExec160760838.dir\Debug\\" /Fd"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec160760838.pdb" /Gd /TC /analyze- /errorReport:queue "..\..\..\..\..\Program Files (x86)\CMake 2.8\share\cmake-2.8\Modules\CMakeCCompilerABI.c"  /Zm1000 
+  Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 16.00.30319.01 for 80x86
+  CMakeCCompilerABI.c
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTryCompileExec160760838.dir\Debug\\" /Fd"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec160760838.pdb" /Gd /TC /analyze- /errorReport:queue "..\..\..\..\..\Program Files (x86)\CMake 2.8\share\cmake-2.8\Modules\CMakeCCompilerABI.c"  /Zm1000 
+  
+ManifestResourceCompile:
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"cmTryCompileExec160760838.dir\Debug\cmTryCompileExec160760838.exe.embed.manifest.res" cmTryCompileExec160760838.dir\Debug\cmTryCompileExec160760838_manifest.rc 
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec160760838.exe" /INCREMENTAL /NOLOGO /MANIFEST /ManifestFile:"cmTryCompileExec160760838.dir\Debug\cmTryCompileExec160760838.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec160760838.pdb" /SUBSYSTEM:CONSOLE /STACK:"10000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec160760838.lib" /MACHINE:X86 cmTryCompileExec160760838.dir\Debug\cmTryCompileExec160760838.exe.embed.manifest.res
+  cmTryCompileExec160760838.dir\Debug\CMakeCCompilerABI.obj  /machine:X86 /debug 
+Manifest:
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"cmTryCompileExec160760838.dir\Debug\cmTryCompileExec160760838.exe.embed.manifest" /manifest cmTryCompileExec160760838.dir\Debug\cmTryCompileExec160760838.exe.intermediate.manifest
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"cmTryCompileExec160760838.dir\Debug\cmTryCompileExec160760838.exe.embed.manifest.res" cmTryCompileExec160760838.dir\Debug\cmTryCompileExec160760838_manifest.rc 
+LinkEmbedManifest:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec160760838.exe" /INCREMENTAL /NOLOGO /MANIFEST /ManifestFile:"cmTryCompileExec160760838.dir\Debug\cmTryCompileExec160760838.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec160760838.pdb" /SUBSYSTEM:CONSOLE /STACK:"10000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec160760838.lib" /MACHINE:X86 cmTryCompileExec160760838.dir\Debug\cmTryCompileExec160760838.exe.embed.manifest.res
+  cmTryCompileExec160760838.dir\Debug\CMakeCCompilerABI.obj  /machine:X86 /debug 
+  cmTryCompileExec160760838.vcxproj -> C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec160760838.exe
+FinalizeBuildStatus:
+  Deleting file "cmTryCompileExec160760838.dir\Debug\cmTryCompileExec160760838.unsuccessfulbuild".
+  Touching "cmTryCompileExec160760838.dir\Debug\cmTryCompileExec160760838.lastbuildstate".
+Done Building Project "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\cmTryCompileExec160760838.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.78
+
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp
+
+Run Build Command:C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe cmTryCompileExec1164323434.vcxproj /p:Configuration=Debug
+Microsoft (R) Build Engine Version 4.0.30319.1
+[Microsoft .NET Framework, Version 4.0.30319.1]
+Copyright (C) Microsoft Corporation 2007. All rights reserved.
+
+Build started 11-08-2012 15:54:50.
+Project "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\cmTryCompileExec1164323434.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTryCompileExec1164323434.dir\Debug\".
+  Creating directory "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\".
+InitializeBuildStatus:
+  Creating "cmTryCompileExec1164323434.dir\Debug\cmTryCompileExec1164323434.unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cmTryCompileExec1164323434.dir\Debug\\" /Fd"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec1164323434.pdb" /Gd /TP /analyze- /errorReport:queue testCXXCompiler.cxx  /Zm1000 
+  Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 16.00.30319.01 for 80x86
+  testCXXCompiler.cxx
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cmTryCompileExec1164323434.dir\Debug\\" /Fd"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec1164323434.pdb" /Gd /TP /analyze- /errorReport:queue testCXXCompiler.cxx  /Zm1000 
+  
+ManifestResourceCompile:
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"cmTryCompileExec1164323434.dir\Debug\cmTryCompileExec1164323434.exe.embed.manifest.res" cmTryCompileExec1164323434.dir\Debug\cmTryCompileExec1164323434_manifest.rc 
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec1164323434.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /ManifestFile:"cmTryCompileExec1164323434.dir\Debug\cmTryCompileExec1164323434.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec1164323434.pdb" /SUBSYSTEM:CONSOLE /STACK:"10000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec1164323434.lib" /MACHINE:X86 cmTryCompileExec1164323434.dir\Debug\cmTryCompileExec1164323434.exe.embed.manifest.res
+  cmTryCompileExec1164323434.dir\Debug\testCXXCompiler.obj  /machine:X86 /debug 
+Manifest:
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"cmTryCompileExec1164323434.dir\Debug\cmTryCompileExec1164323434.exe.embed.manifest" /manifest cmTryCompileExec1164323434.dir\Debug\cmTryCompileExec1164323434.exe.intermediate.manifest
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"cmTryCompileExec1164323434.dir\Debug\cmTryCompileExec1164323434.exe.embed.manifest.res" cmTryCompileExec1164323434.dir\Debug\cmTryCompileExec1164323434_manifest.rc 
+LinkEmbedManifest:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec1164323434.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /ManifestFile:"cmTryCompileExec1164323434.dir\Debug\cmTryCompileExec1164323434.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec1164323434.pdb" /SUBSYSTEM:CONSOLE /STACK:"10000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec1164323434.lib" /MACHINE:X86 cmTryCompileExec1164323434.dir\Debug\cmTryCompileExec1164323434.exe.embed.manifest.res
+  cmTryCompileExec1164323434.dir\Debug\testCXXCompiler.obj  /machine:X86 /debug 
+  cmTryCompileExec1164323434.vcxproj -> C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec1164323434.exe
+FinalizeBuildStatus:
+  Deleting file "cmTryCompileExec1164323434.dir\Debug\cmTryCompileExec1164323434.unsuccessfulbuild".
+  Touching "cmTryCompileExec1164323434.dir\Debug\cmTryCompileExec1164323434.lastbuildstate".
+Done Building Project "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\cmTryCompileExec1164323434.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.20
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp
+
+Run Build Command:C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe cmTryCompileExec2571011023.vcxproj /p:Configuration=Debug
+Microsoft (R) Build Engine Version 4.0.30319.1
+[Microsoft .NET Framework, Version 4.0.30319.1]
+Copyright (C) Microsoft Corporation 2007. All rights reserved.
+
+Build started 11-08-2012 15:54:51.
+Project "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\cmTryCompileExec2571011023.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTryCompileExec2571011023.dir\Debug\".
+  Creating directory "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\".
+InitializeBuildStatus:
+  Creating "cmTryCompileExec2571011023.dir\Debug\cmTryCompileExec2571011023.unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cmTryCompileExec2571011023.dir\Debug\\" /Fd"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec2571011023.pdb" /Gd /TP /analyze- /errorReport:queue "..\..\..\..\..\Program Files (x86)\CMake 2.8\share\cmake-2.8\Modules\CMakeCXXCompilerABI.cpp"  /Zm1000 
+  Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 16.00.30319.01 for 80x86
+  CMakeCXXCompilerABI.cpp
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cmTryCompileExec2571011023.dir\Debug\\" /Fd"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec2571011023.pdb" /Gd /TP /analyze- /errorReport:queue "..\..\..\..\..\Program Files (x86)\CMake 2.8\share\cmake-2.8\Modules\CMakeCXXCompilerABI.cpp"  /Zm1000 
+  
+ManifestResourceCompile:
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"cmTryCompileExec2571011023.dir\Debug\cmTryCompileExec2571011023.exe.embed.manifest.res" cmTryCompileExec2571011023.dir\Debug\cmTryCompileExec2571011023_manifest.rc 
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec2571011023.exe" /INCREMENTAL /NOLOGO /MANIFEST /ManifestFile:"cmTryCompileExec2571011023.dir\Debug\cmTryCompileExec2571011023.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec2571011023.pdb" /SUBSYSTEM:CONSOLE /STACK:"10000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec2571011023.lib" /MACHINE:X86 cmTryCompileExec2571011023.dir\Debug\cmTryCompileExec2571011023.exe.embed.manifest.res
+  cmTryCompileExec2571011023.dir\Debug\CMakeCXXCompilerABI.obj  /machine:X86 /debug 
+Manifest:
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"cmTryCompileExec2571011023.dir\Debug\cmTryCompileExec2571011023.exe.embed.manifest" /manifest cmTryCompileExec2571011023.dir\Debug\cmTryCompileExec2571011023.exe.intermediate.manifest
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"cmTryCompileExec2571011023.dir\Debug\cmTryCompileExec2571011023.exe.embed.manifest.res" cmTryCompileExec2571011023.dir\Debug\cmTryCompileExec2571011023_manifest.rc 
+LinkEmbedManifest:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec2571011023.exe" /INCREMENTAL /NOLOGO /MANIFEST /ManifestFile:"cmTryCompileExec2571011023.dir\Debug\cmTryCompileExec2571011023.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec2571011023.pdb" /SUBSYSTEM:CONSOLE /STACK:"10000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec2571011023.lib" /MACHINE:X86 cmTryCompileExec2571011023.dir\Debug\cmTryCompileExec2571011023.exe.embed.manifest.res
+  cmTryCompileExec2571011023.dir\Debug\CMakeCXXCompilerABI.obj  /machine:X86 /debug 
+  cmTryCompileExec2571011023.vcxproj -> C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec2571011023.exe
+FinalizeBuildStatus:
+  Deleting file "cmTryCompileExec2571011023.dir\Debug\cmTryCompileExec2571011023.unsuccessfulbuild".
+  Touching "cmTryCompileExec2571011023.dir\Debug\cmTryCompileExec2571011023.lastbuildstate".
+Done Building Project "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\cmTryCompileExec2571011023.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.74
+
+
+Determining if the include file windows.h exists passed with the following output:
+Change Dir: C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp
+
+Run Build Command:C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe cmTryCompileExec2796783047.vcxproj /p:Configuration=Debug
+Microsoft (R) Build Engine Version 4.0.30319.1
+[Microsoft .NET Framework, Version 4.0.30319.1]
+Copyright (C) Microsoft Corporation 2007. All rights reserved.
+
+Build started 11-08-2012 15:54:52.
+Project "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\cmTryCompileExec2796783047.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTryCompileExec2796783047.dir\Debug\".
+  Creating directory "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\".
+InitializeBuildStatus:
+  Creating "cmTryCompileExec2796783047.dir\Debug\cmTryCompileExec2796783047.unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/include/Ogre" /I"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/include/ois" /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTryCompileExec2796783047.dir\Debug\\" /Fd"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec2796783047.pdb" /Gd /TC /analyze- /errorReport:queue CheckIncludeFile.c  /Zm1000 
+  Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 16.00.30319.01 for 80x86
+  CheckIncludeFile.c
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /I"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/include/Ogre" /I"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/include/ois" /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTryCompileExec2796783047.dir\Debug\\" /Fd"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec2796783047.pdb" /Gd /TC /analyze- /errorReport:queue CheckIncludeFile.c  /Zm1000 
+  
+ManifestResourceCompile:
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"cmTryCompileExec2796783047.dir\Debug\cmTryCompileExec2796783047.exe.embed.manifest.res" cmTryCompileExec2796783047.dir\Debug\cmTryCompileExec2796783047_manifest.rc 
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec2796783047.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /ManifestFile:"cmTryCompileExec2796783047.dir\Debug\cmTryCompileExec2796783047.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec2796783047.pdb" /SUBSYSTEM:CONSOLE /STACK:"10000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec2796783047.lib" /MACHINE:X86 cmTryCompileExec2796783047.dir\Debug\cmTryCompileExec2796783047.exe.embed.manifest.res
+  cmTryCompileExec2796783047.dir\Debug\CheckIncludeFile.obj  /machine:X86 /debug 
+Manifest:
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"cmTryCompileExec2796783047.dir\Debug\cmTryCompileExec2796783047.exe.embed.manifest" /manifest cmTryCompileExec2796783047.dir\Debug\cmTryCompileExec2796783047.exe.intermediate.manifest
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"cmTryCompileExec2796783047.dir\Debug\cmTryCompileExec2796783047.exe.embed.manifest.res" cmTryCompileExec2796783047.dir\Debug\cmTryCompileExec2796783047_manifest.rc 
+LinkEmbedManifest:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec2796783047.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /ManifestFile:"cmTryCompileExec2796783047.dir\Debug\cmTryCompileExec2796783047.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec2796783047.pdb" /SUBSYSTEM:CONSOLE /STACK:"10000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec2796783047.lib" /MACHINE:X86 cmTryCompileExec2796783047.dir\Debug\cmTryCompileExec2796783047.exe.embed.manifest.res
+  cmTryCompileExec2796783047.dir\Debug\CheckIncludeFile.obj  /machine:X86 /debug 
+  cmTryCompileExec2796783047.vcxproj -> C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec2796783047.exe
+FinalizeBuildStatus:
+  Deleting file "cmTryCompileExec2796783047.dir\Debug\cmTryCompileExec2796783047.unsuccessfulbuild".
+  Touching "cmTryCompileExec2796783047.dir\Debug\cmTryCompileExec2796783047.lastbuildstate".
+Done Building Project "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\cmTryCompileExec2796783047.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.18
+
+
+Determining if the include file dinput.h exists passed with the following output:
+Change Dir: C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp
+
+Run Build Command:C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe cmTryCompileExec588530339.vcxproj /p:Configuration=Debug
+Microsoft (R) Build Engine Version 4.0.30319.1
+[Microsoft .NET Framework, Version 4.0.30319.1]
+Copyright (C) Microsoft Corporation 2007. All rights reserved.
+
+Build started 11-08-2012 15:54:55.
+Project "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\cmTryCompileExec588530339.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTryCompileExec588530339.dir\Debug\".
+  Creating directory "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\".
+InitializeBuildStatus:
+  Creating "cmTryCompileExec588530339.dir\Debug\cmTryCompileExec588530339.unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/include/Ogre" /I"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/include/ois" /I/Include /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTryCompileExec588530339.dir\Debug\\" /Fd"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec588530339.pdb" /Gd /TC /analyze- /errorReport:queue CheckIncludeFile.c  /Zm1000 
+  Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 16.00.30319.01 for 80x86
+  CheckIncludeFile.c
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /I"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/include/Ogre" /I"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/include/ois" /I/Include /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTryCompileExec588530339.dir\Debug\\" /Fd"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec588530339.pdb" /Gd /TC /analyze- /errorReport:queue CheckIncludeFile.c  /Zm1000 
+  
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+ManifestResourceCompile:
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"cmTryCompileExec588530339.dir\Debug\cmTryCompileExec588530339.exe.embed.manifest.res" cmTryCompileExec588530339.dir\Debug\cmTryCompileExec588530339_manifest.rc 
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec588530339.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /ManifestFile:"cmTryCompileExec588530339.dir\Debug\cmTryCompileExec588530339.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec588530339.pdb" /SUBSYSTEM:CONSOLE /STACK:"10000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec588530339.lib" /MACHINE:X86 cmTryCompileExec588530339.dir\Debug\cmTryCompileExec588530339.exe.embed.manifest.res
+  cmTryCompileExec588530339.dir\Debug\CheckIncludeFile.obj  /machine:X86 /debug 
+Manifest:
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"cmTryCompileExec588530339.dir\Debug\cmTryCompileExec588530339.exe.embed.manifest" /manifest cmTryCompileExec588530339.dir\Debug\cmTryCompileExec588530339.exe.intermediate.manifest
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"cmTryCompileExec588530339.dir\Debug\cmTryCompileExec588530339.exe.embed.manifest.res" cmTryCompileExec588530339.dir\Debug\cmTryCompileExec588530339_manifest.rc 
+LinkEmbedManifest:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec588530339.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /ManifestFile:"cmTryCompileExec588530339.dir\Debug\cmTryCompileExec588530339.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec588530339.pdb" /SUBSYSTEM:CONSOLE /STACK:"10000000" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/kito/deps/ogre-paged-1.1.4/CMakeFiles/CMakeTmp/Debug/cmTryCompileExec588530339.lib" /MACHINE:X86 cmTryCompileExec588530339.dir\Debug\cmTryCompileExec588530339.exe.embed.manifest.res
+  cmTryCompileExec588530339.dir\Debug\CheckIncludeFile.obj  /machine:X86 /debug 
+  cmTryCompileExec588530339.vcxproj -> C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\Debug\cmTryCompileExec588530339.exe
+FinalizeBuildStatus:
+  Deleting file "cmTryCompileExec588530339.dir\Debug\cmTryCompileExec588530339.unsuccessfulbuild".
+  Touching "cmTryCompileExec588530339.dir\Debug\cmTryCompileExec588530339.lastbuildstate".
+Done Building Project "C:\kito\deps\ogre-paged-1.1.4\CMakeFiles\CMakeTmp\cmTryCompileExec588530339.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.21
+
+

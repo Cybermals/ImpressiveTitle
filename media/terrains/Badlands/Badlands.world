@@ -1,0 +1,30 @@
+[Initialize]
+badlandsterrain.cfg
+9000
+9000
+5811 1035 100
+[WeatherCycle]
+HeavyRain
+[Portal]
+800 500 650
+25
+Default
+[Portal]
+8909 383 2276
+10
+Shadow Veldt
+[Portal]
+8752 461 6332
+10
+The Anointed Hills
+[Portal]
+2855 558 8798
+5
+Wyvern Hills
+[WaterPlane]
+4000 210 4000
+20
+20
+Terrain/Acid
+waterfall.wav
+#

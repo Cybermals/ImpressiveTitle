@@ -1,0 +1,76 @@
+[Initialize]
+anotherTunnelterrain.cfg
+3000
+3000
+1450 1450 100
+[Interior]
+220
+Terrain/FirstCave
+[NewBushes]
+anotherTunnelObjects.cfg
+[SpawnCritters]
+anotherTunnelCritters.cfg
+[WeatherCycle]
+None
+[SphereWall]
+1500 0 1500
+1490
+false
+[Gate]
+GateMatWhite
+505 37 375
+Shrieking Hill
+4651 3104
+[Light]
+510 37 380
+0.75 0.74 0.72
+[Billboard]
+510 37 380
+60 60
+CaveLight
+[Gate]
+GateMatWhite
+2584 33 2525
+Another Tunnel;10
+564 445
+[Light]
+2562 33 2503
+0.75 0.74 0.72
+[Billboard]
+2562 33 2503
+100 100
+CaveLight
+[Gate]
+GateMatWhite
+382 33 2526
+Another Tunnel;1
+2571 575
+[Billboard]
+402 33 2506
+60 60
+CaveLight
+[Gate]
+GateMatWhite
+2640 33 510
+Another Tunnel;6
+449 2465
+[Billboard]
+2620 33 530
+60 60
+CaveLight
+[Light]
+1500 175 1500
+0.75 0.74 0.2
+[Particle]
+Fireflywest
+1500 175 1500
+[Particle]
+Fireflynorth
+1500 175 1500
+[Particle]
+Fireflyeast
+1500 175 1500
+[Particle]
+Fireflysouth
+1500 175 1500
+#

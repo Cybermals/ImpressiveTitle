@@ -1,0 +1,37 @@
+[Initialize]
+oceanterrain.cfg
+8000
+8000
+4000 3900 25
+[Grass]
+yellowGrass
+grassdensitymap.png
+grass_tex.jpg
+[Portal]
+1250 300 1000
+25
+Default
+[Portal]
+4300 120 1100
+50
+Island
+[Portal]
+6000 300 4500
+100
+Marsh
+[Portal]
+900 120 7100
+50
+Waterfall
+[WaterPlane]
+4000 600 4000
+30
+30
+Terrain/LargeWater
+water1.wav
+[Gate]
+GateMatBlack
+4292 140 4161
+HydroPillar
+217 4859 676
+#

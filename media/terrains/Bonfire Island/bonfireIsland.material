@@ -1,0 +1,27 @@
+material Terrain/BonfireIsland
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture rock_tex1.png
+				scale 0.05 0.05
+			}
+			texture_unit
+			{
+				texture bonfireIslandterrainmask.png
+				colour_op alpha_blend
+			}
+			texture_unit
+			{
+				texture grass_tex.jpg
+				scale 0.05 0.05
+				colour_op_ex blend_current_alpha src_texture src_current
+			}
+		}
+	}
+}

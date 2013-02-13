@@ -1,0 +1,44 @@
+material GrassPatchMat
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.75 0.75 0.75 1
+			diffuse 0.1 0.1 0.1 1
+			cull_hardware none
+			cull_software none
+
+			alpha_rejection greater_equal 128
+
+			texture_unit
+			{
+				texture grassPatch.png
+			}
+		}
+	}
+}
+material GrassYellowMat
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.75 0.75 0.75 1
+			diffuse 0.1 0.1 0.1 1
+			cull_hardware none
+			cull_software none
+
+			alpha_rejection greater_equal 128
+
+			texture_unit
+			{
+				texture grassYellow.png
+			}
+		}
+	}
+}

@@ -1,0 +1,71 @@
+material tieMat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture checkerboard-tieTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}
+material tie1Mat
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 1.000000 1.000000 1.000000 1.000000
+			specular 0.010000 0.010000 0.010000 1.000000
+			emissive 0.000000 0.000000 0.000000 1.000000
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture smiley-tieTex.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}material tie2Mat
+{
+receive_shadows on
+technique
+{
+pass
+{
+ambient 1.000000 1.000000 1.000000 1.000000
+diffuse 1.000000 1.000000 1.000000 1.000000
+specular 0.010000 0.010000 0.010000 1.000000
+emissive 0.000000 0.000000 0.000000 1.000000
+texture_unit
+{
+texture rainbow-tieTex.jpg
+tex_address_mode wrap
+filtering trilinear
+}
+texture_unit
+{
+texture rainbow-tieTex.jpg
+tex_address_mode wrap
+filtering trilinear
+colour_op alpha_blend
+scroll_anim 0.0 0.1
+}
+}
+}
+}

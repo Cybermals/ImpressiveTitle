@@ -1,0 +1,109 @@
+material Ogre/Compositor/VolumetricSunLight/SceneWithOutTextures
+{
+	technique
+	{
+		pass
+		{
+			depth_func		always_pass
+			depth_write		off
+
+			lighting off
+		}
+	}
+}
+
+material Ogre/Compositor/VolumetricSunLight/LightScatering
+{
+	technique
+	{
+		pass
+		{
+			depth_func		always_pass
+			depth_write		off
+
+			vertex_program_ref		VolumetricSunLightScatering_VP
+			{
+				param_named_auto	worldViewProj		worldviewproj_matrix
+			}
+
+			fragment_program_ref	VolumetricSunLightScatering_FP 
+			{
+				param_named			screenLightPos	float3		0.0 0.0 0.0
+				param_named			weight			float		0.89999998
+				param_named			decay			float		0.94999999
+				param_named			exposure		float		0.40000001
+				param_named			density			float		1.0
+			}
+			
+			texture_unit
+			{
+				tex_coord_set		0
+				tex_address_mode	clamp
+			}
+		}
+	}
+}
+
+material Ogre/Compositor/VolumetricSunLight/FinalBlending
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware	none
+			cull_software	none
+			depth_check		off
+			depth_func		always_pass
+			depth_write		off
+
+			vertex_program_ref		VolumetricSunLightFinalBlend_VP
+			{
+				param_named_auto	worldViewProj		worldviewproj_matrix
+			}
+
+			fragment_program_ref	VolumetricSunLightFinalBlend_FP 
+			{
+			}
+			
+			texture_unit
+			{
+				tex_coord_set		0
+				tex_address_mode	clamp
+			}
+
+			texture_unit
+			{
+				tex_coord_set		1
+				tex_address_mode	clamp
+			}
+		}
+	}
+}
+
+material Ogre/Compositor/VolumetricSunLight/FakeSky
+{
+	technique
+	{
+		pass
+		{
+			lighting		off
+			depth_write		off
+
+			vertex_program_ref		VolumetricSunLight_FakeSky_VP
+			{
+				param_named_auto	worldViewProj		worldviewproj_matrix
+				param_named_auto	camPos				camera_position_object_space
+			}
+
+			fragment_program_ref	VolumetricSunLight_FakeSky_FP
+			{
+				param_named_auto	camPos				camera_position_object_space
+				param_named			lightPos			float3		660		10		660
+				param_named			sunCenter			float3		1.0		1.0		0.2
+				param_named			sunPeriph			float3		1.0		0.3568	0.078
+				param_named			sunEarthBottom		float3		0.8		0.8		0.8
+				param_named			sunEarthTop			float3		0.0		0.035	0.305
+			}
+		}
+	}
+}

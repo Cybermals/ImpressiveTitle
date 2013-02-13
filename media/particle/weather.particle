@@ -1,0 +1,181 @@
+particle_system Weather/Rain
+{
+    material RainDroplet
+    particle_width  3
+    particle_height 9
+    cull_each       true
+    quota           10000
+    billboard_type  oriented_common
+    common_direction 0 -1 0
+    
+    emitter Box
+    {
+        angle           0
+        emission_rate   400
+        time_to_live    4
+        direction       0 -1 0
+        velocity    	400
+        colour_range_start  0.3 0.75 0.3
+        colour_range_end    0.7 0.75 0.7
+        width           700
+        height          700
+        depth           0
+    }
+
+    affector LinearForce
+    {
+        force_vector      20 -400 40
+        force_application add
+    }
+}
+particle_system Weather/Snow
+{
+    material SnowFlake
+    particle_width  7
+    particle_height 7
+    cull_each       true
+    quota           10000
+    
+    emitter Box
+    {
+        angle           0
+        emission_rate   700
+        time_to_live    7
+        direction       0 -1 0
+        velocity_min    200
+	velocity_max    400
+        colour_range_start  0.3 0.4 0.3
+        colour_range_end    0.5 0.6 0.5
+        width           2500
+        height          2500
+        depth           0
+    }
+
+    affector LinearForce
+    {
+        force_vector      100 50 200
+        force_application add
+    }
+}
+particle_system Weather/Starfall
+{
+    material        Flare
+    particle_width  60
+    particle_height 120
+    cull_each       false
+    quota           10000
+    billboard_type  perpendicular_common
+    common_direction 0 -1 0
+    common_up_vector 1 -0.1 0
+    
+    emitter Box
+    {
+        angle           10
+        emission_rate   100
+        time_to_live    20
+        direction       0.8 0.2 0
+        velocity_min    950
+        velocity_max    1400
+        colour_range_start  0.9 0.9 0.7
+        colour_range_end    1 1 0.8
+	width           1000
+        height          1000
+        depth           500
+    }
+
+    affector LinearForce
+    {
+        force_vector      0 -200 0
+        force_application add
+    }
+    affector ColourFader
+    {
+        red -0.05
+        green -0.05
+        blue -0.05
+    }
+}
+particle_system Weather/Fireworks
+{
+    material Flare
+    point_rendering            false
+    particle_width             20
+    particle_height            20
+    cull_each                  false
+    quota                      3000
+    emit_emitter_quota         500
+    billboard_type             point
+
+    emitter Box
+    {
+        name                    mainEmitter
+        emit_emitter            explosion
+        angle                   30
+        emission_rate           3000
+        time_to_live            3
+        direction               0 1 0
+        velocity                200
+	width           10000
+        height          10000
+        depth           100
+    }
+    emitter Point
+    {
+        name                    explosion
+        angle                   180
+        emission_rate           2000
+        time_to_live            2
+        direction               0 1 0
+        velocity                80
+	duration                0.1
+        repeat_delay_min        2
+        repeat_delay_max        3
+    }
+
+    affector LinearForce
+    {
+        force_vector            0 -100 0
+        force_application       add
+    }
+
+    affector ColourInterpolator
+    {
+        time0                   0
+        colour0                 1 1 0
+        time1                   0.5
+        colour1                 1 0 0
+        time2                   1.5
+        colour2                 0 0 0
+    }
+}
+particle_system Weather/Petals
+{
+material Petals
+particle_width 4
+particle_height 4
+cull_each false
+quota 1200
+billboard_type oriented_common
+common_direction 0 -1 0
+
+emitter Box
+{
+angle 5
+emission_rate 1000
+time_to_live 7
+direction 0 -1 0
+velocity_min 30
+velocity_max 40
+    colour_range_start 1 1 1 0
+    	colour_range_end 1 0.001 1 0
+width 2500
+height 2500
+depth 600
+}
+ 
+affector LinearForce
+{
+force_vector 0.01 0.05 0.01
+force_application add
+}
+}

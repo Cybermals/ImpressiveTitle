@@ -1,0 +1,12 @@
+[Snow]
+Start=50
+End=4500
+SkyShader=0.9 0.9 1
+Weather=Snow
+Rate=600
+
+[Starfall]
+Start=4700
+End=5100
+Weather=Starfall
+Rate=100

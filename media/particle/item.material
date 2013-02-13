@@ -1,0 +1,39 @@
+material item
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			fog_override true
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture item.png
+			}
+		}
+	}
+}
+
+material DrekNova3
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			fog_override true
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture DrekNova3.png
+			}
+		}
+	}
+}

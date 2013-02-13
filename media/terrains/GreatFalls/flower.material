@@ -1,0 +1,21 @@
+material flower
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			//lighting off
+			cull_hardware none
+			cull_software none
+			scene_blend alpha_blend
+			alpha_rejection greater_equal 128
+			
+			texture_unit
+			{
+				texture flower2.png
+			}
+		}
+	}
+}

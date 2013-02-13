@@ -1,0 +1,64 @@
+material acaciaLeafMat
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.75 0.75 0.75 1
+			diffuse 0.05 0.05 0.05 1
+			cull_hardware none
+			cull_software none
+
+			alpha_rejection greater_equal 128
+
+			texture_unit
+			{
+				texture acaciaLeaf.png
+			}
+		}
+	}
+}
+material acaciaBarkMat
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.5 0.5 0.5 1
+			diffuse 0.6 0.6 0.6 1
+			cull_hardware none
+			cull_software none
+
+			texture_unit
+			{
+				texture acaciaBark.jpg
+			}
+		}
+	}
+}
+material acaciaLeafYellowMat
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.75 0.75 0.75 1
+			diffuse 0.05 0.05 0.05 1
+			cull_hardware none
+			cull_software none
+
+			alpha_rejection greater_equal 128
+
+			texture_unit
+			{
+				texture acaciaLeafYellow.png
+			}
+		}
+	}
+}

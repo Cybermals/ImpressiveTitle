@@ -1,0 +1,634 @@
+fragment_program colourBoxShader_PS cg
+{
+	source MagixPS.cg
+	
+	entry_point colourBoxShader_main
+	
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named colorMod float4 0 0 0 1	
+	}
+}
+fragment_program faderShader_PS cg
+{
+	source MagixPS.cg
+	
+	entry_point faderShader_main
+	
+	profiles ps_2_0 arbfp1
+
+	default_params
+	{
+		param_named colorMod float4 0 0 0 1	
+	}
+}
+material GUIMat/ColourBox
+{
+	technique 1
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+
+			fragment_program_ref colourBoxShader_PS
+			{
+				param_named_auto colorMod custom 1
+			}
+			texture_unit
+			{
+				texture white.jpg
+				tex_coord_set 0
+			}
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1 1
+			}
+		}
+	}
+}
+material GUIMat/Fader
+{
+	technique 1
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			scene_blend alpha_blend
+
+			fragment_program_ref faderShader_PS
+			{
+				param_named_auto colorMod custom 1
+			}
+			texture_unit
+			{
+				texture blank.png
+				tex_coord_set 0
+			}
+		}
+	}
+	technique 2
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			scene_blend alpha_blend
+
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 1 1 1
+				alpha_op_ex source1 src_manual src_current 1
+			}
+		}
+	}
+}
+material GUIMat/Cursor
+{
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+
+			texture_unit
+			{
+				texture cursor.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/Logo
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+
+			texture_unit
+			{
+				texture logo.jpg
+				tex_address_mode clamp
+			}
+			texture_unit
+			{
+				texture logowaves.jpg
+				scroll_anim -0.05 0.05
+				scale 2 2
+			}
+		}
+	}
+}
+material GUIMat/Backdrop1
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+
+			texture_unit
+			{
+				texture backdrop1.jpg
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/Backdrop2
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture backdrop2.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/StartScreen
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture startscreen.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/Title
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture title.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/None
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture blank.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/StatsBlockBorder
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture border.png
+			}
+		}
+	}
+}
+material GUIMat/StatsBlockCenter
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture borderCenter.png
+			}
+		}
+	}
+}
+material GUIMat/ButtonUp
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture buttonUp.png
+			}
+		}
+	}
+}
+material GUIMat/ButtonDown
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture buttonDown.png
+			}
+		}
+	}
+}
+material GUIMat/ButtonOver
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture buttonOver.png
+			}
+		}
+	}
+}
+material GUIMat/ButtonHighlight
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture buttonHighlight.png
+			}
+		}
+	}
+}
+material GUIMat/Slider
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture slider.png
+			}
+		}
+	}
+}
+material GUIMat/HPBar
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture hpbar.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/WoundBar
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture woundbar.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/BlackPanel
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture blackpanel.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/CreditsBackdrop
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 0 0 0 1
+			}
+		}
+	}
+}
+material GUIMat/TargetIndicator
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_check off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture targetIndicator.PNG
+				tex_address_mode clamp
+				rotate_anim -0.1
+				wave_xform scale_x sine 0.5 1 0 0.5
+				wave_xform scale_y sine 0.5 1 0 0.5
+			}
+		}
+	}
+}
+material GUIMat/MiniMap
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture minimap.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/MiniMapCone
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture minimapCone.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/MiniMapArrow
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture minimapArrow.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/MiniMapDotYellow
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture minimapDotYellow.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/MiniMapDotTeal
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture minimapDotTeal.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/MiniMapDotGreen
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture minimapDotGreen.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/MiniMapDotRed
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture minimapDotRed.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/SelectPanel
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture selectPanel.png
+				tex_address_mode clamp
+				rotate_anim 0.5
+			}
+		}
+	}
+}
+material GUIMat/ListSelectHighlight
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture listSelectHighlight.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material GUIMat/CheckBoxFalse
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture checkBoxFalse.png
+			}
+		}
+	}
+}
+material GUIMat/CheckBoxTrue
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture checkBoxTrue.png
+			}
+		}
+	}
+}

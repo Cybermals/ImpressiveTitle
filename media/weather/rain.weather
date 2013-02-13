@@ -1,0 +1,13 @@
+[Rain 1]
+Start=900
+End=1500
+SkyShader=0.5 0.5 0.5
+Weather=Rain
+Rate=1000
+
+[Rain 2]
+Start=5700
+End=6100
+SkyShader=0.5 0.5 0.5
+Weather=Rain
+Rate=1500

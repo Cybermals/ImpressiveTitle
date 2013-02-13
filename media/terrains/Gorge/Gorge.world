@@ -1,0 +1,47 @@
+[Initialize]
+gorgeterrain.cfg
+10000
+10000
+2500 2500 100
+[Grass]
+yellowGrass
+grassdensitymap.png
+grass_tex.jpg
+[RandomTrees]
+fir14_25.mesh
+fir06_30.mesh
+fir05_30.mesh
+250
+[RandomBushes]
+farn1.mesh
+farn2.mesh
+shroom2_2.mesh
+[WeatherCycle]
+Thunderstorm
+[Portal]
+3124 50 9240
+25
+Waterfall
+[Portal]
+210 475 9755
+25
+Marsh
+[Portal]
+270 350 7100
+25
+Default
+[Portal]
+1270 550 2950
+20
+ReallyBig
+[Portal]
+4500 450 4500
+25
+Island
+[WaterPlane]
+5000 250 5000
+27
+27
+Terrain/LargeWater
+water1.wav
+#

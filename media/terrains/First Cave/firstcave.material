@@ -1,0 +1,84 @@
+material Terrain/FirstCave
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture ceilingTex.jpg
+				scale 0.05 0.05
+			}
+		}
+	}
+}
+material GateMatBlack
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture eyepatchTex.jpg
+			}
+		}
+	}
+}
+material GateMatWhite
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			texture_unit
+			{
+				texture white.jpg
+			}
+		}
+	}
+}
+material CaveLight
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture sunRadiance.PNG
+			}
+		}
+	}
+}
+material BlueGlow
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend add
+			fog_override true
+
+			texture_unit
+			{
+				texture blueGlow.jpg
+				wave_xform scale_x sine 0.8 0.2 0 0.1
+				wave_xform scale_y sine 0.8 0.2 0 0.1
+			}
+		}
+	}
+}

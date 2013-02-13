@@ -1,0 +1,44 @@
+[Initialize]
+serpentPassterrain.cfg
+2000
+2000
+1000 1000 100
+[Interior]
+920
+Terrain/UnderwaterCeiling
+[WeatherCycle]
+None
+[SphereWall]
+1000 0 1000
+990
+false
+[Gate]
+GateMatWhite
+500 576 105
+Underwater Cave
+223 31 809
+[Light]
+525 576 130
+0.75 0.74 0.72
+[Billboard]
+525 576 130
+60 60
+CaveLight
+[Gate]
+GateMatWhite
+1449 576 1910
+Last Cave
+4867 142
+[Light]
+1432 576 1890
+0.75 0.74 0.72
+[Billboard]
+1429 576 1886
+100 100
+CaveLight
+[WaterPlane]
+1000 570 1000
+20
+20
+Terrain/LargeWater
+#

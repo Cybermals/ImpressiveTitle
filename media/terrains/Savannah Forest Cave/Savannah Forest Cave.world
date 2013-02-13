@@ -1,0 +1,23 @@
+[Initialize]
+savannahforestcaveterrain.cfg
+390
+390
+228 80 40
+[Interior]
+70
+Terrain/SavannahCaveCeiling
+[Gate]
+GateMatWhite
+220 18 10
+Savannah
+1500 18090
+[WeatherCycle]
+None
+[Light]
+228 18 24
+0.75 0.74 0.72
+[Billboard]
+228 18 30
+60 60
+CaveLight
+#

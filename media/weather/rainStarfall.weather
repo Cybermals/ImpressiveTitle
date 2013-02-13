@@ -1,0 +1,12 @@
+[Rain]
+Start=900
+End=1500
+SkyShader=0.5 0.5 0.5
+Weather=Rain
+Rate=1000
+
+[Starfall]
+Start=4700
+End=5100
+Weather=Starfall
+Rate=100

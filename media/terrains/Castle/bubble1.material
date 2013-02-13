@@ -1,0 +1,58 @@
+material CaveMat
+{
+                transparency_casts_shadows off
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture rock_tex1.png
+			}
+		}
+	}
+}
+material castleroofMat
+{
+                transparency_casts_shadows off
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture crystal_tex2.jpg
+scale 0.05 0.05
+ scroll_anim -0.01 -0.01
+			}
+		}
+	}
+}
+material RuneMat
+{
+                transparency_casts_shadows off
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture runetex.png
+			}
+		}
+	}
+}
+material RuneMat2
+{
+                transparency_casts_shadows off
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture imaratex.png
+			}
+		}
+	}
+}

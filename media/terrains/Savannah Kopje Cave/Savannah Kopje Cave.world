@@ -1,0 +1,40 @@
+[Initialize]
+savannahkopjecaveterrain.cfg
+645
+645
+450 150 60
+[Interior]
+90
+Terrain/SavannahCaveCeiling
+[Gate]
+GateMatWhite
+375 60 65
+Savannah
+10670 12175
+[WeatherCycle]
+None
+[WaterPlane]
+530 20 565
+0.55
+0.5
+Terrain/CalmWater
+[Light]
+385 80 75
+0.75 0.74 0.72
+[Billboard]
+386 75 76
+60 60
+CaveLight
+[Light]
+560 60 580
+0 0.74 1
+[Billboard]
+560 65 580
+30 30
+BlueGlow
+[Object]
+Crystal.mesh
+560 60 580
+0.8 0.8 0.8
+0 0 0
+#

@@ -1,0 +1,37 @@
+[Initialize]
+lavacaveterrain.cfg
+1000
+1000
+500 500 100
+[Interior]
+280
+Terrain/LavaTerrain
+[SpawnCritters]
+lavacaveCritters.cfg
+[Gate]
+GateMatWhite
+482 120 985
+Lava
+5100 3176
+[WeatherCycle]
+None
+[Light]
+482 120 970
+0.75 0.74 0.72
+[Billboard]
+482 120 935
+70 70
+CaveLight
+[WaterPlane]
+500 80 500
+10
+10
+Terrain/LargeMagma
+lava1.wav
+[WaterPlane]
+500 90 500
+1
+1
+Terrain/CalmWater
+water1.wav
+#

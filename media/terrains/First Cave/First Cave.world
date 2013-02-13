@@ -1,0 +1,40 @@
+[Initialize]
+firstcaveterrain.cfg
+1000
+1000
+500 500 100
+[Interior]
+180
+Terrain/FirstCave
+[Gate]
+GateMatWhite
+34 150 34
+Default
+1970 1560
+[WeatherCycle]
+None
+[WaterPlane]
+500 50 500
+0.55
+0.5
+Terrain/CalmWater
+[Light]
+58 164 67
+2 2 2
+[Billboard]
+50 160 50
+60 60
+CaveLight
+[Light]
+480 2 515
+0 0.74 1
+[Billboard]
+480 30 525
+350 350
+BlueGlow
+[Object]
+Crystal.mesh
+485 2 522
+1.5 1.5 1.5
+0 0 0
+#

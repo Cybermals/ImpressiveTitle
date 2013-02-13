@@ -1,0 +1,44 @@
+particle_system Weather/Snow2
+{
+	quota	40000
+	material SnowFlake
+	particle_width	2
+	particle_height	2
+	cull_each	false
+	sorted	false
+	point_rendering	false
+	accurate_facing	false
+
+	emitter Box
+	{
+		angle	0
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 -1 0
+		emission_rate	150
+		position	0 0 0
+		velocity	10
+		velocity_min	10
+		velocity_max	15
+		time_to_live	25
+		time_to_live_min	72
+		time_to_live_max	72
+		duration	0
+		duration_min	0
+		duration_max	0
+		repeat_delay	0
+		repeat_delay_min	0
+		repeat_delay_max	0
+		width	2500
+		height	2500
+		depth	0
+	}
+
+	affector DirectionRandomiser
+	{
+		randomness	5
+		scope	1
+		keep_velocity	true
+	}
+}

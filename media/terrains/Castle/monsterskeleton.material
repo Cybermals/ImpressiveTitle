@@ -1,0 +1,16 @@
+material monsterskeleton
+{
+  receive_shadows on
+  technique
+  {
+    pass
+    {
+      specular 0.02 0.02 0.02 50.000000
+      texture_unit
+      {
+        texture monsterskeleton.png
+
+      }
+    }
+  }
+}

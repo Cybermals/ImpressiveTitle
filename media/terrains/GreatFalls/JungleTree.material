@@ -1,0 +1,38 @@
+material JungleTree/Leaves/TWOSIDE
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.5 0.5 0.5 1
+			diffuse 0.6 0.6 0.6 1
+
+			alpha_rejection greater_equal 128
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture canopy.png alpha
+			}
+		}
+	}
+}
+material JungleTree/Bark
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.5 0.5 0.5 1
+			diffuse 0.6 0.6 0.6 1
+			texture_unit
+			{
+				texture bark.png
+			}
+		}
+	}
+}

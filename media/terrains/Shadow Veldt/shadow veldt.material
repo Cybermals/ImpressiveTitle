@@ -1,0 +1,170 @@
+material Terrain/ShadowVeldtterrain
+{
+    receive_shadows on
+    technique
+    {
+        pass
+        {
+            lighting off
+            texture_unit
+            {
+                texture shadowveldt_grass.png
+                scale 0.05 0.05
+            }
+        }
+	pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_func equal
+            texture_unit
+            {
+                texture shadowveldtterrainmask1.png
+                alpha_op_ex source1 src_texture src_texture
+                colour_op_ex source2 src_texture src_texture
+            }
+            texture_unit
+            {
+              	texture shadowveldt_stone.png
+		scale 0.05 0.05
+                colour_op_ex blend_diffuse_alpha src_texture src_current
+            }
+        }
+        pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_func equal
+            texture_unit
+            {
+                texture shadowveldtterrainmask2.png
+                alpha_op_ex source1 src_texture src_texture
+                colour_op_ex source2 src_texture src_texture
+            }
+            texture_unit
+            {
+              	anim_texture shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava0.png shadowveldt_lava1.png shadowveldt_lava2.png shadowveldt_lava3.png shadowveldt_lava4.png shadowveldt_lava5.png shadowveldt_lava6.png shadowveldt_lava7.png shadowveldt_lava8.png shadowveldt_lava9.png shadowveldt_lava10.png shadowveldt_lava10.png shadowveldt_lava10.png shadowveldt_lava10.png shadowveldt_lava10.png shadowveldt_lava9.png shadowveldt_lava9.png shadowveldt_lava8.png shadowveldt_lava7.png shadowveldt_lava6.png shadowveldt_lava5.png shadowveldt_lava4.png shadowveldt_lava3.png shadowveldt_lava2.png shadowveldt_lava1.png shadowveldt_lava0.png shadowveldt_lava0.png 2.5
+		scale 0.05 0.05
+                colour_op_ex blend_diffuse_alpha src_texture src_current
+            }
+        }
+        
+    }
+}
+material Portal/Shadow_Veldt
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+
+			texture_unit
+			{
+				texture portalshadowveldt.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+		pass
+		{
+			lighting off
+			scene_blend modulate
+
+			texture_unit
+			{
+				texture portalshadowveldt.jpg
+				env_map spherical
+				rotate_anim 0.1
+			}
+		}
+	}
+}
+material Terrain/ShadowVeldtWater
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			cull_hardware none
+			cull_software none
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture Water01.png
+				scale 0.5 0.5
+				scroll_anim -0.02 -0.02
+				rotate 90
+			}
+			texture_unit
+			{
+				texture Water02.png
+				scale 0.5 0.5
+				scroll_anim 0.02 0.01
+				rotate 90
+			}
+		}
+	}
+}
+material DeadVeldtTreeMat
+{
+	transparency_casts_shadows off
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			ambient 0.500000 0.500000 0.500000 1.000000
+			diffuse 0.640000 0.640000 0.640000 1.000000
+			specular 0.500000 0.500000 0.500000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+
+			texture_unit
+			{
+				texture shadowveldttree.jpg
+			}
+		}
+	}
+}
+material veldtPetal
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_write off
+			cull_hardware none
+			cull_software none
+			texture_unit
+			{
+				texture fallen_petal.png
+			}
+		}
+	}
+}
+material Terrain/ShadowVeldtLedge
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+			fog_override false
+			texture_unit
+			{
+				texture veldt_trans.png
+				scale 0.1 0.1
+				
+			}
+		}
+	}
+}
