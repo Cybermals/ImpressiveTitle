@@ -1,9 +1,16 @@
-# Instructions #
-## Requirement ##
+KITO's Impressive Title source
+====================
+This is a copy of http://www.kitopen.com/t532-download-and-instructions-compile-your-own-it
+The source will be hosted here on github https://github.com/jespersh/KITO just in case.
+
+Instructions
+---------------------
+
+### Requirement
 Install Visual Studio 2010 express C++: (All standard settings EXCLUDING MSSQL SERVER)
 http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-express
 
-## Source instructions ##
+### Source instructions
 1. Click the ZIP button
 2. Unzip the package
 3. Open Solution.sln by double clicking it.
