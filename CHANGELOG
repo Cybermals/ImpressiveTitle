@@ -11,3 +11,6 @@
 * Added resource loading information
 * Added quick-start xorkey .dat files for xorkey 0. See static folder
 * Rearranged code to make window appear a little faster
+
+# 4th release
+* Fixed players not being able to heal each other
