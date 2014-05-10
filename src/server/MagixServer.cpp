@@ -1704,10 +1704,11 @@ public:
                                                 bool tIsHit = false;
 
 						tReceiveBit.Read(tMessage);
+						BitSize_t offset;
 						if(tReadSenderToken)
 						{ //printf("RTok\n");
-
 							tReceiveBit.Read(tSender);
+							offset = tReceiveBit.GetReadOffset();
 							if(tSender<=0 || tSender>MAX_CLIENTS)break;
 							tMapName = clientMap[tSender-1];
 							tDimension = clientDimension[tSender-1];
@@ -1716,6 +1717,7 @@ public:
 						}
 						else 
 						{
+							offset = tReceiveBit.GetReadOffset();
 							getOwnerToken(p,tMapName,tDimension);
 							tReceiveBit.Read(tSender);
                                                         tReceiveBit.Read(tIsUpdate);
@@ -1737,6 +1739,7 @@ public:
 								stringCompressor->EncodeString(tCaption.c_str(),512,&wBitStream);
 								sendMyPlayers(server,&wBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS);
 							}
+							tReceiveBit.SetReadOffset(offset);
 						}
                                                 //Complete packet relay
                                                 RakNet::BitStream tBitStream;
