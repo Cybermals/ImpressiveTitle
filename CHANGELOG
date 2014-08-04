@@ -14,3 +14,7 @@
 
 # 4th release
 * Fixed players not being able to heal each other
+
+# 5th release
+* Allowing encrypted zip files
+* Allowing encrypted items.cfg file
