@@ -59,7 +59,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmod-4.02\include;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\include\OGRE;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\include\OIS;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47;$(SolutionDir)deps\RakNet-3.25\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmod-4.02\include;$(SolutionDir)deps\zziplib-0.13.57;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\include\OGRE;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\include\OIS;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47;$(SolutionDir)deps\RakNet-3.25\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>true</MinimalRebuild>
@@ -75,10 +75,10 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>fmodex_vc.lib;OIS.lib;RakNetLibStatic.lib;PagedGeometry.lib;OgreMain.lib;libboost_thread-vc100-mt-1_47.lib;libboost_date_time-vc100-mt-1_47.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlib.lib;zziplib.lib;fmodex_vc.lib;OIS.lib;RakNetLibStatic.lib;PagedGeometry.lib;OgreMain.lib;libboost_thread-vc100-mt-1_47.lib;libboost_date_time-vc100-mt-1_47.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmod-4.02\lib;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47\lib;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\release;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\release\opt;$(SolutionDir)deps\RakNet-3.25\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmod-4.02\lib;$(SolutionDir)deps\zziplib-0.13.57\lib\Release;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47\lib;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\release;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\release\opt;$(SolutionDir)deps\RakNet-3.25\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -129,7 +129,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmod-4.02\include;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\include\OGRE;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\include\OIS;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47;$(SolutionDir)deps\RakNet-3.25\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmod-4.02\include;$(SolutionDir)deps\zziplib-0.13.57;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\include\OGRE;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\include\OIS;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47;$(SolutionDir)deps\RakNet-3.25\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>true</MinimalRebuild>
@@ -143,12 +143,13 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>fmodex_vc.lib;OIS_d.lib;RakNetLibStatic.lib;PagedGeometry_d.lib;OgreMain_d.lib;libboost_thread-vc100-mt-gd-1_47.lib;libboost_date_time-vc100-mt-gd-1_47.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlibd.lib;zziplibd.lib;fmodex_vc.lib;OIS_d.lib;RakNetLibStatic.lib;PagedGeometry_d.lib;OgreMain_d.lib;libboost_thread-vc100-mt-gd-1_47.lib;libboost_date_time-vc100-mt-gd-1_47.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmod-4.02\lib;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47\lib;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\debug;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\debug\opt;$(SolutionDir)deps\RakNet-3.25\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\zziplib-0.13.57\lib\Debug;$(SolutionDir)deps\fmod-4.02\lib;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47\lib;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\debug;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\debug\opt;$(SolutionDir)deps\RakNet-3.25\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -160,6 +161,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <GenerateMapFile>true</GenerateMapFile>
     </Link>
     <PostBuildEvent>
       <Message>
@@ -194,6 +196,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\client\include\movabletextoverlay.cpp" />
+    <ClCompile Include="src\client\src\MagixEncryption.cpp" />
     <ClCompile Include="src\client\src\ogremagix.cpp" />
     <ClCompile Include="src\client\include\SoundManager.cpp" />
   </ItemGroup>
@@ -208,6 +211,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"</Command>
     <ClInclude Include="src\client\include\MagixCollisionManager.h" />
     <ClInclude Include="src\client\include\MagixCritterManager.h" />
     <ClInclude Include="src\client\include\MagixEffectsManager.h" />
+    <ClInclude Include="src\client\include\MagixEncryption.h" />
     <ClInclude Include="src\client\include\MagixExternalDefinitions.h" />
     <ClInclude Include="src\client\include\MagixFrameListener.h" />
     <ClInclude Include="src\client\include\MagixGameStateManager.h" />

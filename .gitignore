@@ -12,3 +12,4 @@
 [Bb]uild/
 [Oo]utput/
 
+*.ipch

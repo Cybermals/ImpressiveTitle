@@ -26,6 +26,7 @@ Description: Base class for all the OGRE examples
 #include "MagixHandler.h"
 #include "MagixFrameListener.h"
 #include "MagixLoadingBar.h"
+#include "MagixEncryption.h"
 
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
@@ -86,6 +87,8 @@ public:
             delete mFrameListener;
 		if (mRoot)
 			delete mRoot;
+		if(mMagixEncryptionZipFactory)
+			delete mMagixEncryptionZipFactory;
     }
 
     /// Start the example
@@ -109,6 +112,7 @@ protected:
 	Ogre::String mResourcePath;
 	MagixHandler *mMagixHandler;
 	MagixLoadingBar* mLoadingBar;
+	MagixEncryptionZipFactory *mMagixEncryptionZipFactory;
 
     // These internal methods package up the stages in the startup process
     /** Sets up the application - returns false if the user chooses to abandon configuration. */
@@ -215,6 +219,10 @@ protected:
     /// Method which will define the source of resources (other than current folder)
     virtual void setupResources(void)
     {
+		// Create the factory for handling encrypted zips
+		mMagixEncryptionZipFactory = new MagixEncryptionZipFactory();
+		Ogre::ArchiveManager::getSingleton().addArchiveFactory(mMagixEncryptionZipFactory);
+
         // Load resource paths from config file
         ConfigFile cf;
         cf.load(mResourcePath + "resources.cfg");

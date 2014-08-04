@@ -4,6 +4,17 @@
 // 1 to enable
 // 0 to disable
 
+/// New Version 5
+// Enable encrypted items.cfg
+// 0 = Reads items.cfg
+// 1 = Reads items.dat (like ad1.dat)
+#define ENCRYPTED_ITEMS 0
+// Enable encrypted zips and your custom file extension (instead of zip - Remember the .)
+#define ENCRYPTED_PACKAGES 1
+#define ENCRYPTION_EXTENSION ".kzip"
+#define ENCRYPTION_XORS { 11, 22, 33, 144, 57, 63, 69, 96, 240, 128 }
+//Change the above numbers 1   2   3    4   5   6   7   8    9   10
+
 // BIG FAT WARNING:
 // DO NOT CHANGE MAX_EQUIP ON A SERVER THAT IS ALREADY RUNNING
 #define MAX_EQUIP 8 // 9 is max recommended

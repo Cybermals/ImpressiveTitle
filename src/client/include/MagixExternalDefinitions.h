@@ -3,6 +3,8 @@
 
 #include "MagixNetworkDefines.h"
 #include "GameConfig.h"
+#include <OgreStreamSerialiser.h>
+#include <OgreException.h>
 //using namespace std;
 using namespace Ogre;
 
@@ -236,7 +238,7 @@ public:
 	{
 		loadUnitMeshes("UnitMeshes.cfg");
 		loadUnitEmotes("UnitEmotes.cfg");
-		loadItems("Items.cfg");
+		loadItems((ENCRYPTED_ITEMS) ? "Items.dat" : "Items.cfg", ENCRYPTED_ITEMS);
 		loadHotkeys("Hotkeys.cfg");
 		attackList.clear();
 		loadAttacks("ad1.dat",false);
@@ -621,6 +623,40 @@ public:
 			numDays = tYear*365 + tDay;
 		}
 		return true;
+	}
+	DataStreamPtr XORInternal(const String inFile, bool preChecksum=false)
+	{
+		String line, /*lastline,*/ nextline/*, lastnextline*/;
+		unsigned long tChecksum = 0;
+		DataStreamPtr stream = Root::getSingleton().openFileStream(inFile);
+
+		if (!stream.isNull())
+		{
+			MemoryDataStream* dataStream = OGRE_NEW MemoryDataStream(stream->size());
+			DataStreamPtr outStream(dataStream);
+
+			Ogre::StreamSerialiser ser(outStream);
+
+			while (!stream->eof())
+			{
+				line = stream->getLine();
+				nextline = stream->getLine();
+				if (stream->eof())
+					break;
+				//lastline = line;
+				//lastnextline = nextline;
+				line = XOR7(line, &tChecksum, preChecksum);
+				nextline = XOR7(nextline, &tChecksum, preChecksum);
+
+				ser.write(&line);
+				ser.write(&nextline);
+			}
+			const bool tChecksumRight = (tChecksum==StringConverter::parseLong(XOR7(line)));
+			dataStream->seek(0);
+			return outStream;
+		}
+		OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, "Cannot locate file " +
+			inFile + " required for game.", "MagixExternalDefinitions.h");
 	}
 	const String XOR7(const String &input, unsigned long *checksum=0, bool preChecksum=false)
 	{
@@ -1302,7 +1338,7 @@ public:
 
 		return tData;
 	}
-	void loadItems(const String &filename)
+	void loadItems(const String &filename, const bool decrypt)
 	{
 		maxItems = 0;
 		itemMesh.clear();
@@ -1315,50 +1351,83 @@ public:
 		itemParticleOffset.clear();
 		itemParticleOnNode.clear();
 
-		long tSize = 0;
-		char *tBuffer;
-		String tData="";
-
-		std::ifstream inFile;
-		inFile.open(filename.c_str(), std::ifstream::in);
-		if(!inFile.good())
+		if (decrypt)
 		{
-			Ogre::LogManager::getSingleton().logMessage("IT INITIALIZE ERROR: Unable to open file "+filename);
-			return;
+			DataStreamPtr stream = XORInternal(filename);
+			Ogre::StreamSerialiser ser(stream);
+			String line;
+			char tmpBuf[OGRE_STREAM_TEMP_SIZE];
+			while (!ser.eof())
+			{
+				ser.read(&line);
+				//stream->readLine(tmpBuf, OGRE_STREAM_TEMP_SIZE - 1);
+				//line = String(tmpBuf);
+				StringUtil::trim(line);
+				const vector<String>::type tPart = StringUtil::split(line,";",9);
+
+				if(tPart.size()<3)continue;
+				if(tPart.size()>0)itemMesh.push_back(tPart[0]);
+				if(tPart.size()>1)itemName.push_back(tPart[1]);
+				if(tPart.size()>2)itemBone.push_back(tPart[2]);
+				if(tPart.size()>3)itemIsPrivate.push_back(tPart[3]=="1"?true:false);
+				if(tPart.size()>4)itemHasOffset.push_back(tPart[4]=="1"?true:false);
+				else itemHasOffset.push_back(false);
+				if(tPart.size()>5)itemHasAltAnim.push_back(tPart[5]=="1"?true:false);
+				else itemHasAltAnim.push_back(false);
+				if(tPart.size()>6)itemParticle.push_back(tPart[6]);
+				else itemParticle.push_back("");
+				if(tPart.size()>7)itemParticleOffset.push_back(tPart[7]);
+				else itemParticleOffset.push_back("");
+				if(tPart.size()>8)itemParticleOnNode.push_back(tPart[8]=="1"?true:false);
+				else itemParticleOnNode.push_back(false);
+			}
 		}
-		inFile.seekg(0,std::ios::end);
-		tSize = inFile.tellg();
-		inFile.seekg(0,std::ios::beg);
-		tBuffer = new char[tSize];
-		strcpy(tBuffer,"");
-		inFile.getline(tBuffer,tSize,'#');
-		inFile.close();
-		tData = tBuffer;
-		delete[] tBuffer;
-
-		const vector<String>::type tLine = StringUtil::split(tData,"\n#");
-
-		maxItems = int(tLine.size());
-		for(int i=0;i<maxItems;i++)
+		else
 		{
-			const vector<String>::type tPart = StringUtil::split(tLine[i],";",9);
+			long tSize = 0;
+			char *tBuffer;
+			String tData="";
 
-			if(tPart.size()>0)itemMesh.push_back(tPart[0]);
-			if(tPart.size()>1)itemName.push_back(tPart[1]);
-			if(tPart.size()>2)itemBone.push_back(tPart[2]);
-			if(tPart.size()>3)itemIsPrivate.push_back(tPart[3]=="1"?true:false);
-			if(tPart.size()>4)itemHasOffset.push_back(tPart[4]=="1"?true:false);
-			else itemHasOffset.push_back(false);
-			if(tPart.size()>5)itemHasAltAnim.push_back(tPart[5]=="1"?true:false);
-			else itemHasAltAnim.push_back(false);
-			if(tPart.size()>6)itemParticle.push_back(tPart[6]);
-			else itemParticle.push_back("");
-			if(tPart.size()>7)itemParticleOffset.push_back(tPart[7]);
-			else itemParticleOffset.push_back("");
-			if(tPart.size()>8)itemParticleOnNode.push_back(tPart[8]=="1"?true:false);
-			else itemParticleOnNode.push_back(false);
+			std::ifstream inFile;
+			inFile.open(filename.c_str(), std::ifstream::in);
+			if(!inFile.good())
+			{
+				Ogre::LogManager::getSingleton().logMessage("IT INITIALIZE ERROR: Unable to open file "+filename);
+				return;
+			}
+			inFile.seekg(0,std::ios::end);
+			tSize = inFile.tellg();
+			inFile.seekg(0,std::ios::beg);
+			tBuffer = new char[tSize];
+			strcpy(tBuffer,"");
+			inFile.getline(tBuffer,tSize,'#');
+			inFile.close();
+			tData = tBuffer;
+			delete[] tBuffer;
+
+			const vector<String>::type tLine = StringUtil::split(tData,"\n#");
+
+			maxItems = int(tLine.size());
+			for(int i=0;i<maxItems;i++)
+			{
+				const vector<String>::type tPart = StringUtil::split(tLine[i],";",9);
+
+				if(tPart.size()>0)itemMesh.push_back(tPart[0]);
+				if(tPart.size()>1)itemName.push_back(tPart[1]);
+				if(tPart.size()>2)itemBone.push_back(tPart[2]);
+				if(tPart.size()>3)itemIsPrivate.push_back(tPart[3]=="1"?true:false);
+				if(tPart.size()>4)itemHasOffset.push_back(tPart[4]=="1"?true:false);
+				else itemHasOffset.push_back(false);
+				if(tPart.size()>5)itemHasAltAnim.push_back(tPart[5]=="1"?true:false);
+				else itemHasAltAnim.push_back(false);
+				if(tPart.size()>6)itemParticle.push_back(tPart[6]);
+				else itemParticle.push_back("");
+				if(tPart.size()>7)itemParticleOffset.push_back(tPart[7]);
+				else itemParticleOffset.push_back("");
+				if(tPart.size()>8)itemParticleOnNode.push_back(tPart[8]=="1"?true:false);
+				else itemParticleOnNode.push_back(false);
+			}
 		}
-
 	}
 	const String getItemName(const String &meshName)
 	{
