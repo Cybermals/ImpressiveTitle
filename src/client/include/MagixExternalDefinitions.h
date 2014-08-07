@@ -626,7 +626,7 @@ public:
 	}
 	DataStreamPtr XORInternal(const String inFile, bool preChecksum=false)
 	{
-		String line, /*lastline,*/ nextline/*, lastnextline*/;
+		String line = "", prevline;
 		unsigned long tChecksum = 0;
 		DataStreamPtr stream = Root::getSingleton().openFileStream(inFile);
 
@@ -639,19 +639,17 @@ public:
 
 			while (!stream->eof())
 			{
-				line = stream->getLine();
-				nextline = stream->getLine();
+				prevline = line;
+				line = stream->getLine(false);
 				if (stream->eof())
 					break;
-				//lastline = line;
-				//lastnextline = nextline;
-				line = XOR7(line, &tChecksum, preChecksum);
-				nextline = XOR7(nextline, &tChecksum, preChecksum);
+				prevline = XOR7(prevline, &tChecksum, preChecksum);
 
 				ser.write(&line);
-				ser.write(&nextline);
 			}
-			const bool tChecksumRight = (tChecksum==StringConverter::parseLong(XOR7(line)));
+			const bool tChecksumRight = (tChecksum==StringConverter::parseLong(XOR7(prevline)));
+			if (!tChecksumRight)
+				throw(Exception(9,"Corrupted Data File",inFile+", Please reencode or ."));
 			dataStream->seek(0);
 			return outStream;
 		}
