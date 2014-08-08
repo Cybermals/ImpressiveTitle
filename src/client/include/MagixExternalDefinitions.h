@@ -624,19 +624,16 @@ public:
 		}
 		return true;
 	}
-	DataStreamPtr XORInternal(const String inFile, bool preChecksum=false)
+	vector<const String>::type XORInternal(const String inFile, bool preChecksum=false)
 	{
 		String line = "", prevline;
+		vector<const String>::type tBuffer;
 		unsigned long tChecksum = 0;
 		DataStreamPtr stream = Root::getSingleton().openFileStream(inFile);
 
 		if (!stream.isNull())
 		{
-			MemoryDataStream* dataStream = OGRE_NEW MemoryDataStream(stream->size());
-			DataStreamPtr outStream(dataStream);
-
-			Ogre::StreamSerialiser ser(outStream);
-
+			int i = 0;
 			while (!stream->eof())
 			{
 				prevline = line;
@@ -645,13 +642,17 @@ public:
 					break;
 				prevline = XOR7(prevline, &tChecksum, preChecksum);
 
-				ser.write(&line);
+				if (i > 1)
+					tBuffer.push_back(prevline);
+				i++;
 			}
+			tBuffer.pop_back();
 			const bool tChecksumRight = (tChecksum==StringConverter::parseLong(XOR7(prevline)));
 			if (!tChecksumRight)
 				throw(Exception(9,"Corrupted Data File",inFile+", Please reencode or ."));
-			dataStream->seek(0);
-			return outStream;
+			tBuffer.pop_back();
+
+			return tBuffer;
 		}
 		OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, "Cannot locate file " +
 			inFile + " required for game.", "MagixExternalDefinitions.h");
@@ -1351,15 +1352,11 @@ public:
 
 		if (decrypt)
 		{
-			DataStreamPtr stream = XORInternal(filename);
-			Ogre::StreamSerialiser ser(stream);
+			vector<const String>::type stream = XORInternal(filename);
 			String line;
-			char tmpBuf[OGRE_STREAM_TEMP_SIZE];
-			while (!ser.eof())
+			for(int i = 0; i < (int)stream.size(); i++)
 			{
-				ser.read(&line);
-				//stream->readLine(tmpBuf, OGRE_STREAM_TEMP_SIZE - 1);
-				//line = String(tmpBuf);
+				line = stream[i];
 				StringUtil::trim(line);
 				const vector<String>::type tPart = StringUtil::split(line,";",9);
 
@@ -1379,6 +1376,7 @@ public:
 				if(tPart.size()>8)itemParticleOnNode.push_back(tPart[8]=="1"?true:false);
 				else itemParticleOnNode.push_back(false);
 			}
+			maxItems = int(itemMesh.size());
 		}
 		else
 		{
