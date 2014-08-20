@@ -74,6 +74,7 @@ MagixEncryptionZip::~MagixEncryptionZip()
 //-----------------------------------------------------------------------
 void MagixEncryptionZip::load()
 {
+	OGRE_LOCK_AUTO_MUTEX
     if (!mZzipDir)
     {
         zzip_error_t zzipError;
@@ -111,6 +112,7 @@ void MagixEncryptionZip::load()
 //-----------------------------------------------------------------------
 void MagixEncryptionZip::unload()
 {
+	OGRE_LOCK_AUTO_MUTEX
     if (mZzipDir)
     {
         zzip_dir_close(mZzipDir);
@@ -121,7 +123,9 @@ void MagixEncryptionZip::unload()
 //-----------------------------------------------------------------------
 Ogre::DataStreamPtr MagixEncryptionZip::open(const Ogre::String& filename, bool readOnly) const
 {
- 
+	// zziplib is not threadsafe
+	OGRE_LOCK_AUTO_MUTEX
+
     // Format not used here (always binary)
     ZZIP_FILE* zzipFile =
         zzip_file_open(mZzipDir, filename.c_str(), ZZIP_ONLYZIP | ZZIP_CASELESS);
@@ -147,7 +151,8 @@ Ogre::DataStreamPtr MagixEncryptionZip::open(const Ogre::String& filename, bool 
 //-----------------------------------------------------------------------
 Ogre::StringVectorPtr MagixEncryptionZip::list(bool recursive, bool dirs)
 {
-    Ogre::StringVectorPtr ret = Ogre::StringVectorPtr(OGRE_NEW_T(Ogre::StringVector, Ogre::MEMCATEGORY_GENERAL)(), Ogre::SPFM_DELETE_T);
+    OGRE_LOCK_AUTO_MUTEX
+	Ogre::StringVectorPtr ret = Ogre::StringVectorPtr(OGRE_NEW_T(Ogre::StringVector, Ogre::MEMCATEGORY_GENERAL)(), Ogre::SPFM_DELETE_T);
  
     Ogre::FileInfoList::iterator i, iend;
     iend = mFileList.end();
@@ -161,6 +166,7 @@ Ogre::StringVectorPtr MagixEncryptionZip::list(bool recursive, bool dirs)
 //-----------------------------------------------------------------------
 Ogre::FileInfoListPtr MagixEncryptionZip::listFileInfo(bool recursive, bool dirs)
 {
+	OGRE_LOCK_AUTO_MUTEX
     Ogre::FileInfoList* fil = OGRE_NEW_T(Ogre::FileInfoList, Ogre::MEMCATEGORY_GENERAL)();
     Ogre::FileInfoList::const_iterator i, iend;
     iend = mFileList.end();
@@ -174,6 +180,7 @@ Ogre::FileInfoListPtr MagixEncryptionZip::listFileInfo(bool recursive, bool dirs
 //-----------------------------------------------------------------------
 Ogre::StringVectorPtr MagixEncryptionZip::find(const Ogre::String& pattern, bool recursive, bool dirs)
 {
+	OGRE_LOCK_AUTO_MUTEX
     Ogre::StringVectorPtr ret = Ogre::StringVectorPtr(OGRE_NEW_T(Ogre::StringVector, Ogre::MEMCATEGORY_GENERAL)(), Ogre::SPFM_DELETE_T);
     // If pattern contains a directory name, do a full match
     bool full_match = (pattern.find ('/') != Ogre::String::npos) ||
@@ -194,6 +201,7 @@ Ogre::StringVectorPtr MagixEncryptionZip::find(const Ogre::String& pattern, bool
 Ogre::FileInfoListPtr MagixEncryptionZip::findFileInfo(const Ogre::String& pattern,
     bool recursive, bool dirs)
 {
+	OGRE_LOCK_AUTO_MUTEX
     Ogre::FileInfoListPtr ret = Ogre::FileInfoListPtr(OGRE_NEW_T(Ogre::FileInfoList, Ogre::MEMCATEGORY_GENERAL)(), Ogre::SPFM_DELETE_T);
     // If pattern contains a directory name, do a full match
     bool full_match = (pattern.find ('/') != Ogre::String::npos) ||
@@ -213,6 +221,7 @@ Ogre::FileInfoListPtr MagixEncryptionZip::findFileInfo(const Ogre::String& patte
 //-----------------------------------------------------------------------
 bool MagixEncryptionZip::exists(const Ogre::String& filename)
 {
+	OGRE_LOCK_AUTO_MUTEX
     ZZIP_STAT zstat;
     int res = zzip_dir_stat(mZzipDir, filename.c_str(), &zstat, ZZIP_CASEINSENSITIVE);
  
@@ -271,44 +280,76 @@ MagixEncryptionZipDataStream::~MagixEncryptionZipDataStream()
 //-----------------------------------------------------------------------
 size_t MagixEncryptionZipDataStream::read(void* buf, size_t count)
 {
-    zzip_ssize_t r = zzip_file_read(mZzipFile, (char*)buf, count);
-    if (r<0) {
-        ZZIP_DIR *dir = zzip_dirhandle(mZzipFile);
-        Ogre::String msg = zzip_strerror_of(dir);
-        OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR,
-                    mName+" - error from zziplib: "+msg,
-                    "MagixEncryptionZipDataStream::read");
-    }
-    return (size_t) r;
+	size_t was_avail = mCache.read(buf, count);
+	zzip_ssize_t r = 0;
+	if (was_avail < count)
+	{
+		r = zzip_file_read(mZzipFile, (char*)buf + was_avail, count - was_avail);
+		if (r<0) {
+			ZZIP_DIR *dir = zzip_dirhandle(mZzipFile);
+			Ogre::String msg = zzip_strerror_of(dir);
+			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR,
+				mName+" - error from zziplib: "+msg,
+				"ZipDataStream::read");
+		}
+		mCache.cacheData((char*)buf + was_avail, (size_t)r);
+	}
+	return was_avail + (size_t)r;
 }
 //-----------------------------------------------------------------------
 void MagixEncryptionZipDataStream::skip(long count)
 {
-    zzip_seek(mZzipFile, static_cast<zzip_off_t>(count), SEEK_CUR);
+    long was_avail = static_cast<long>(mCache.avail());
+	if (count > 0)
+	{
+		if (!mCache.ff(count))
+			zzip_seek(mZzipFile, static_cast<zzip_off_t>(count - was_avail), SEEK_CUR);
+	}
+	else if (count < 0)
+	{
+		if (!mCache.rewind((size_t)(-count)))
+			zzip_seek(mZzipFile, static_cast<zzip_off_t>(count + was_avail), SEEK_CUR);
+	}
 }
 //-----------------------------------------------------------------------
 void MagixEncryptionZipDataStream::seek( size_t pos )
 {
-    zzip_seek(mZzipFile, static_cast<zzip_off_t>(pos), SEEK_SET);
+	zzip_off_t newPos = static_cast<zzip_off_t>(pos);
+	zzip_off_t prevPos = static_cast<zzip_off_t>(tell());
+	if (prevPos < 0)
+	{
+		// seek set after invalid pos
+		mCache.clear();
+		zzip_seek(mZzipFile, newPos, SEEK_SET);
+	}
+	else
+	{
+		// everything is going all right, relative seek
+		skip(newPos - prevPos);
+	}
 }
 //-----------------------------------------------------------------------
 size_t MagixEncryptionZipDataStream::tell(void) const
 {
-    return zzip_tell(mZzipFile);
+    zzip_off_t pos = zzip_tell(mZzipFile);
+	if (pos<0)
+		return (size_t)(-1);
+	return static_cast<size_t>(pos) - mCache.avail();
 }
 //-----------------------------------------------------------------------
 bool MagixEncryptionZipDataStream::eof(void) const
 {
-    return (zzip_tell(mZzipFile) >= static_cast<zzip_off_t>(mSize));
+    return (tell() >= mSize);
 }
 //-----------------------------------------------------------------------
 void MagixEncryptionZipDataStream::close(void)
 {
-    if (mZzipFile != 0)
-    {
-        zzip_file_close(mZzipFile);
-        mZzipFile = 0;
-    }
+	if (mZzipFile != 0)
+	{
+		zzip_file_close(mZzipFile);
+		mZzipFile = 0;
+	}
+	mCache.clear();
 }
 //-----------------------------------------------------------------------
 const Ogre::String& MagixEncryptionZipFactory::getType(void) const
