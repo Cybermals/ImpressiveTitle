@@ -74,7 +74,7 @@ MagixEncryptionZip::~MagixEncryptionZip()
 //-----------------------------------------------------------------------
 void MagixEncryptionZip::load()
 {
-	OGRE_LOCK_AUTO_MUTEX
+    OGRE_LOCK_AUTO_MUTEX
     if (!mZzipDir)
     {
         zzip_error_t zzipError;
@@ -102,6 +102,10 @@ void MagixEncryptionZip::load()
                 // the compressed size of a folder, and if he does, its useless anyway
                 info.compressedSize = size_t (-1);
             }
+			else
+			{
+				info.filename = info.basename;
+			}
  
             mFileList.push_back(info);
  
@@ -112,7 +116,7 @@ void MagixEncryptionZip::load()
 //-----------------------------------------------------------------------
 void MagixEncryptionZip::unload()
 {
-	OGRE_LOCK_AUTO_MUTEX
+	OGRE_LOCK_AUTO_MUTEX;
     if (mZzipDir)
     {
         zzip_dir_close(mZzipDir);
@@ -124,11 +128,23 @@ void MagixEncryptionZip::unload()
 Ogre::DataStreamPtr MagixEncryptionZip::open(const Ogre::String& filename, bool readOnly) const
 {
 	// zziplib is not threadsafe
-	OGRE_LOCK_AUTO_MUTEX
+	OGRE_LOCK_AUTO_MUTEX;
+	Ogre::String lookUpFileName = filename;
 
     // Format not used here (always binary)
     ZZIP_FILE* zzipFile =
-        zzip_file_open(mZzipDir, filename.c_str(), ZZIP_ONLYZIP | ZZIP_CASELESS);
+        zzip_file_open(mZzipDir, lookUpFileName.c_str(), ZZIP_ONLYZIP | ZZIP_CASELESS);
+	if (!zzipFile) // Try if we find the file
+	{
+		const Ogre::FileInfoListPtr fileNfo = findFileInfo(lookUpFileName, true);
+		if (fileNfo->size() == 1) // If there are more files with the same do not open anyone
+		{
+			Ogre::FileInfo info = fileNfo->at(0);
+			lookUpFileName = info.path + info.basename;
+			zzipFile = zzip_file_open(mZzipDir, lookUpFileName.c_str(), ZZIP_ONLYZIP | ZZIP_CASELESS); // When an error happens here we will catch it below
+		}
+	}
+
     if (!zzipFile)
     {
         int zerr = zzip_error(mZzipDir);
@@ -143,15 +159,24 @@ Ogre::DataStreamPtr MagixEncryptionZip::open(const Ogre::String& filename, bool 
  
     // Get uncompressed size too
     ZZIP_STAT zstat;
-    zzip_dir_stat(mZzipDir, filename.c_str(), &zstat, ZZIP_CASEINSENSITIVE);
+    zzip_dir_stat(mZzipDir, lookUpFileName.c_str(), &zstat, ZZIP_CASEINSENSITIVE);
  
     // Construct & return stream
-    return Ogre::DataStreamPtr(OGRE_NEW MagixEncryptionZipDataStream(filename, zzipFile,  static_cast<size_t>(zstat.st_size)));
+    return Ogre::DataStreamPtr(OGRE_NEW MagixEncryptionZipDataStream(lookUpFileName, zzipFile,  static_cast<size_t>(zstat.st_size)));
 }
 //-----------------------------------------------------------------------
+Ogre::DataStreamPtr MagixEncryptionZip::create(const Ogre::String& filename) const
+{
+	OGRE_EXCEPT(Ogre::Exception::ERR_NOT_IMPLEMENTED,
+		"Modification of zipped archived is not supported",
+		"MagixEncryptionZip::create");
+}
+void MagixEncryptionZip::remove(const Ogre::String& filename) const
+{
+}
 Ogre::StringVectorPtr MagixEncryptionZip::list(bool recursive, bool dirs)
 {
-    OGRE_LOCK_AUTO_MUTEX
+    OGRE_LOCK_AUTO_MUTEX;
 	Ogre::StringVectorPtr ret = Ogre::StringVectorPtr(OGRE_NEW_T(Ogre::StringVector, Ogre::MEMCATEGORY_GENERAL)(), Ogre::SPFM_DELETE_T);
  
     Ogre::FileInfoList::iterator i, iend;
@@ -185,12 +210,13 @@ Ogre::StringVectorPtr MagixEncryptionZip::find(const Ogre::String& pattern, bool
     // If pattern contains a directory name, do a full match
     bool full_match = (pattern.find ('/') != Ogre::String::npos) ||
                         (pattern.find ('\\') != Ogre::String::npos);
+	bool wildCard = pattern.find("*") != Ogre::String::npos;
  
     Ogre::FileInfoList::iterator i, iend;
     iend = mFileList.end();
     for (i = mFileList.begin(); i != iend; ++i)
         if ((dirs == (i->compressedSize == size_t (-1))) &&
-            (recursive || full_match || i->path.empty()))
+            (recursive || full_match || wildCard))
             // Check basename matches pattern (zip is case insensitive)
             if (Ogre::StringUtil::match(full_match ? i->filename : i->basename, pattern, false))
                 ret->push_back(i->filename);
@@ -199,19 +225,20 @@ Ogre::StringVectorPtr MagixEncryptionZip::find(const Ogre::String& pattern, bool
 }
 //-----------------------------------------------------------------------
 Ogre::FileInfoListPtr MagixEncryptionZip::findFileInfo(const Ogre::String& pattern,
-    bool recursive, bool dirs)
+    bool recursive, bool dirs) const
 {
-	OGRE_LOCK_AUTO_MUTEX
+	OGRE_LOCK_AUTO_MUTEX;
     Ogre::FileInfoListPtr ret = Ogre::FileInfoListPtr(OGRE_NEW_T(Ogre::FileInfoList, Ogre::MEMCATEGORY_GENERAL)(), Ogre::SPFM_DELETE_T);
     // If pattern contains a directory name, do a full match
     bool full_match = (pattern.find ('/') != Ogre::String::npos) ||
                         (pattern.find ('\\') != Ogre::String::npos);
+	bool wildCard = pattern.find("*") != Ogre::String::npos;
  
-    Ogre::FileInfoList::iterator i, iend;
+    Ogre::FileInfoList::const_iterator i, iend;
     iend = mFileList.end();
     for (i = mFileList.begin(); i != iend; ++i)
         if ((dirs == (i->compressedSize == size_t (-1))) &&
-            (recursive || full_match || i->path.empty()))
+            (recursive || full_match || wildCard))
             // Check name matches pattern (zip is case insensitive)
             if (Ogre::StringUtil::match(full_match ? i->filename : i->basename, pattern, false))
                 ret->push_back(*i);
@@ -219,14 +246,25 @@ Ogre::FileInfoListPtr MagixEncryptionZip::findFileInfo(const Ogre::String& patte
     return ret;
 }
 //-----------------------------------------------------------------------
+struct FileNameCompare : public std::binary_function<Ogre::FileInfo, Ogre::String, bool>
+{
+	bool operator()(const Ogre::FileInfo& lhs, const Ogre::String& filename) const
+	{
+		return lhs.filename == filename;
+	}
+};
+//-----------------------------------------------------------------------
 bool MagixEncryptionZip::exists(const Ogre::String& filename)
 {
-	OGRE_LOCK_AUTO_MUTEX
-    ZZIP_STAT zstat;
-    int res = zzip_dir_stat(mZzipDir, filename.c_str(), &zstat, ZZIP_CASEINSENSITIVE);
- 
-    return (res == ZZIP_NO_ERROR);
- 
+	OGRE_LOCK_AUTO_MUTEX;
+    Ogre::String cleanName = filename;
+	if (filename.rfind("/") != Ogre::String::npos)
+	{
+		Ogre::StringVector tokens = Ogre::StringUtil::split(filename, "/");
+		cleanName = tokens[tokens.size() - 1];
+	}
+
+	return std::find_if(mFileList.begin(), mFileList.end(), std::bind2nd<FileNameCompare>(FileNameCompare(), cleanName)) != mFileList.end();
 }
 //---------------------------------------------------------------------
 time_t MagixEncryptionZip::getModifiedTime(const Ogre::String& filename)
@@ -297,6 +335,12 @@ size_t MagixEncryptionZipDataStream::read(void* buf, size_t count)
 	return was_avail + (size_t)r;
 }
 //-----------------------------------------------------------------------
+size_t MagixEncryptionZipDataStream::write(void* buf, size_t count)
+{
+	// not supported
+	return 0;
+}
+//-----------------------------------------------------------------------
 void MagixEncryptionZipDataStream::skip(long count)
 {
     long was_avail = static_cast<long>(mCache.avail());
@@ -325,7 +369,7 @@ void MagixEncryptionZipDataStream::seek( size_t pos )
 	else
 	{
 		// everything is going all right, relative seek
-		skip(newPos - prevPos);
+		skip((long)(newPos - prevPos));
 	}
 }
 //-----------------------------------------------------------------------

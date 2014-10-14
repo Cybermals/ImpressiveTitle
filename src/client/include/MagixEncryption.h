@@ -37,6 +37,12 @@ public:
  
     /// @copydoc Archive::open
     Ogre::DataStreamPtr open(const Ogre::String& filename, bool readOnly = true) const;
+
+	/// @copydoc Archive::create
+	Ogre::DataStreamPtr create(const Ogre::String& filename) const;
+
+	/// @copydoc Archive remove
+	void remove(const Ogre::String& filename) const;
  
     /// @copydoc Archive::list
     Ogre::StringVectorPtr list(bool recursive = true, bool dirs = false);
@@ -50,7 +56,7 @@ public:
  
     /// @copydoc Archive::findFileInfo
     Ogre::FileInfoListPtr findFileInfo(const Ogre::String& pattern, bool recursive = true,
-        bool dirs = false);
+        bool dirs = false) const;
  
     /// @copydoc Archive::exists
     bool exists(const Ogre::String& filename);
@@ -96,6 +102,7 @@ public:
 	{
 		mValidBytes = 0;
 		mPos = 0;
+		memset(mBuffer, 0, cacheSize);
 	}
 
 	/** Cache data pointed by 'buf'. If 'count' is greater than cache size, we cache only last bytes.
@@ -202,6 +209,8 @@ public:
     ~MagixEncryptionZipDataStream();
     /// @copydoc DataStream::read
     size_t read(void* buf, size_t count);
+	/// @copydoc DataStream::write
+	size_t write(void* buf, size_t count);
     /// @copydoc DataStream::skip
     void skip(long count);
     /// @copydoc DataStream::seek

@@ -226,7 +226,7 @@ namespace Ogre {
             the criteria.
         */
         virtual FileInfoListPtr findFileInfo(const String& pattern, 
-            bool recursive = true, bool dirs = false) = 0;
+            bool recursive = true, bool dirs = false) const = 0;
 
         /// Return the type code of this Archive
         const String& getType(void) const { return mType; }
