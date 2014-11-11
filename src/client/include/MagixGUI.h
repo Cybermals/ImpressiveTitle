@@ -2412,8 +2412,14 @@ public:
 		if(tCharHeight==0)return;
 		const Real tLines = mBox[GUI_TEXTOUTPUT]->getHeight()/tCharHeight - 1;
 
-		mBoxText[GUI_TEXTOUTPUT]->setCaption( mChatManager->getChatBlock( Math::IFloor(tLines),mBoxText[GUI_TEXTOUTPUT]->getWidth(),tCharHeight,(1-getScroll(SCROLLER_TEXTOUTPUT)) ) );
+		mBoxText[GUI_TEXTOUTPUT]->setCaption( (Ogre::UTFString)atow(mChatManager->getChatBlock( Math::IFloor(tLines),mBoxText[GUI_TEXTOUTPUT]->getWidth(),tCharHeight,(1-getScroll(SCROLLER_TEXTOUTPUT)) ) ));
 		mBoxText[GUI_TEXTOUTPUT]->setTop((tLines - Math::IFloor(tLines))*tCharHeight + 0.008);
+	}
+	inline std::wstring atow( const std::string& str )
+	{
+	  std::wstringstream wstrm;
+	  wstrm << str.c_str();
+	  return wstrm.str();
 	}
 	void updateHover()
 	{

@@ -4,3 +4,5 @@
 *.cpp diff
 *.h diff
 *.c diff
+*.vcxproj diff
+.gitattributes diff

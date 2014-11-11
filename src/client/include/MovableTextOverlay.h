@@ -183,13 +183,14 @@ MovableTextOverlay::~MovableTextOverlay()
 	if(mpOvContainer)
 		overlayManager->destroyOverlayElement(mpOvContainer);
 }
-
 void MovableTextOverlay::setCaption(const Ogre::String & caption)
 {
     if (caption != mCaption)
     {
         mCaption = caption;
-		mpOvText->setCaption(mCaption);
+		std::wstringstream wstrm;
+		wstrm << caption.c_str();
+		mpOvText->setCaption((Ogre::UTFString)wstrm.str());
         mNeedUpdate = true;
     }
 }

@@ -80,7 +80,7 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)deps\fmod-4.02\lib;$(SolutionDir)deps\zziplib-0.13.57\lib\Release;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47\lib;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\release;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\release\opt;$(SolutionDir)deps\RakNet-3.25\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

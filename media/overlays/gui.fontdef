@@ -4,6 +4,7 @@ Tahoma
 	source 		tahoma.ttf
 	size 		32
 	resolution 	55
+	code_points   33-383 1024-1327
 }
 TahomaBold
 {

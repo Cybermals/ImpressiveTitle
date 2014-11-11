@@ -207,7 +207,13 @@ public:
 					caption += (i==inputCursorPos?"|":"*");
 			}
 		}
-		if(mInputBoxText)mInputBoxText->setCaption(enable?caption:"");
+		if(mInputBoxText)mInputBoxText->setCaption(enable?(Ogre::UTFString)atow(caption):"");
+	}
+	inline std::wstring atow( const std::string& str )
+	{
+	  std::wstringstream wstrm;
+	  wstrm << str.c_str();
+	  return wstrm.str();
 	}
 	void normalizeText(String &caption, OverlayElement *box)
 	{
@@ -271,7 +277,7 @@ public:
 	{
 		heldKey = key;
 		heldKeyText = text;
-		if(heldKeyText > '~')heldKeyText = '~';
+		//if(heldKeyText > '~')heldKeyText = '~';
 		#pragma warning(push)
 		#pragma warning(disable : 4482)
 		isShiftDown = keyboard->isModifierDown(OIS::Keyboard::Modifier::Shift);
