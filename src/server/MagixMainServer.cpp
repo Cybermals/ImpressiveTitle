@@ -1,6 +1,6 @@
 #include "GameConfig.h"
 #include "MessageIdentifiers.h"
-#include "RakNetworkFactory.h"
+//#include "RakNetworkFactory.h"
 #include "RakPeerInterface.h"
 #include "RakNetStatistics.h"
 #include "RakNetTypes.h"
@@ -40,6 +40,7 @@ const std::string currentDateTime() {
 #if defined(_CONSOLE_2)
 #include "Console2SampleIncludes.h"
 #endif
+using namespace RakNet;
 
 unsigned char GetPacketIdentifier(Packet *p);
 
@@ -114,7 +115,7 @@ protected:
 public:
 	ServerManager()
 	{
-		server=RakNetworkFactory::GetRakPeerInterface();
+		server=RakPeerInterface::GetInstance();// RakNetworkFactory::GetRakPeerInterface();
 		server->SetIncomingPassword(SERVER_PASSWORD, (int)strlen(SERVER_PASSWORD));
 
 		numClients = 0;
@@ -135,19 +136,55 @@ public:
 	}
 	~ServerManager()
 	{
-		RakNetworkFactory::DestroyRakPeerInterface(server);
+		RakPeerInterface::DestroyInstance(server);
+		//RakNetworkFactory::DestroyRakPeerInterface(server);
 	}
 	bool initialize()
 	{
 		puts("Starting server");
 		SocketDescriptor socketDescriptor(MAIN_SERVER_PORT,0);
-		bool b = server->Startup(MAX_CLIENTS, 30, &socketDescriptor, 1);
+		StartupResult b = server->Startup(MAX_CLIENTS, &socketDescriptor, 1);
 		server->SetMaximumIncomingConnections(MAX_CLIENTS);
-		if (b)
+		if (b == RAKNET_STARTED)
 			puts("Server started, waiting for connections.");
 		else
 		{
-			puts("Server failed to start.  Terminating.");
+			puts("Server failed to start.  Terminating. Reason:");
+			switch (b) {
+			case RAKNET_ALREADY_STARTED : 
+				puts("RAKNET_ALREADY_STARTED");
+				break;
+			case INVALID_SOCKET_DESCRIPTORS :
+				puts("INVALID_SOCKET_DESCRIPTORS");
+				break;
+			case INVALID_MAX_CONNECTIONS :
+				puts("INVALID_MAX_CONNECTIONS");
+				break;
+			case SOCKET_FAMILY_NOT_SUPPORTED :
+				puts("SOCKET_FAMILY_NOT_SUPPORTED");
+				break;
+			case SOCKET_PORT_ALREADY_IN_USE :
+				puts("SOCKET_PORT_ALREADY_IN_USE");
+				break;
+			case SOCKET_FAILED_TO_BIND :
+				puts("SOCKET_FAILED_TO_BIND");
+				break;
+			case SOCKET_FAILED_TEST_SEND :
+				puts("SOCKET_FAILED_TEST_SEND");
+				break;
+			case PORT_CANNOT_BE_ZERO :
+				puts("PORT_CANNOT_BE_ZERO");
+				break;
+			case FAILED_TO_CREATE_NETWORK_THREAD :
+				puts("FAILED_TO_CREATE_NETWORK_THREAD");
+				break;
+			case COULD_NOT_GENERATE_GUID :
+				puts("COULD_NOT_GENERATE_GUID");
+				break;
+			case STARTUP_OTHER_FAILURE :
+				puts("STARTUP_OTHER_FAILURE");
+				break;
+			}
 			return false;
 		}
 		server->SetOccasionalPing(true);
@@ -299,6 +336,10 @@ public:
 			// Get a packet from either the server or the client
 
 			Packet *p = server->Receive();
+			if (!server->IsActive())
+			{
+				printf("network threads have died");
+			}
 
 			/*if (p==0)
 				continue; // Didn't get any packets*/
@@ -346,7 +387,7 @@ public:
 
 						tReceiveBit.Read(tMessage);
 						tReceiveBit.Read(tAdd);
-						stringCompressor->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
 						tReceiveBit.Read(tCharIndex);
 
 						const OwnerToken tToken = assignToken(tAdd,getServerID(p->systemAddress),tUsername,tCharIndex);
@@ -394,11 +435,11 @@ public:
 						}
 					}
 					break;
-				case ID_MODIFIED_PACKET:
+				/*case ID_MODIFIED_PACKET:
 					{
 						printf("ID_MODIFIED_PACKET from %s\n", p->systemAddress.ToString());
 					}
-					break;
+					break;*/
 
 				case ID_LOGON:
 					{
@@ -409,8 +450,8 @@ public:
 						char tUsername[16] = "";
 						char tPassword[16] = "";
 						tReceiveBit.Read(tMessage);
-						stringCompressor->DecodeString(tUsername,16,&tReceiveBit);
-						stringCompressor->DecodeString(tPassword,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tPassword,16,&tReceiveBit);
 
 						bool tLogonSuccess = false;
 						if(strlen(tUsername)>0 && strlen(tPassword)>0)
@@ -605,7 +646,7 @@ public:
 
 									tBitStream.Write(MessageID(ID_FORCELOGOUT));
 									tBitStream.Write(true);
-									stringCompressor->EncodeString(tUsernameStr.c_str(),16,&tBitStream);
+									StringCompressor::Instance()->EncodeString(tUsernameStr.c_str(),16,&tBitStream);
 
 									server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, serverTunnelAdd[i], false);
 								}
@@ -642,11 +683,11 @@ public:
 						char tQuestion[128] = "";
 						char tAnswer[128] = "";
 						tReceiveBit.Read(tMessage);
-						stringCompressor->DecodeString(tUsername,16,&tReceiveBit);
-						stringCompressor->DecodeString(tPassword,16,&tReceiveBit);
-						stringCompressor->DecodeString(tEmail,64,&tReceiveBit);
-						stringCompressor->DecodeString(tQuestion,128,&tReceiveBit);
-						stringCompressor->DecodeString(tAnswer,128,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tPassword,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tEmail,64,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tQuestion,128,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tAnswer,128,&tReceiveBit);
 						bool tCreateSuccess = false;
 						if(strlen(tUsername)>0 && strlen(tPassword)>0)
 						{
@@ -712,9 +753,9 @@ public:
 						char tPassword[16] = "";
 						char tNewPassword[16] = "";
 						tReceiveBit.Read(tMessage);
-						stringCompressor->DecodeString(tUsername,16,&tReceiveBit);
-						stringCompressor->DecodeString(tPassword,16,&tReceiveBit);
-						stringCompressor->DecodeString(tNewPassword,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tPassword,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tNewPassword,16,&tReceiveBit);
 
 						bool tSuccess = false;
 						char tEmail[64] = "";
@@ -791,7 +832,7 @@ public:
 						char tUsername[16] = "";
 						short tIndex = 0;
 						tReceiveBit.Read(tMessage);
-						stringCompressor->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
 						tReceiveBit.Read(tIndex);
 
 						bool tLoadSuccess = false;
@@ -881,35 +922,35 @@ public:
 							if(tRenameItemFile)rename(getFilename(tFilename.c_str(),".item",false).c_str(),getFilename(tFilename.c_str(),".item").c_str());
 
 							//Write player data
-							stringCompressor->EncodeString(tData,512,&tBitStream);
+							StringCompressor::Instance()->EncodeString(tData,512,&tBitStream);
 							const bool tIsAdmin = (strlen(tAdminToken)>=3 && string(tAdminToken).erase(2)=="ok");
 							const bool tIsMod = (strlen(tAdminToken)>=3 && string(tAdminToken)=="mod");
 							tBitStream.Write(tIsAdmin);
 							tBitStream.Write(tIsMod);
-							if(tIsAdmin)stringCompressor->EncodeString(string(tAdminToken).erase(0,3).c_str(),16,&tBitStream);
+							if(tIsAdmin)StringCompressor::Instance()->EncodeString(string(tAdminToken).erase(0,3).c_str(),16,&tBitStream);
 
 							//Write items
 							for(int j=0;j<MAX_EQUIP;j++)
 							{
 								const bool tHasItem = (strlen(tItem[j])>0);
 								tBitStream.Write(tHasItem);
-								if(tHasItem)stringCompressor->EncodeString(tItem[j],16,&tBitStream);
+								if(tHasItem)StringCompressor::Instance()->EncodeString(tItem[j],16,&tBitStream);
 							}
 
 							//Write HP
 							const bool tHasHP = (strlen(tHP)>0);
 							tBitStream.Write(tHasHP);
-							if(tHasHP)stringCompressor->EncodeString(tHP,16,&tBitStream);
+							if(tHasHP)StringCompressor::Instance()->EncodeString(tHP,16,&tBitStream);
 
 							//Write skills
 							const bool tHasSkills = (strlen(tSkills)>0);
 							tBitStream.Write(tHasSkills);
-							if(tHasSkills)stringCompressor->EncodeString(tSkills,512,&tBitStream);
+							if(tHasSkills)StringCompressor::Instance()->EncodeString(tSkills,512,&tBitStream);
 
 							//Write Pet
 							const bool tHasPet = (strlen(tPet)>0);
 							tBitStream.Write(tHasPet);
-							if(tHasPet)stringCompressor->EncodeString(tPet,32,&tBitStream);
+							if(tHasPet)StringCompressor::Instance()->EncodeString(tPet,32,&tBitStream);
 						}
 
 						server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE_SEQUENCED, 1, p->systemAddress, false);
@@ -930,9 +971,9 @@ public:
 						char tName[32] = "";
 						char tData[512] = "";
 						tReceiveBit.Read(tMessage);
-						stringCompressor->DecodeString(tUsername,16,&tReceiveBit);
-						stringCompressor->DecodeString(tName,32,&tReceiveBit);
-						stringCompressor->DecodeString(tData,512,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tName,32,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tData,512,&tReceiveBit);
 
 						bool tCreateSuccess = false;
 
@@ -1016,7 +1057,7 @@ public:
 						char tUsername[16] = "";
 						short tIndex = 0;
 						tReceiveBit.Read(tMessage);
-						stringCompressor->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
 						tReceiveBit.Read(tIndex);
 
 						string tName = "";
@@ -1077,9 +1118,9 @@ public:
 						short tIndex = 0;
 						char tData[512] = "";
 						tReceiveBit.Read(tMessage);
-						stringCompressor->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
 						tReceiveBit.Read(tIndex);
-						stringCompressor->DecodeString(tData,512,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tData,512,&tReceiveBit);
 
 						string tName = "";
 						bool tSuccess = false;
@@ -1160,7 +1201,7 @@ public:
 						char tUsername[16] = "";
 						tReceiveBit.Read(tMessage);
 						tReceiveBit.Read(tEnter);
-						stringCompressor->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
 
 						short tServerIndex = -1;
 						for(int i=0; i<MAX_SERVERS; i++)
@@ -1232,12 +1273,12 @@ public:
 						char tPet[32] = "";
 
 						tReceiveBit.Read(tMessage);
-						stringCompressor->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
 						tReceiveBit.Read(tIndex);
-						for(int j=0;j<MAX_EQUIP;j++)stringCompressor->DecodeString(tItem[j],16,&tReceiveBit);
-						stringCompressor->DecodeString(tHP,16,&tReceiveBit);
-						stringCompressor->DecodeString(tSkills,512,&tReceiveBit);
-						stringCompressor->DecodeString(tPet,32,&tReceiveBit);
+						for(int j=0;j<MAX_EQUIP;j++)StringCompressor::Instance()->DecodeString(tItem[j],16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tHP,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tSkills,512,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tPet,32,&tReceiveBit);
 
 						string tName = "";
 						bool tSuccess = false;
@@ -1335,7 +1376,7 @@ public:
 									if(strlen(tLine)>0)
 									{
 										tBitStream.Write(true);
-										stringCompressor->EncodeString(tLine,16,&tBitStream);
+										StringCompressor::Instance()->EncodeString(tLine,16,&tBitStream);
 									}
 								}
 							}
@@ -1425,7 +1466,7 @@ public:
 
 						char tItem[256];
 						unsigned short tSlot;
-						stringCompressor->DecodeString(tItem,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tItem,16,&tReceiveBit);
 						tReceiveBit.Read(tSlot);
 
 						if(tSlot>=0 && tSlot<MAX_EQUIP)playerToken[tToken-1].item[tSlot] = tItem;
@@ -1485,7 +1526,7 @@ public:
 
 						char tSkill[32] = "";
 						unsigned char tStock = 0;
-						stringCompressor->DecodeString(tSkill,32,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tSkill,32,&tReceiveBit);
 						tReceiveBit.Read(tStock);
 						if(strlen(tSkill)>0)
 						{
@@ -1517,7 +1558,7 @@ public:
 						if(tToken>MAX_CLIENTS || tToken<=0 || playerToken[tToken-1].add==UNASSIGNED_SYSTEM_ADDRESS)break;
 
 						char tPet[32] = "";
-						stringCompressor->DecodeString(tPet,32,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tPet,32,&tReceiveBit);
 						playerToken[tToken-1].pet = tPet;
 					}
 					break;
@@ -1531,7 +1572,7 @@ public:
 
 						tReceiveBit.Read(tMessage);
 						tReceiveBit.Read(tAdd);
-						stringCompressor->DecodeString(tInfo,32,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tInfo,32,&tReceiveBit);
 
 						const OwnerToken tToken = getTokenByAdd(tAdd);
 
@@ -1557,7 +1598,7 @@ public:
 						unsigned short tNumDays = 0;
 
 						tReceiveBit.Read(tMessage);
-						stringCompressor->DecodeString(tName,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tName,16,&tReceiveBit);
 						tReceiveBit.Read(tIsBanned);
 						if(tIsBanned)
 						{
@@ -1597,6 +1638,7 @@ public:
 			server->DeallocatePacket(p);
 			p = server->Receive();
 			}
+			server->DeallocatePacket(p);
 		}
 	}
 	const string getFilename(const char *name, const char *fileExtension, bool replaceSpaces=true, bool replaceUnderscores=false)
@@ -1652,11 +1694,11 @@ public:
 				MessageID tMessage;
 				char buffer[64] = "";
 				tReceiveBit.Read(tMessage);
-				stringCompressor->DecodeString(buffer,64,&tReceiveBit);
+				StringCompressor::Instance()->DecodeString(buffer,64,&tReceiveBit);
 
 				SystemAddress broadcastAdd;
 				broadcastAdd.SetBinaryAddress(buffer);
-				broadcastAdd.port = p->systemAddress.port;
+				broadcastAdd.SetPortHostOrder(p->systemAddress.GetPort());
 				serverAdd[i] = broadcastAdd;
 
 				serverTunnelAdd[i] = p->systemAddress;
@@ -2220,7 +2262,7 @@ public:
 
 						tBitStream.Write(MessageID(ID_FORCELOGOUT));
 						tBitStream.Write(false);
-						stringCompressor->EncodeString(tSession.first.c_str(),16,&tBitStream);
+						StringCompressor::Instance()->EncodeString(tSession.first.c_str(),16,&tBitStream);
 
 						server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, serverTunnelAdd[i], false);
 					}

@@ -34,7 +34,6 @@ struct NetworkMessage
 	}
 };
 
-#include "RakNetworkFactory.h"
 #include "RakPeerInterface.h"
 #include "MessageIdentifiers.h"
 #include "BitStream.h"
@@ -45,6 +44,7 @@ struct NetworkMessage
 #include "MagixAlertBox.h"
 #include "MagixCharScreenManager.h"
 
+using namespace RakNet;
 struct PlayerData
 {
 	String name;
@@ -140,7 +140,7 @@ public:
 		if(mPeer)
 		{
 			if(mPeer->IsActive())disconnect();
-			RakNetworkFactory::DestroyRakPeerInterface(mPeer);
+			RakPeerInterface::DestroyInstance(mPeer);
 		}
 	}
 	void initialize(MagixExternalDefinitions *def, MagixGameStateManager *gamestateMgr, MagixItemManager *itemMgr, MagixCritterManager *critterMgr, MagixUnitManager *unitMgr, MagixWorld *world, MagixSkyManager *skyMgr, MagixChatManager *chatMgr, MagixAlertBox *alertBox, MagixCharScreenManager *charscreenMgr)
@@ -155,7 +155,8 @@ public:
 		mChatManager = chatMgr;
 		mAlertBox = alertBox;
 		mCharScreenManager = charscreenMgr;
-		mPeer = RakNetworkFactory::GetRakPeerInterface();
+		//mPeer = RakNetworkFactory::GetRakPeerInterface();
+		mPeer = RakPeerInterface::GetInstance();
 	}
 	bool connect()
 	{
@@ -167,7 +168,7 @@ public:
 			return false;
 		}
 		
-		mPeer->Startup(1,30,&SocketDescriptor(), 1);
+		mPeer->Startup(1, &SocketDescriptor(), 1);
 
 		const String tLocalIP = mDef->loadLocalIP("localIP.txt");
 		if(tLocalIP!="")
@@ -179,7 +180,7 @@ public:
 		{
 			unsigned char tServerID = Math::RangeRandom(0,(int)serverAdd.size());
 			if(tServerID>=(int)serverAdd.size())tServerID = (int)serverAdd.size()-1;
-			mPeer->Connect(serverAdd[tServerID].second.ToString(false), serverAdd[tServerID].second.port, SERVER_PASSWORD, (int)strlen(SERVER_PASSWORD));
+			mPeer->Connect(serverAdd[tServerID].second.ToString(false), serverAdd[tServerID].second.GetPort(), SERVER_PASSWORD, (int)strlen(SERVER_PASSWORD));
 			mChatManager->message("Connecting to Server "+StringConverter::toString(serverAdd[tServerID].first+1));
 		}
 		mPeer->SetUnreliableTimeout(30);
@@ -201,7 +202,7 @@ public:
 			return;
 		}
 		serverAdd.clear();
-		mPeer->Startup(1,30,&SocketDescriptor(), 1);
+		mPeer->Startup(1, &SocketDescriptor(), 1);
 		const String tLocalIP = mDef->loadLocalIP("localIP.txt");
 		if(tLocalIP!="")
 		{
@@ -558,7 +559,7 @@ public:
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_TOKENCONNECTED));
-		stringCompressor->EncodeString(mUnitManager->getPlayer()->getUser().c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(mUnitManager->getPlayer()->getUser().c_str(),16,&tBitStream);
 		tBitStream.Write((unsigned short)mCharScreenManager->getCharID());
 
 		mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
@@ -572,7 +573,7 @@ public:
 
 		tBitStream.Read(tID);
 		tBitStream.Read(tToken);
-		stringCompressor->DecodeString(tCaption,256,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tCaption,256,&tBitStream);
 
 		if(tToken==SERVER_ID)
 		{
@@ -582,7 +583,7 @@ public:
 			if(tIsPM)
 			{
 				char tName[16]="";
-				stringCompressor->DecodeString(tName,16,&tBitStream);
+				StringCompressor::Instance()->DecodeString(tName,16,&tBitStream);
 				if(String(tName)!="")
 				{
 					if(mDef->isInBlockedList(tName))return;
@@ -626,13 +627,13 @@ public:
 			else
 			{
 				tBitStream.Write(true);
-				stringCompressor->EncodeString(pmTarget.c_str(),16,&tBitStream);
+				StringCompressor::Instance()->EncodeString(pmTarget.c_str(),16,&tBitStream);
 				mChatManager->message("Sent Private Message to " + pmTarget + ".");
 			}
 		}
 		else tBitStream.Write(false);
 
-		stringCompressor->EncodeString(caption.c_str(),256,&tBitStream);
+		StringCompressor::Instance()->EncodeString(caption.c_str(),256,&tBitStream);
 		tBitStream.Write(type);
 		tBitStream.Write(autoLipSync);
 
@@ -651,7 +652,7 @@ public:
 		//Normal chat send
 		else tBitStream.Write(false);
 
-		stringCompressor->EncodeString(caption.c_str(),256,&tBitStream);
+		StringCompressor::Instance()->EncodeString(caption.c_str(),256,&tBitStream);
 		tBitStream.Write(type);
 		tBitStream.Write(autoLipSync);
 
@@ -672,11 +673,11 @@ public:
 
 		tBitStream.Read(tID);
 		tBitStream.Read(tToken);
-		stringCompressor->DecodeString(tUser,16,&tBitStream);
-		stringCompressor->DecodeString(tName,32,&tBitStream);
-		stringCompressor->DecodeString(tMeshString,128,&tBitStream);
-		stringCompressor->DecodeString(tMatName,32,&tBitStream);
-		stringCompressor->DecodeString(tMeshString2,32,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tUser,16,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tName,32,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tMeshString,128,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tMatName,32,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tMeshString2,32,&tBitStream);
 		tBitStream.Read(tDefaultScale);
 
 		const vector<String>::type tParam = StringUtil::split(String(tMeshString),";",5);
@@ -707,16 +708,15 @@ public:
 			tBitStream.Read(tHeadMark);
 			tBitStream.Read(tTailMark);
 			tUnit->setMarkings((mDef->hasBodyMark(tBodyMark)?tBodyMark:0),(mDef->hasHeadMark(tHeadMark)?tHeadMark:0),(mDef->hasTailMark(tTailMark)?tTailMark:0));
-			stringCompressor->DecodeString(tColours,256,&tBitStream);
+			StringCompressor::Instance()->DecodeString(tColours,256,&tBitStream);
 			tUnit->setColours(String(tColours));
 		}
-
 		tUnit->setAlliance(ALLIANCE_FRIEND);
 		tUnit->isFriend = mDef->isInFriendList(tUser);
 		tUnit->isBlocked = mDef->isInBlockedList(tUser);
 		
 		char tAdminToken[8] = "";
-		stringCompressor->DecodeString(tAdminToken,8,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tAdminToken,8,&tBitStream);
 		tUnit->isAdmin = (String(tAdminToken)=="ok.");
 		tUnit->isMod = (String(tAdminToken)=="mod");
 
@@ -734,7 +734,7 @@ public:
 			tUnit->isHidden = false;
 			tUnit->isBlocked = false;
 			char tAdminColour[16];
-			stringCompressor->DecodeString(tAdminColour,16,&tBitStream);
+			StringCompressor::Instance()->DecodeString(tAdminColour,16,&tBitStream);
 			mUnitManager->createAdminAura(tUnit,StringConverter::parseColourValue(String(tAdminColour)));
 		}
 		if(tUnit->isMod)
@@ -772,11 +772,11 @@ public:
 
 		tBitStream.Write(MessageID(ID_NEWPLAYER));
 		tBitStream.Write(target);
-		stringCompressor->EncodeString(mUnitManager->getPlayer()->getUser().c_str(),16,&tBitStream);
-		stringCompressor->EncodeString(mUnitManager->getPlayer()->getName().c_str(),32,&tBitStream);
-		stringCompressor->EncodeString(mUnitManager->getPlayer()->getMeshString().c_str(),128,&tBitStream);
-		stringCompressor->EncodeString(mUnitManager->getPlayer()->getMatGroupName().c_str(),32,&tBitStream);
-		stringCompressor->EncodeString(mUnitManager->getPlayer()->getMeshString2().c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(mUnitManager->getPlayer()->getUser().c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(mUnitManager->getPlayer()->getName().c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(mUnitManager->getPlayer()->getMeshString().c_str(),128,&tBitStream);
+		StringCompressor::Instance()->EncodeString(mUnitManager->getPlayer()->getMatGroupName().c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(mUnitManager->getPlayer()->getMeshString2().c_str(),32,&tBitStream);
 		const bool tDefaultScale = (mUnitManager->getPlayer()->getObjectNode()->getScale().x == 1);
 		tBitStream.Write(tDefaultScale);
 		if(!tDefaultScale)tBitStream.Write(mUnitManager->getPlayer()->getObjectNode()->getScale().x);
@@ -787,10 +787,10 @@ public:
 			tBitStream.Write(tBodyMark);
 			tBitStream.Write(tHeadMark);
 			tBitStream.Write(tTailMark);
-			stringCompressor->EncodeString(mUnitManager->getPlayer()->getColourString().c_str(),256,&tBitStream);
+			StringCompressor::Instance()->EncodeString(mUnitManager->getPlayer()->getColourString().c_str(),256,&tBitStream);
 		}
-		stringCompressor->EncodeString(mDef->isAdmin?"ok.":(mDef->isMod?"mod":"nil"),8,&tBitStream);
-		if(mDef->isAdmin)stringCompressor->EncodeString(StringConverter::toString(mDef->adminAuraColour).c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(mDef->isAdmin?"ok.":(mDef->isMod?"mod":"nil"),8,&tBitStream);
+		if(mDef->isAdmin)StringCompressor::Instance()->EncodeString(StringConverter::toString(mDef->adminAuraColour).c_str(),16,&tBitStream);
 		//if(mDef->isMod)tBitStream.Write(mDef->isModOn);
 
 		mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
@@ -1216,7 +1216,7 @@ public:
 		if(!tUnit)return;
 
 		char tEmote[32];
-		stringCompressor->DecodeString(tEmote,32,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tEmote,32,&tBitStream);
 
 		tUnit->setEmote(String(tEmote),mDef);
 	}
@@ -1226,7 +1226,7 @@ public:
 
 		tBitStream.Write(MessageID(ID_EMOTE));
 		tBitStream.Write(OwnerToken(TOKEN_NULL));
-		stringCompressor->EncodeString(emote.c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(emote.c_str(),32,&tBitStream);
 
 		mPeer->Send(&tBitStream, MEDIUM_PRIORITY, UNRELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
@@ -1359,7 +1359,7 @@ public:
 		if(!tUnit)return;
 
 		char tAttack[32];
-		stringCompressor->DecodeString(tAttack,32,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tAttack,32,&tBitStream);
 
 		tUnit->forceAttack(tAttack);
 	}
@@ -1369,7 +1369,7 @@ public:
 
 		tBitStream.Write(MessageID(ID_ATTACK));
 		tBitStream.Write(OwnerToken(TOKEN_NULL));
-		stringCompressor->EncodeString(attack.c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(attack.c_str(),32,&tBitStream);
 
 		mPeer->Send(&tBitStream, HIGH_PRIORITY, UNRELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
@@ -1398,7 +1398,7 @@ public:
 
 		tBitStream.Write(MessageID(ID_PLAYERMAPCHANGE));
 		tBitStream.Write(OwnerToken(TOKEN_NULL));
-		stringCompressor->EncodeString(mapName.c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(mapName.c_str(),32,&tBitStream);
 		tBitStream.Write(dimension);
 
 		mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
@@ -1412,7 +1412,7 @@ public:
 
 		tBitStream.Read(tID);
 		tBitStream.Read(tToken);
-		stringCompressor->DecodeString(tNewName,32,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tNewName,32,&tBitStream);
 
 		mUnitManager->createNameTag(mUnitManager->getPlayer(),tNewName);
 		mChatManager->message("Name in use. Changed name to " + mUnitManager->getPlayer()->getName());
@@ -1466,8 +1466,8 @@ public:
 
 		tBitStream.Write(MessageID(ID_VALIDATENAME));
 		tBitStream.Write(OwnerToken(mUnitManager->getPlayer()->getIndex()));
-		stringCompressor->EncodeString(mUnitManager->getPlayer()->getUser().c_str(),16,&tBitStream);
-		stringCompressor->EncodeString(mWorld->getWorldName().c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(mUnitManager->getPlayer()->getUser().c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(mWorld->getWorldName().c_str(),32,&tBitStream);
 		//tBitStream.Write((unsigned short)mCharScreenManager->getCharID());
 		tBitStream.Write(mGameStateManager->getDimension());
 
@@ -1484,11 +1484,11 @@ public:
 
 		tBitStream.Read(tID);
 		tBitStream.Read(tArrive);
-		stringCompressor->DecodeString(tName,16,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tName,16,&tBitStream);
 		if(tArrive)
 		{
 			char tMapName[32];
-			stringCompressor->DecodeString(tMapName,32,&tBitStream);
+			StringCompressor::Instance()->DecodeString(tMapName,32,&tBitStream);
 
 			for(vector<const PlayerData>::type::iterator it=playerList.begin(); it!=playerList.end(); it++)
 			{
@@ -1540,14 +1540,14 @@ public:
 			tSendStream.Write(MessageID(ID_BIO));
 			tSendStream.Write(tToken);
 			tSendStream.Write(false);
-			stringCompressor->EncodeString(mDef->loadBio().c_str(),512,&tSendStream);
+			StringCompressor::Instance()->EncodeString(mDef->loadBio().c_str(),512,&tSendStream);
 
 			mPeer->Send(&tSendStream, LOW_PRIORITY, UNRELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 		}
 		else
 		{
 			char tBio[512];
-			stringCompressor->DecodeString(tBio,512,&tBitStream);
+			StringCompressor::Instance()->DecodeString(tBio,512,&tBitStream);
 
 			targetBioUpdated = tBio;
 			if(targetBioUpdated=="")targetBioUpdated = "None";
@@ -1560,7 +1560,7 @@ public:
 		tBitStream.Write(MessageID(ID_BIO));
 		tBitStream.Write(OwnerToken(TOKEN_NULL));
 		tBitStream.Write(true);
-		stringCompressor->EncodeString(name.c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(name.c_str(),32,&tBitStream);
 
 		mPeer->Send(&tBitStream, LOW_PRIORITY, UNRELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
@@ -1575,11 +1575,11 @@ public:
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_CREATEACCOUNT));
-		stringCompressor->EncodeString(arg1.c_str(),16,&tBitStream);
-		stringCompressor->EncodeString(arg2.c_str(),16,&tBitStream);
-		stringCompressor->EncodeString(arg3.c_str(),64,&tBitStream);
-		stringCompressor->EncodeString(arg4.c_str(),128,&tBitStream);
-		stringCompressor->EncodeString(arg5.c_str(),128,&tBitStream);
+		StringCompressor::Instance()->EncodeString(arg1.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(arg2.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(arg3.c_str(),64,&tBitStream);
+		StringCompressor::Instance()->EncodeString(arg4.c_str(),128,&tBitStream);
+		StringCompressor::Instance()->EncodeString(arg5.c_str(),128,&tBitStream);
 
 		mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
@@ -1599,9 +1599,9 @@ public:
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_EDITACCOUNT));
-		stringCompressor->EncodeString(arg1.c_str(),16,&tBitStream);
-		stringCompressor->EncodeString(arg2.c_str(),16,&tBitStream);
-		stringCompressor->EncodeString(arg3.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(arg1.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(arg2.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(arg3.c_str(),16,&tBitStream);
 
 		mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
@@ -1621,8 +1621,8 @@ public:
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_LOGON));
-		stringCompressor->EncodeString(arg1.c_str(),16,&tBitStream);
-		stringCompressor->EncodeString(arg2.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(arg1.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(arg2.c_str(),16,&tBitStream);
 
 		mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
@@ -1667,7 +1667,7 @@ public:
 			char tBuffer[512] = "";
 			bool tIsAdmin = false;
 			bool tIsMod = false;
-			stringCompressor->DecodeString(tBuffer,512,&tBitStream);
+			StringCompressor::Instance()->DecodeString(tBuffer,512,&tBitStream);
 			tBitStream.Read(tIsAdmin);
 			tBitStream.Read(tIsMod);
 			for(int i=0;i<MAX_EQUIP;i++)mUnitManager->unequipItem(mUnitManager->getPlayer(),i);
@@ -1677,7 +1677,7 @@ public:
 			if(tIsAdmin)
 			{
 				char tAdminColour[16];
-				stringCompressor->DecodeString(tAdminColour,16,&tBitStream);
+				StringCompressor::Instance()->DecodeString(tAdminColour,16,&tBitStream);
 				mDef->adminAuraColour = StringConverter::parseColourValue(String(tAdminColour));
 				mUnitManager->createAdminAura(mUnitManager->getPlayer(),mDef->adminAuraColour);
 			}
@@ -1691,7 +1691,7 @@ public:
 				if(tHasItem)
 				{
 					char tItem[16];
-					stringCompressor->DecodeString(tItem,16,&tBitStream);
+					StringCompressor::Instance()->DecodeString(tItem,16,&tBitStream);
 					mUnitManager->equipItem(mUnitManager->getPlayer(),String(tItem),j);
 				}
 			}
@@ -1702,7 +1702,7 @@ public:
 			if(tHasHP)
 			{
 				char tHP[16];
-				stringCompressor->DecodeString(tHP,16,&tBitStream);
+				StringCompressor::Instance()->DecodeString(tHP,16,&tBitStream);
 				const vector<String>::type tPart = StringUtil::split(tHP,";\n");
 				const unsigned short tMaxHP = StringConverter::parseInt(tPart[1]);
 				if(tPart.size()>1)mUnitManager->getPlayer()->setHP(tMaxHP==0?500:tMaxHP,0);
@@ -1716,7 +1716,7 @@ public:
 			if(tHasSkills)
 			{
 				char tSkills[512];
-				stringCompressor->DecodeString(tSkills,512,&tBitStream);
+				StringCompressor::Instance()->DecodeString(tSkills,512,&tBitStream);
 				const vector<String>::type tLine = StringUtil::split(tSkills,"|\n");
 				for(int i=0;i<(int)tLine.size();i++)
 				{
@@ -1734,7 +1734,7 @@ public:
 			if(tHasPet)
 			{
 				char tPet[512];
-				stringCompressor->DecodeString(tPet,32,&tBitStream);
+				StringCompressor::Instance()->DecodeString(tPet,32,&tBitStream);
 				mUnitManager->getPlayer()->setPet(tPet,mDef);
 			}
 
@@ -1749,7 +1749,7 @@ public:
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_LOADCHAR));
-		stringCompressor->EncodeString(username.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(username.c_str(),16,&tBitStream);
 		tBitStream.Write(charID);
 
 		mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
@@ -1770,9 +1770,9 @@ public:
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_CREATECHAR));
-		stringCompressor->EncodeString(username.c_str(),16,&tBitStream);
-		stringCompressor->EncodeString(name.c_str(),32,&tBitStream);
-		stringCompressor->EncodeString(data.c_str(),512,&tBitStream);
+		StringCompressor::Instance()->EncodeString(username.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(name.c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(data.c_str(),512,&tBitStream);
 
 		mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
@@ -1781,7 +1781,7 @@ public:
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_DELETECHAR));
-		stringCompressor->EncodeString(username.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(username.c_str(),16,&tBitStream);
 		tBitStream.Write(charID);
 
 		mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
@@ -1802,9 +1802,9 @@ public:
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_EDITCHAR));
-		stringCompressor->EncodeString(username.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(username.c_str(),16,&tBitStream);
 		tBitStream.Write(charID);
-		stringCompressor->EncodeString(data.c_str(),512,&tBitStream);
+		StringCompressor::Instance()->EncodeString(data.c_str(),512,&tBitStream);
 
 		mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
@@ -1817,7 +1817,7 @@ public:
 		unsigned short tNumDays = 0;
 
 		tBitStream.Read(tID);
-		stringCompressor->DecodeString(tName,16,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tName,16,&tBitStream);
 		tBitStream.Read(tIsBanned);
 		if(tIsBanned)tBitStream.Read(tNumDays);
 
@@ -1841,7 +1841,7 @@ public:
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_KICK));
-		stringCompressor->EncodeString(name.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(name.c_str(),16,&tBitStream);
 		if(isBan)
 		{
 			tBitStream.Write(isBan);
@@ -1862,7 +1862,7 @@ public:
 
 		tBitStream.Read(tID);
 		tBitStream.Read(tItemID);
-		stringCompressor->DecodeString(tMesh,16,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tMesh,16,&tBitStream);
 		tBitStream.Read(tX);
 		tBitStream.Read(tZ);
 		/*tBitStream.Read(tImTheSender);
@@ -1874,7 +1874,7 @@ public:
 			//check that i'm still in the place where i sent this
 			char tMap[32];
 			unsigned char tDimension;
-			stringCompressor->DecodeString(tMap,32,&tBitStream);
+			StringCompressor::Instance()->DecodeString(tMap,32,&tBitStream);
 			tBitStream.Read(tDimension);
 			if(String(tMap)!=mWorld->getWorldName() || tDimension!=mGameStateManager->getDimension())return;
 		}*/
@@ -1887,7 +1887,7 @@ public:
 		tBitStream.Write(MessageID(ID_ITEMDROP));
 		tBitStream.Write(OwnerToken(TOKEN_NULL));
 		tBitStream.Write(mItemManager->getNextEmptyID(mUnitManager->getPlayer()->getIndex()*100));
-		stringCompressor->EncodeString(meshName.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(meshName.c_str(),16,&tBitStream);
 		tBitStream.Write(x);
 		tBitStream.Write(z);
 
@@ -1904,7 +1904,7 @@ public:
 			tBitStream.Write(MessageID(ID_ITEMDROP));
 			tBitStream.Write(token);
 			tBitStream.Write(tItem->getID());
-			stringCompressor->EncodeString(tItem->getMesh().c_str(),16,&tBitStream);
+			StringCompressor::Instance()->EncodeString(tItem->getMesh().c_str(),16,&tBitStream);
 			const Vector3 tPos = tItem->getPosition();
 			tBitStream.Write(tPos.x);
 			tBitStream.Write(tPos.z);
@@ -1962,7 +1962,7 @@ public:
 
 		char tMesh[16];
 		unsigned short tSlotID;
-		stringCompressor->DecodeString(tMesh,16,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tMesh,16,&tBitStream);
 		tBitStream.Read(tSlotID);
 
 		mUnitManager->equipItem(tUnit,String(tMesh),tSlotID);
@@ -1973,7 +1973,7 @@ public:
 
 		tBitStream.Write(MessageID(ID_ITEMEQUIP));
 		tBitStream.Write(target);
-		stringCompressor->EncodeString(meshName.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(meshName.c_str(),16,&tBitStream);
 		tBitStream.Write(slotID);
 		tBitStream.Write(dontTellMainServer);
 
@@ -2020,7 +2020,7 @@ public:
 		char tCaption[512];
 		
 		tBitStream.Read(tID);
-		stringCompressor->DecodeString(tCaption,512,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tCaption,512,&tBitStream);
 
 		mChatManager->message(tCaption);
 	}
@@ -2032,7 +2032,7 @@ public:
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_GODSPEAK));
-		stringCompressor->EncodeString(tCaption.c_str(),512,&tBitStream);
+		StringCompressor::Instance()->EncodeString(tCaption.c_str(),512,&tBitStream);
 
 		mPeer->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
@@ -2043,7 +2043,7 @@ public:
 		char tName[16];
 
 		tBitStream.Read(tID);
-		stringCompressor->DecodeString(tName,16,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tName,16,&tBitStream);
 
 		String tPlayerName = mUnitManager->getPlayer()->getUser();
 		StringUtil::toLowerCase(tPlayerName);
@@ -2151,7 +2151,7 @@ public:
 				tBitStream.Read(tHasMore);
 				if(!tHasMore)break;
 				tBitStream.Read(tMemberToken);
-				stringCompressor->DecodeString(tMemberName,16,&tBitStream);
+				StringCompressor::Instance()->DecodeString(tMemberName,16,&tBitStream);
 				mUnitManager->addPartyMember(tMemberToken,tMemberName);
 				mChatManager->message(String(tMemberName)+" has joined the party.",CHAT_PARTY);
 				//Tell this fella i joined the party
@@ -2168,7 +2168,7 @@ public:
 			if(tCheck.first==tToken)return;
 			//Allow new party member to join
 			char tMemberName[16];
-			stringCompressor->DecodeString(tMemberName,16,&tBitStream);
+			StringCompressor::Instance()->DecodeString(tMemberName,16,&tBitStream);
 
 			bool tPartyOverload = mUnitManager->isPartyFull();
 			mUnitManager->addPartyMember(tToken,tMemberName);
@@ -2245,11 +2245,11 @@ public:
 		{
 			tBitStream.Write(true);
 			tBitStream.Write(OwnerToken(tParty[i].first));
-			stringCompressor->EncodeString(tParty[i].second.c_str(),16,&tBitStream);
+			StringCompressor::Instance()->EncodeString(tParty[i].second.c_str(),16,&tBitStream);
 		}
 		tBitStream.Write(true);
 		tBitStream.Write(OwnerToken(mUnitManager->getPlayer()->getIndex()));
-		stringCompressor->EncodeString(mUnitManager->getPlayer()->getUser().c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(mUnitManager->getPlayer()->getUser().c_str(),16,&tBitStream);
 
 		mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
@@ -2260,7 +2260,7 @@ public:
 		tBitStream.Write(MessageID(ID_INFO));
 		tBitStream.Write(unsigned char(INFO_PARTYJOINED));
 		tBitStream.Write(target);
-		stringCompressor->EncodeString(mUnitManager->getPlayer()->getUser().c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(mUnitManager->getPlayer()->getUser().c_str(),16,&tBitStream);
 		tBitStream.Write(requestPartyList);
 
 		mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS, true);
@@ -2287,7 +2287,7 @@ public:
 			char tMesh[16];
 			Real tX;
 			Real tZ;
-			stringCompressor->DecodeString(tMesh,16,&tBitStream);
+			StringCompressor::Instance()->DecodeString(tMesh,16,&tBitStream);
 			tBitStream.Read(tX);
 			tBitStream.Read(tZ);
 			sendItemDrop(tMesh,tX,tZ);
@@ -2308,7 +2308,7 @@ public:
 				tBitStream.Read(tToken);
 				tBitStream.Read(tIsWorldCritter);
 				if(tIsWorldCritter)tBitStream.Read(tTypeID);
-				else stringCompressor->DecodeString(tType,32,&tBitStream);
+				else StringCompressor::Instance()->DecodeString(tType,32,&tBitStream);
 				tBitStream.Read(tPosition);
 				if(tIsWorldCritter)sendCritterCreate(tTypeID,tPosition,true);
 				else sendCritterCreate(tType,tPosition,true);
@@ -2336,7 +2336,7 @@ public:
 		for(int i=0;i<(int)tSkill.size();i++)
 		{
 			tBitStream.Write(true);
-			stringCompressor->EncodeString(tSkill[i].name.c_str(),32,&tBitStream);
+			StringCompressor::Instance()->EncodeString(tSkill[i].name.c_str(),32,&tBitStream);
 			tBitStream.Write((unsigned char)tSkill[i].stock);
 		}
 
@@ -2348,7 +2348,7 @@ public:
 
 		tBitStream.Write(MessageID(ID_UPDATESKILLS));
 		//tBitStream.Write(false);
-		stringCompressor->EncodeString(type.c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(type.c_str(),32,&tBitStream);
 		tBitStream.Write(stock);
 
 		mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
@@ -2371,7 +2371,7 @@ public:
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_UPDATEPET));
-		stringCompressor->EncodeString(mUnitManager->getPlayer()->getPet().c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(mUnitManager->getPlayer()->getPet().c_str(),32,&tBitStream);
 
 		mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
@@ -2387,9 +2387,9 @@ public:
 		tBitStream.Write(true);
 		tBitStream.Write((OwnerToken)mUnitManager->getPlayer()->getIndex());
 		tBitStream.Write(false);
-		stringCompressor->EncodeString(type.c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(type.c_str(),32,&tBitStream);
 		tBitStream.Write(position);
-		//stringCompressor->EncodeString(mWorld->getWorldName().c_str(),32,&tBitStream);
+		//StringCompressor::Instance()->EncodeString(mWorld->getWorldName().c_str(),32,&tBitStream);
 		//tBitStream.Write(mGameStateManager->getDimension());
 		if(isPet)tBitStream.Write(isPet);
 
@@ -2409,7 +2409,7 @@ public:
 		tBitStream.Write(true);
 		tBitStream.Write(typeID);
 		tBitStream.Write(position);
-		//stringCompressor->EncodeString(mWorld->getWorldName().c_str(),32,&tBitStream);
+		//StringCompressor::Instance()->EncodeString(mWorld->getWorldName().c_str(),32,&tBitStream);
 		//tBitStream.Write(mGameStateManager->getDimension());
 
 		mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
@@ -2489,9 +2489,9 @@ public:
 
 			tBitStream.Read(tIsWorldCritter);
 			if(tIsWorldCritter)tBitStream.Read(tTypeID);
-			else stringCompressor->DecodeString(tType,32,&tBitStream);
+			else StringCompressor::Instance()->DecodeString(tType,32,&tBitStream);
 			tBitStream.Read(tPosition);
-			//stringCompressor->DecodeString(tMap,32,&tBitStream);
+			//StringCompressor::Instance()->DecodeString(tMap,32,&tBitStream);
 			//tBitStream.Read(tDimension);
 			tBitStream.Read(tIsPet);
 			
@@ -2868,7 +2868,7 @@ public:
 		tBitStream.Write(target);
 		tBitStream.Write(true);
 		tBitStream.Write(false);
-		stringCompressor->EncodeString(type.c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(type.c_str(),32,&tBitStream);
 		tBitStream.Write(position);
 		tBitStream.Write(hpRatio);
 		tBitStream.Write(isPet);
@@ -2930,7 +2930,7 @@ public:
 
 			tBitStream.Read(tIsWorldCritter);
 			if(tIsWorldCritter)tBitStream.Read(tTypeID);
-			else stringCompressor->DecodeString(tType,32,&tBitStream);
+			else StringCompressor::Instance()->DecodeString(tType,32,&tBitStream);
 			tBitStream.Read(tPosition);
 			tBitStream.Read(tHPRatio);
 
@@ -3172,7 +3172,7 @@ public:
 					tHasMore = false;
 					char tMesh[16];
 
-					stringCompressor->DecodeString(tMesh,16,&tBitStream);
+					StringCompressor::Instance()->DecodeString(tMesh,16,&tBitStream);
 					mItemManager->pushStash(tMesh);
 
 					tBitStream.Read(tHasMore);
@@ -3213,7 +3213,7 @@ public:
 		bool tOnline = false;
 		
 		tBitStream.Read(tID);
-		stringCompressor->DecodeString(tName,16,&tBitStream);
+		StringCompressor::Instance()->DecodeString(tName,16,&tBitStream);
 		tBitStream.Read(tOnline);
 		if(tOnline)
 		{
@@ -3223,7 +3223,7 @@ public:
 			unsigned char tDimension;
 
 			tBitStream.Read(tToken);
-			stringCompressor->DecodeString(tMap,32,&tBitStream);
+			StringCompressor::Instance()->DecodeString(tMap,32,&tBitStream);
 			tBitStream.Read(tDimension);
 			
 			mChatManager->message(String(tName)+"["+StringConverter::toString(tToken)+"] is in "+String(tMap)+" dimension "+StringConverter::toString(tDimension)+".");
@@ -3236,7 +3236,7 @@ public:
 
 		tBitStream.Write(MessageID(ID_FINDPLAYER));
 		tBitStream.Write(false);
-		stringCompressor->EncodeString(name.c_str(),16,&tBitStream);
+		StringCompressor::Instance()->EncodeString(name.c_str(),16,&tBitStream);
 
 		mPeer->Send(&tBitStream, LOW_PRIORITY, UNRELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
@@ -3317,7 +3317,7 @@ public:
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_VIOLATION));
-		stringCompressor->EncodeString(info.c_str(),32,&tBitStream);
+		StringCompressor::Instance()->EncodeString(info.c_str(),32,&tBitStream);
 
 		mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
