@@ -27,3 +27,9 @@
 
 # 5.3 release
 * Improving reading speed of encrypted .zip files
+
+# 5.4 release
+* Upstream fix to caching zip files
+
+# 5.5 release
+* Updated Raknet from 3.25 to 4.082 because zero packets could kill the network thread inside Raknet.
