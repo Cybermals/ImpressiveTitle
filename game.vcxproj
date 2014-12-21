@@ -150,7 +150,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)deps\zziplib-0.13.57\lib\Debug;$(SolutionDir)deps\fmod-4.02\lib;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47\lib;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\debug;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\debug\opt;$(SolutionDir)deps\RakNet_PC-4.082\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
