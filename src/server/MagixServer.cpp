@@ -1985,8 +1985,8 @@ public:
 
 								if(showChat)
 								{
-									if(tReadSenderToken)printChat(tSender,tReceiveBit,tPMTarget);
-									else printChat(p,tReceiveBit,tPMTarget);
+									if(tReadSenderToken)printChat(tSender,&tReceiveBit,tPMTarget);
+									else printChat(p,&tReceiveBit,tPMTarget);
 								}
 
 								//Set target token to PMTarget (affects who to send to below)
@@ -2041,8 +2041,8 @@ public:
 								{
 									if(showChat)
 									{
-										if(tReadSenderToken)printChat(tSender,tReceiveBit);
-										else printChat(p,tReceiveBit);
+										if(tReadSenderToken)printChat(tSender,&tReceiveBit);
+										else printChat(p,&tReceiveBit);
 									}
 
 									char tChat[256];
@@ -2075,8 +2075,8 @@ public:
 
 							if(showChat && !tIsPM) // dont show privates
 							{
-								if(tReadSenderToken)printChat(tSender,tReceiveBit);
-								else printChat(p,tReceiveBit);
+								if(tReadSenderToken)printChat(tSender,&tReceiveBit);
+								else printChat(p,&tReceiveBit);
 							}
 						}
 						//Save item equip
@@ -2188,25 +2188,29 @@ public:
 			}
 		}
 	}
-	void printChat(Packet *p, const RakNet::BitStream &bitStream, const char* pmTarget="")
+	void printChat(Packet *p, RakNet::BitStream *bitStream, const char* pmTarget="")
 	{
-		RakNet::BitStream tBit;
-		tBit.SetData(bitStream.GetData());
+		//RakNet::BitStream tBit;
+		//tBit.SetData(bitStream.GetData());
 		char tChat[256];
-		StringCompressor::Instance()->DecodeString(tChat,256,&tBit);
+		BitSize_t offset = bitStream->GetReadOffset();
+		StringCompressor::Instance()->DecodeString(tChat,256,bitStream);
+		bitStream->SetReadOffset(offset);
 
 		const OwnerToken tPlayerToken = getOwnerToken(p);
 		printf("(%i)%s: ",tPlayerToken,clientName[tPlayerToken-1].c_str());
 		if(strcmp(pmTarget,"")!=0)printf("[%s]: ",pmTarget);
 		printf("%s\n", tChat);
 	}
-	void printChat(const OwnerToken &sender, const RakNet::BitStream &bitStream, const char* pmTarget="")
+	void printChat(const OwnerToken &sender, RakNet::BitStream *bitStream, const char* pmTarget="")
 	{
 		if(sender<=0 || sender>MAX_CLIENTS)return;
-		RakNet::BitStream tBit;
-		tBit.SetData(bitStream.GetData());
+		//RakNet::BitStream tBit;
+		//tBit.SetData(bitStream.GetData());
 		char tChat[256];
-		StringCompressor::Instance()->DecodeString(tChat,256,&tBit);
+		BitSize_t offset = bitStream->GetReadOffset();
+		StringCompressor::Instance()->DecodeString(tChat,256,bitStream);
+		bitStream->SetReadOffset(offset);
 
 		printf("(%i)%s: ",sender,clientName[sender-1].c_str());
 		if(strcmp(pmTarget,"")!=0)printf("[%s]: ",pmTarget);

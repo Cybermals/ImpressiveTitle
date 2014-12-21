@@ -79,7 +79,7 @@ copy "$(TargetPath)" "$(SolutionDir)build\server\$(TargetFileName)"</Command>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)deps\RakNet_PC-4.082\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
