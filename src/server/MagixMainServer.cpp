@@ -221,6 +221,7 @@ public:
 				// Notice what is not here: something to keep our network running.  It's
 				// fine to block on gets or anything we want
 				// Because the network engine was painstakingly written using threads.
+				printf("Entering _kbhit()\n");
 				char input[512]="";
 				gets_s(input);
 				message = input;
@@ -238,8 +239,6 @@ public:
 					StatisticsToString(rss, temp, 2);
 					printf("%s", temp);
 					printf("Ping %i\n", server->GetAveragePing(server->GetSystemAddressFromIndex(0)));
-
-					continue;
 				}
 
 				if (message=="ban")
@@ -248,19 +247,15 @@ public:
 					gets_s(input);
 					server->AddToBanList(input);
 					printf("IP %s added to ban list.\n", input);
-
-					continue;
 				}
 
 				if (message=="traffic")
 				{
 					showTraffic = !showTraffic;
-					continue;
 				}
 				if (message=="numclients")
 				{
 					printf("Current number of connected clients: %i\n",numClients);
-					continue;
 				}
 				/*if (message=="numplayers")
 				{
@@ -272,7 +267,6 @@ public:
 				if (message=="numservers")
 				{
 					printf("Current number of servers: %i\n",numServers);
-					continue;
 				}
 				if (message=="servers")
 				{
@@ -288,17 +282,14 @@ public:
 							else printf("\n");
 						}
 					}
-					continue;
 				}
 				if (message=="update")
 				{
 					broadcastServerUpdate();
-					continue;
 				}
 				if (message=="time")
 				{
 					printf("Day time: %i\nWeather time: %i\n",(int)dayTime,(int)weatherTime);
-					continue;
 				}
 				if (message=="pingrange")
 				{
@@ -310,7 +301,6 @@ public:
 					printf("Servers accept connections at ping below %i\n",(int)lowPing);
 					printf("Servers reject connections at ping above %i\n",(int)highPing);
 					updateServers(true);
-					continue;
 				}
 				if (message=="pingserver")
 				{
@@ -322,14 +312,13 @@ public:
 						printf("Server %i Ping: %i\n",tID,server->GetAveragePing(serverTunnelAdd[tID-1]));
 					else
 						printf("No such server: %i\n",tID);
-					continue;
 				}
 				if (message=="reloadbanlist")
 				{
 					clearBanlist();
 					loadBanlist();
-					continue;
 				}
+				printf("Leaving _kbhit()\n");
 			}
 	#endif
 

@@ -270,40 +270,37 @@ public:
 			if (_kbhit())
 			{
 				printf("Entering _kbhit()\n");
-				if(_getch()=='Q')
+				char c = _getch();
+				if(c=='Q')
 				{
 					puts("Quitting.");
 					break;
 				}
-				if (_getch()=='S')
+				if (c=='S')
 				{
 					char temp[2048]="";
 					rss = server->GetStatistics(server->GetSystemAddressFromIndex(0));
 					StatisticsToString(rss, temp, 2);
 					printf("%s", temp);
 					printf("Ping %i\n", server->GetAveragePing(server->GetSystemAddressFromIndex(0)));
-					continue;
 				}
-				if (_getch()=='C')
+				if (c=='C')
 				{
 					showChat = !showChat;
 					if(showChat)printf("Showchat ON\n");
 					else printf("Showchat OFF\n");
-					continue;
 				}
-				if (_getch()=='H')
+				if (c=='H')
 				{
 					hideText = !hideText;
 					if(hideText)system("cls");
 					else printf("Unhiding text\n");
-					continue;
 				}
-				if (_getch()=='V')
+				if (c=='V')
 				{
 					printf("Version: 0.719\n");
-					continue;
 				}
-				if (_getch()=='L')
+				if (c=='L')
 				{
 					ofstream outFile("./listo.log",ios_base::app);
 					for(int i=0;i<(int)listo.size();i++)
@@ -324,11 +321,11 @@ public:
 					outFile.close();
 					printf("Printed\n");
 				}
-				if (_getch()=='M')
+				if (c=='M')
 				{
 					printMemInfo();
-					continue;
 				}
+				printf("Leaving _kbhit()\n");
 			}
 	/*
 			{
