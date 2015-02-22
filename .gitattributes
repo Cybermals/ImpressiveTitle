@@ -6,3 +6,4 @@
 *.c diff
 *.vcxproj diff
 .gitattributes diff
+CHANGELOG diff
