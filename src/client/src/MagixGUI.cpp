@@ -1156,7 +1156,7 @@ void MagixGUI::updatePlayer(const FrameEvent &evt)
 	{
 		if (mUnitManager->getPlayer()->getIsWounded())
 		{
-			mUnitManager->getPlayer()->doCrouch(true);
+			mUnitManager->getPlayer()->doFaint();
 			mUnitManager->getPlayer()->cancelAction(7, "Faint");
 			mUnitManager->getPlayer()->setFreeLook(false);
 			mUnitManager->getPlayer()->setAutoAttack(0);
