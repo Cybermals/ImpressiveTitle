@@ -1,5 +1,4 @@
-#ifndef MagixEncryption_h
-#define MagixEncryption_h
+#pragma once
  
 #include "OgreArchive.h"
 #include "OgreArchiveFactory.h"
@@ -222,4 +221,3 @@ public:
     /// @copydoc DataStream::close
     void close(void);
 };
-#endif

@@ -1,27 +1,6 @@
-#include "GameConfig.h"
-#include "MessageIdentifiers.h"
-//#include "RakNetworkFactory.h"
-#include "RakPeerInterface.h"
-#include "RakNetStatistics.h"
-#include "RakNetTypes.h"
-#include "BitStream.h"
-#include "RakSleep.h"
-//#include "OgreString.h"
-#include "StringCompressor.h"
-#include <assert.h>
-#include <cstdio>
-#include <cstring>
-#include <stdlib.h>
-#include <sstream>
-#ifdef _WIN32
-#include <conio.h>
-#endif
-#include <vector>
-#include <iostream>
-#include <utility>
-#include <string>
-#include <fstream>
-#include <time.h>
+#include "LoginServer.h"
+#include "RakNetworkFactory.h"
+#include <thread>
 
 // Get current date/time, format is YYYY-MM-DD.HH:mm:ss
 const std::string currentDateTime() {
@@ -52,290 +31,107 @@ _CONSOLE_2_SetSystemProcessParams
 
 using namespace std;
 
-struct PlayerToken
+
+ServerManager::ServerManager()
 {
-	SystemAddress add;
-	unsigned char serverID;
-	string name;
-	unsigned short charID;
-	string item[MAX_EQUIP];
-	pair<unsigned short,unsigned short> hp;
-	vector<pair<string,unsigned char> > skill;
-	string pet;
-	PlayerToken()
+	server = RakNetworkFactory::GetRakPeerInterface();
+	server->SetIncomingPassword(SERVER_PASSWORD, (int)strlen(SERVER_PASSWORD));
+
+	numClients = 0;
+	numServers = 0;
+	showTraffic = false;
+	for(int i=0;i<MAX_SERVERS;i++)
 	{
-		add = UNASSIGNED_SYSTEM_ADDRESS;
-		serverID = MAX_SERVERS;
-		name = "";
-		charID = 0;
-		for(int i=0;i<MAX_EQUIP;i++)item[i] = "";
-		hp.first = 0;
-		hp.second = 0;
-		skill.clear();
-		pet = "";
+		serverAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
+		serverTunnelAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
+		serverFull[i] = false;
 	}
-};
-struct BanInfo
+	for(int i=0;i<MAX_CLIENTS;i++)
+	{
+		playerToken[i] = PlayerToken();
+	}
+	banlist.clear();
+	loginSession.clear();
+	alive = true;
+}
+ServerManager::~ServerManager()
 {
-	string name;
-	int year;
-	int yDay;
-	vector<string> IPList;
-	BanInfo(const string &n, const int &y, const int &yD)
-	{
-		name = n;
-		year = y;
-		yDay = yD;
-		IPList.clear();
-	}
-};
-
-class ServerManager
+	RakNetworkFactory::DestroyRakPeerInterface(server);
+}
+void ServerManager::startThread()
 {
-protected:
-	RakPeerInterface *server;
-	RakNetStatistics *rss;
-	unsigned short numClients;
-	unsigned short numServers;
-	bool showTraffic;
-	SystemAddress serverAdd[MAX_SERVERS];
-	SystemAddress serverTunnelAdd[MAX_SERVERS];
-	bool serverFull[MAX_SERVERS];
-	PlayerToken playerToken[MAX_CLIENTS];
-	vector<pair<string,SystemAddress> > loginSession;
-	//vector<const pair<string,SystemAddress> > loginSession;
-	float dayTime;
-	float weatherTime;
-	float maintenanceTime;
-	time_t prevTime;
-	unsigned short lowPing;
-	unsigned short highPing;
-	vector<BanInfo> banlist;
-
-public:
-	ServerManager()
+	bool inited = false;
+	while (!inited)
 	{
-		server=RakPeerInterface::GetInstance();// RakNetworkFactory::GetRakPeerInterface();
-		server->SetIncomingPassword(SERVER_PASSWORD, (int)strlen(SERVER_PASSWORD));
-
-		numClients = 0;
-		numServers = 0;
-		showTraffic = false;
-		for(int i=0;i<MAX_SERVERS;i++)
-		{
-			serverAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
-			serverTunnelAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
-			serverFull[i] = false;
-		}
-		for(int i=0;i<MAX_CLIENTS;i++)
-		{
-			playerToken[i] = PlayerToken();
-		}
-		banlist.clear();
-		loginSession.clear();
+		inited = initialize();
+		if (!inited)RakSleep(5000);
 	}
-	~ServerManager()
+	runLoop();
+	shutdown();
+}
+bool ServerManager::initialize()
+{
+	if (!alive)
+		return false;
+	puts("Starting server");
+	SocketDescriptor socketDescriptor(MAIN_SERVER_PORT,0);
+	bool b = server->Startup(MAX_CLIENTS, 30, &socketDescriptor, 1);
+	server->SetMaximumIncomingConnections(MAX_CLIENTS);
+	if (b)
+		puts("Server started, waiting for connections.");
+	else
 	{
-		RakPeerInterface::DestroyInstance(server);
-		//RakNetworkFactory::DestroyRakPeerInterface(server);
+		puts("Server failed to start.  Terminating.");
+		return false;
 	}
-	bool initialize()
+	server->SetOccasionalPing(true);
+	printf("Max players allowed: %i\n", MAX_CLIENTS);
+
+	dayTime = 500;
+	weatherTime = 0;
+	maintenanceTime = 0;
+	time(&prevTime);
+	loadPingRange();
+	loadBanlist();
+
+	return true;
+}
+void ServerManager::runLoop()
+{
+	//char message[512]="";
+	string message="";
+
+	// Loop for input
+	while (alive)
 	{
-		puts("Starting server");
-		SocketDescriptor socketDescriptor(MAIN_SERVER_PORT,0);
-		StartupResult b = server->Startup(MAX_CLIENTS, &socketDescriptor, 1);
-		server->SetMaximumIncomingConnections(MAX_CLIENTS);
-		if (b == RAKNET_STARTED)
-			puts("Server started, waiting for connections.");
-		else
+
+		// This sleep keeps RakNet responsive
+		RakSleep(30);
+
+		updateTimer();
+		updateServers();
+
+		// Get a packet from either the server or the client
+
+		Packet *p = server->Receive();
+		if (!alive)
+			break;
+		if (!server->IsActive())
 		{
-			puts("Server failed to start.  Terminating. Reason:");
-			switch (b) {
-			case RAKNET_ALREADY_STARTED : 
-				puts("RAKNET_ALREADY_STARTED");
-				break;
-			case INVALID_SOCKET_DESCRIPTORS :
-				puts("INVALID_SOCKET_DESCRIPTORS");
-				break;
-			case INVALID_MAX_CONNECTIONS :
-				puts("INVALID_MAX_CONNECTIONS");
-				break;
-			case SOCKET_FAMILY_NOT_SUPPORTED :
-				puts("SOCKET_FAMILY_NOT_SUPPORTED");
-				break;
-			case SOCKET_PORT_ALREADY_IN_USE :
-				puts("SOCKET_PORT_ALREADY_IN_USE");
-				break;
-			case SOCKET_FAILED_TO_BIND :
-				puts("SOCKET_FAILED_TO_BIND");
-				break;
-			case SOCKET_FAILED_TEST_SEND :
-				puts("SOCKET_FAILED_TEST_SEND");
-				break;
-			case PORT_CANNOT_BE_ZERO :
-				puts("PORT_CANNOT_BE_ZERO");
-				break;
-			case FAILED_TO_CREATE_NETWORK_THREAD :
-				puts("FAILED_TO_CREATE_NETWORK_THREAD");
-				break;
-			case COULD_NOT_GENERATE_GUID :
-				puts("COULD_NOT_GENERATE_GUID");
-				break;
-			case STARTUP_OTHER_FAILURE :
-				puts("STARTUP_OTHER_FAILURE");
-				break;
-			}
-			return false;
+			printf("-------------------------\n");
+			printf("Network threads have died\n");
+			printf("    Restarting Raknet    \n");
+			printf("-------------------------\n");
+			shutdown();
+			initialize();
 		}
-		server->SetOccasionalPing(true);
-		printf("Max players allowed: %i\n", MAX_CLIENTS);
 
-		dayTime = 500;
-		weatherTime = 0;
-		maintenanceTime = 0;
-		time(&prevTime);
-		loadPingRange();
-		loadBanlist();
-
-		return true;
-	}
-
-	void runLoop()
-	{
-		//char message[512]="";
-		string message="";
-
-		// Loop for input
-		while (1)
+		/*if (p==0)
+			continue; // Didn't get any packets*/
+		while(p)
 		{
-
-			// This sleep keeps RakNet responsive
-			RakSleep(30);
-
 			updateTimer();
 			updateServers();
-
-	#ifdef _WIN32
-			if (_kbhit())
-			{
-				// Notice what is not here: something to keep our network running.  It's
-				// fine to block on gets or anything we want
-				// Because the network engine was painstakingly written using threads.
-				printf("Entering _kbhit()\n");
-				char input[512]="";
-				gets_s(input);
-				message = input;
-
-				if (message=="quit")
-				{
-					puts("Quitting.");
-					break;
-				}
-
-				if (message=="stat")
-				{
-					char temp[2048]="";
-					rss = server->GetStatistics(server->GetSystemAddressFromIndex(0));
-					StatisticsToString(rss, temp, 2);
-					printf("%s", temp);
-					printf("Ping %i\n", server->GetAveragePing(server->GetSystemAddressFromIndex(0)));
-				}
-
-				if (message=="ban")
-				{
-					printf("Enter IP to ban.  You can use * as a wildcard\n");
-					gets_s(input);
-					server->AddToBanList(input);
-					printf("IP %s added to ban list.\n", input);
-				}
-
-				if (message=="traffic")
-				{
-					showTraffic = !showTraffic;
-				}
-				if (message=="numclients")
-				{
-					printf("Current number of connected clients: %i\n",numClients);
-				}
-				/*if (message=="numplayers")
-				{
-					unsigned int numPlayers = 0;
-					for(int i=0; i<MAX_SERVERS; i++)numPlayers += (unsigned int)loggedOnUsernames[i].size();
-					printf("Current number of online players: %i\n",numPlayers);
-					continue;
-				}*/
-				if (message=="numservers")
-				{
-					printf("Current number of servers: %i\n",numServers);
-				}
-				if (message=="servers")
-				{
-					for(int i=0;i<MAX_SERVERS;i++)
-					{
-						if(serverTunnelAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS)
-						{
-							printf("Server %i: %s  ",i+1,serverAdd[i].ToString());
-							printf("Tunnel IP %i: %s  ",i+1,serverTunnelAdd[i].ToString());
-							printf("Ping: %i ",server->GetAveragePing(serverTunnelAdd[i]));
-							printf("Clients: %i",(int)getNumClientsInServer(i));
-							if(serverFull[i])printf("(ping overload)\n");
-							else printf("\n");
-						}
-					}
-				}
-				if (message=="update")
-				{
-					broadcastServerUpdate();
-				}
-				if (message=="time")
-				{
-					printf("Day time: %i\nWeather time: %i\n",(int)dayTime,(int)weatherTime);
-				}
-				if (message=="pingrange")
-				{
-					printf("Enter Ping range (low high): ");
-					gets_s(input);
-					const vector<string> tPart = tokenize(string(input)," \n");
-					if(tPart.size()>0)lowPing = atoi(tPart[0].c_str());
-					if(tPart.size()>1)highPing = atoi(tPart[1].c_str());
-					printf("Servers accept connections at ping below %i\n",(int)lowPing);
-					printf("Servers reject connections at ping above %i\n",(int)highPing);
-					updateServers(true);
-				}
-				if (message=="pingserver")
-				{
-					printf("Enter ServerID to Ping: ");
-					gets_s(input);
-					const string tInput = input;
-					const int tID = atoi(tInput.c_str());
-					if(tID>0 && tID<=MAX_SERVERS && serverTunnelAdd[tID-1]!=UNASSIGNED_SYSTEM_ADDRESS)
-						printf("Server %i Ping: %i\n",tID,server->GetAveragePing(serverTunnelAdd[tID-1]));
-					else
-						printf("No such server: %i\n",tID);
-				}
-				if (message=="reloadbanlist")
-				{
-					clearBanlist();
-					loadBanlist();
-				}
-				printf("Leaving _kbhit()\n");
-			}
-	#endif
-
-			// Get a packet from either the server or the client
-
-			Packet *p = server->Receive();
-			if (!server->IsActive())
-			{
-				printf("network threads have died");
-			}
-
-			/*if (p==0)
-				continue; // Didn't get any packets*/
-			while(p)
-			{
-				updateTimer();
-				updateServers();
 
 			// We got a packet, get the identifier with our handy function
 			const unsigned char packetIdentifier = GetPacketIdentifier(p);
@@ -376,7 +172,7 @@ public:
 
 						tReceiveBit.Read(tMessage);
 						tReceiveBit.Read(tAdd);
-						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername, 16, &tReceiveBit);
 						tReceiveBit.Read(tCharIndex);
 
 						const OwnerToken tToken = assignToken(tAdd,getServerID(p->systemAddress),tUsername,tCharIndex);
@@ -439,8 +235,8 @@ public:
 						char tUsername[16] = "";
 						char tPassword[16] = "";
 						tReceiveBit.Read(tMessage);
-						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
-						StringCompressor::Instance()->DecodeString(tPassword,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername, 16, &tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tPassword, 16, &tReceiveBit);
 
 						bool tLogonSuccess = false;
 						if(strlen(tUsername)>0 && strlen(tPassword)>0)
@@ -627,6 +423,7 @@ public:
 							loginSession.push_back(pair<string,SystemAddress>(tUsernameStr,p->systemAddress));
 
 							//Notify servers to boot logged in username
+							serversListMutex.Lock();
 							for(int i=0; i<MAX_SERVERS; i++)
 							{
 								if(serverTunnelAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS)
@@ -635,11 +432,12 @@ public:
 
 									tBitStream.Write(MessageID(ID_FORCELOGOUT));
 									tBitStream.Write(true);
-									StringCompressor::Instance()->EncodeString(tUsernameStr.c_str(),16,&tBitStream);
+									StringCompressor::Instance()->EncodeString(tUsernameStr.c_str(), 16, &tBitStream);
 
 									server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, serverTunnelAdd[i], false);
 								}
 							}
+							serversListMutex.Unlock();
 						}
 						RakNet::BitStream tBitStream;
 
@@ -672,11 +470,11 @@ public:
 						char tQuestion[128] = "";
 						char tAnswer[128] = "";
 						tReceiveBit.Read(tMessage);
-						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
-						StringCompressor::Instance()->DecodeString(tPassword,16,&tReceiveBit);
-						StringCompressor::Instance()->DecodeString(tEmail,64,&tReceiveBit);
-						StringCompressor::Instance()->DecodeString(tQuestion,128,&tReceiveBit);
-						StringCompressor::Instance()->DecodeString(tAnswer,128,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername, 16, &tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tPassword, 16, &tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tEmail, 64, &tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tQuestion, 128, &tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tAnswer, 128, &tReceiveBit);
 						bool tCreateSuccess = false;
 						if(strlen(tUsername)>0 && strlen(tPassword)>0)
 						{
@@ -742,9 +540,9 @@ public:
 						char tPassword[16] = "";
 						char tNewPassword[16] = "";
 						tReceiveBit.Read(tMessage);
-						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
-						StringCompressor::Instance()->DecodeString(tPassword,16,&tReceiveBit);
-						StringCompressor::Instance()->DecodeString(tNewPassword,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername, 16, &tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tPassword, 16, &tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tNewPassword, 16, &tReceiveBit);
 
 						bool tSuccess = false;
 						char tEmail[64] = "";
@@ -821,7 +619,7 @@ public:
 						char tUsername[16] = "";
 						short tIndex = 0;
 						tReceiveBit.Read(tMessage);
-						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername, 16, &tReceiveBit);
 						tReceiveBit.Read(tIndex);
 
 						bool tLoadSuccess = false;
@@ -911,35 +709,35 @@ public:
 							if(tRenameItemFile)rename(getFilename(tFilename.c_str(),".item",false).c_str(),getFilename(tFilename.c_str(),".item").c_str());
 
 							//Write player data
-							StringCompressor::Instance()->EncodeString(tData,512,&tBitStream);
+							StringCompressor::Instance()->EncodeString(tData, 512, &tBitStream);
 							const bool tIsAdmin = (strlen(tAdminToken)>=3 && string(tAdminToken).erase(2)=="ok");
 							const bool tIsMod = (strlen(tAdminToken)>=3 && string(tAdminToken)=="mod");
 							tBitStream.Write(tIsAdmin);
 							tBitStream.Write(tIsMod);
-							if(tIsAdmin)StringCompressor::Instance()->EncodeString(string(tAdminToken).erase(0,3).c_str(),16,&tBitStream);
+							if (tIsAdmin)StringCompressor::Instance()->EncodeString(string(tAdminToken).erase(0, 3).c_str(), 16, &tBitStream);
 
 							//Write items
 							for(int j=0;j<MAX_EQUIP;j++)
 							{
 								const bool tHasItem = (strlen(tItem[j])>0);
 								tBitStream.Write(tHasItem);
-								if(tHasItem)StringCompressor::Instance()->EncodeString(tItem[j],16,&tBitStream);
+								if (tHasItem)StringCompressor::Instance()->EncodeString(tItem[j], 16, &tBitStream);
 							}
 
 							//Write HP
 							const bool tHasHP = (strlen(tHP)>0);
 							tBitStream.Write(tHasHP);
-							if(tHasHP)StringCompressor::Instance()->EncodeString(tHP,16,&tBitStream);
+							if (tHasHP)StringCompressor::Instance()->EncodeString(tHP, 16, &tBitStream);
 
 							//Write skills
 							const bool tHasSkills = (strlen(tSkills)>0);
 							tBitStream.Write(tHasSkills);
-							if(tHasSkills)StringCompressor::Instance()->EncodeString(tSkills,512,&tBitStream);
+							if (tHasSkills)StringCompressor::Instance()->EncodeString(tSkills, 512, &tBitStream);
 
 							//Write Pet
 							const bool tHasPet = (strlen(tPet)>0);
 							tBitStream.Write(tHasPet);
-							if(tHasPet)StringCompressor::Instance()->EncodeString(tPet,32,&tBitStream);
+							if (tHasPet)StringCompressor::Instance()->EncodeString(tPet, 32, &tBitStream);
 						}
 
 						server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE_SEQUENCED, 1, p->systemAddress, false);
@@ -960,9 +758,9 @@ public:
 						char tName[32] = "";
 						char tData[512] = "";
 						tReceiveBit.Read(tMessage);
-						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
-						StringCompressor::Instance()->DecodeString(tName,32,&tReceiveBit);
-						StringCompressor::Instance()->DecodeString(tData,512,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername, 16, &tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tName, 32, &tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tData, 512, &tReceiveBit);
 
 						bool tCreateSuccess = false;
 
@@ -1046,7 +844,7 @@ public:
 						char tUsername[16] = "";
 						short tIndex = 0;
 						tReceiveBit.Read(tMessage);
-						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername, 16, &tReceiveBit);
 						tReceiveBit.Read(tIndex);
 
 						string tName = "";
@@ -1107,9 +905,9 @@ public:
 						short tIndex = 0;
 						char tData[512] = "";
 						tReceiveBit.Read(tMessage);
-						StringCompressor::Instance()->DecodeString(tUsername,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tUsername, 16, &tReceiveBit);
 						tReceiveBit.Read(tIndex);
-						StringCompressor::Instance()->DecodeString(tData,512,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tData, 512, &tReceiveBit);
 
 						string tName = "";
 						bool tSuccess = false;
@@ -1365,7 +1163,7 @@ public:
 									if(strlen(tLine)>0)
 									{
 										tBitStream.Write(true);
-										StringCompressor::Instance()->EncodeString(tLine,16,&tBitStream);
+										StringCompressor::Instance()->EncodeString(tLine, 16, &tBitStream);
 									}
 								}
 							}
@@ -1455,7 +1253,7 @@ public:
 
 						char tItem[256];
 						unsigned short tSlot;
-						StringCompressor::Instance()->DecodeString(tItem,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tItem, 16, &tReceiveBit);
 						tReceiveBit.Read(tSlot);
 
 						if(tSlot>=0 && tSlot<MAX_EQUIP)playerToken[tToken-1].item[tSlot] = tItem;
@@ -1515,7 +1313,7 @@ public:
 
 						char tSkill[32] = "";
 						unsigned char tStock = 0;
-						StringCompressor::Instance()->DecodeString(tSkill,32,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tSkill, 32, &tReceiveBit);
 						tReceiveBit.Read(tStock);
 						if(strlen(tSkill)>0)
 						{
@@ -1547,7 +1345,7 @@ public:
 						if(tToken>MAX_CLIENTS || tToken<=0 || playerToken[tToken-1].add==UNASSIGNED_SYSTEM_ADDRESS)break;
 
 						char tPet[32] = "";
-						StringCompressor::Instance()->DecodeString(tPet,32,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tPet, 32, &tReceiveBit);
 						playerToken[tToken-1].pet = tPet;
 					}
 					break;
@@ -1561,7 +1359,7 @@ public:
 
 						tReceiveBit.Read(tMessage);
 						tReceiveBit.Read(tAdd);
-						StringCompressor::Instance()->DecodeString(tInfo,32,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tInfo, 32, &tReceiveBit);
 
 						const OwnerToken tToken = getTokenByAdd(tAdd);
 
@@ -1587,7 +1385,7 @@ public:
 						unsigned short tNumDays = 0;
 
 						tReceiveBit.Read(tMessage);
-						StringCompressor::Instance()->DecodeString(tName,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tName, 16, &tReceiveBit);
 						tReceiveBit.Read(tIsBanned);
 						if(tIsBanned)
 						{
@@ -1626,702 +1424,882 @@ public:
 
 			server->DeallocatePacket(p);
 			p = server->Receive();
-			}
-			server->DeallocatePacket(p);
 		}
 	}
-	const string getFilename(const char *name, const char *fileExtension, bool replaceSpaces=true, bool replaceUnderscores=false)
+}
+const string ServerManager::getFilename(const char *name, const char *fileExtension, bool replaceSpaces, bool replaceUnderscores)
+{
+	//Get first character to determine folder
+	string firstChar = "0";
+	string cname;
+	if(strlen(name)>0 && name[0]>='A' && name[0]<='z')
 	{
-		//Get first character to determine folder
-		string firstChar = "0";
-		string cname;
-		if(strlen(name)>0 && name[0]>='A' && name[0]<='z')
-		{
-			firstChar[0] = name[0];
-			if(name[0]>='a')
-				firstChar[0] = name[0]-'a'+'A';
-		}
-		string filename = "Data/" + firstChar + "/";
-		cname = toLowerCase(name);
-		filename += cname;
-		//Convert all spaces to underscores
-		if(replaceSpaces)
-		{
-			for(int i=0;i<(int)filename.length();i++)
-				if(filename[i]==' ')filename[i] = '_';
-		}
-		else if(replaceUnderscores)
-		{
-			for(int i=0;i<(int)filename.length();i++)
-				if(filename[i]=='_')filename[i] = ' ';
-		}
-		filename += fileExtension;
-		return filename;
+		firstChar[0] = name[0];
+		if(name[0]>='a')
+			firstChar[0] = name[0]-'a'+'A';
 	}
-	void shutdown()
+	string filename = "Data/" + firstChar + "/";
+	cname = toLowerCase(name);
+	filename += cname;
+	//Convert all spaces to underscores
+	if(replaceSpaces)
 	{
+		for(int i=0;i<(int)filename.length();i++)
+			if(filename[i]==' ')filename[i] = '_';
+	}
+	else if(replaceUnderscores)
+	{
+		for(int i=0;i<(int)filename.length();i++)
+			if(filename[i]=='_')filename[i] = ' ';
+	}
+	filename += fileExtension;
+	return filename;
+}
+void ServerManager::shutdown()
+{
+	if (server)
 		server->Shutdown(300);
-		savePingRange();
-		saveBanlist();
-	}
-	const string toLowerCase(string text)
+	savePingRange();
+	saveBanlist();
+}
+void ServerManager::quit()
+{
+	alive = false;
+}
+const string ServerManager::toLowerCase(string text)
+{
+	const char tDiff = char('A') - char('a');
+	for(int i=0;i<(int)text.length();i++)
 	{
-		const char tDiff = char('A') - char('a');
-		for(int i=0;i<(int)text.length();i++)
-		{
-			if(text[i]>=char('A')&&text[i]<=char('Z'))text[i] -= tDiff;
-		}
-		return text;
+		if(text[i]>=char('A')&&text[i]<=char('Z'))text[i] -= tDiff;
 	}
-	const unsigned char registerServer(Packet *p)
+	return text;
+}
+const unsigned char ServerManager::registerServer(Packet *p)
+{
+	serversListMutex.Lock();
+	for(int i=0; i<MAX_SERVERS; i++)
 	{
-		for(int i=0; i<MAX_SERVERS; i++)
+		if(serverTunnelAdd[i]==UNASSIGNED_SYSTEM_ADDRESS)
 		{
-			if(serverTunnelAdd[i]==UNASSIGNED_SYSTEM_ADDRESS)
-			{
-				RakNet::BitStream tReceiveBit(p->data, p->length, false);
-				MessageID tMessage;
-				char buffer[64] = "";
-				tReceiveBit.Read(tMessage);
-				StringCompressor::Instance()->DecodeString(buffer,64,&tReceiveBit);
+			RakNet::BitStream tReceiveBit(p->data, p->length, false);
+			MessageID tMessage;
+			char buffer[64] = "";
+			tReceiveBit.Read(tMessage);
+			StringCompressor::Instance()->DecodeString(buffer, 64, &tReceiveBit);
 
-				SystemAddress broadcastAdd;
-				broadcastAdd.SetBinaryAddress(buffer);
-				broadcastAdd.SetPortHostOrder(p->systemAddress.GetPort());
-				serverAdd[i] = broadcastAdd;
+			SystemAddress broadcastAdd;
+			broadcastAdd.SetBinaryAddress(buffer);
+			broadcastAdd.port = p->systemAddress.port;
+			serverAdd[i] = broadcastAdd;
 
-				serverTunnelAdd[i] = p->systemAddress;
-				serverFull[i] = false;
-				numServers++;
-				printf("Server %i connected, Tunnel: %s, IP: %s\n",i+1,p->systemAddress.ToString(),broadcastAdd.ToString());
-				broadcastServerConnected(i,p->systemAddress);
-				notifyServerID(i,p->systemAddress);
-				return i;
-			}
+			serverTunnelAdd[i] = p->systemAddress;
+			serverFull[i] = false;
+			numServers++;
+			printf("Server %i connected, Tunnel: %s, IP: %s\n",i+1,p->systemAddress.ToString(),broadcastAdd.ToString());
+			broadcastServerConnected(i,p->systemAddress);
+			notifyServerID(i,p->systemAddress);
+			serversListMutex.Unlock();
+			return i;
 		}
-		return 0;
 	}
-	const unsigned char getServerID(const SystemAddress &add)
+	serversListMutex.Unlock();
+	return 0;
+}
+const unsigned char ServerManager::getServerID(const SystemAddress &add)
+{
+	serversListMutex.Lock();
+	for(int i=0; i<MAX_SERVERS; i++)
 	{
-		for(int i=0; i<MAX_SERVERS; i++)
+		if(serverTunnelAdd[i]==add)
 		{
-			if(serverTunnelAdd[i]==add)
-			{
-				return i;
-			}
+			serversListMutex.Unlock();
+			return i;
 		}
-		return MAX_SERVERS;
 	}
-	bool unregisterServer(Packet *p)
+	serversListMutex.Unlock();
+	return MAX_SERVERS;
+}
+bool ServerManager::unregisterServer(Packet *p)
+{
+	serversListMutex.Lock();
+	for(int i=0; i<MAX_SERVERS; i++)
 	{
-		for(int i=0; i<MAX_SERVERS; i++)
+		if(serverTunnelAdd[i]==p->systemAddress)
 		{
-			if(serverTunnelAdd[i]==p->systemAddress)
-			{
-				//loggedOnUsernames[i].clear();
-				unassignTokens(p->systemAddress);
-				printf("Server %i disconnected, Tunnel: %s, IP: %s\n",i+1,p->systemAddress.ToString(),serverAdd[i].ToString());
-				broadcastServerDisconnected(i,p->systemAddress);
-				serverAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
-				serverTunnelAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
-				serverFull[i] = false;
-				numServers--;
-				return true;
-			}
+			//loggedOnUsernames[i].clear();
+			unassignTokens(p->systemAddress);
+			printf("Server %i disconnected, Tunnel: %s, IP: %s\n",i+1,p->systemAddress.ToString(),serverAdd[i].ToString());
+			broadcastServerDisconnected(i,p->systemAddress);
+			serverAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
+			serverTunnelAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
+			serverFull[i] = false;
+			numServers--;
+			serversListMutex.Unlock();
+			return true;
 		}
-		return false;
 	}
-	void sendServerList(const SystemAddress &target, const bool &isClient)
+	serversListMutex.Unlock();
+	return false;
+}
+void ServerManager::sendServerList(const SystemAddress &target, const bool &isClient)
+{
+	RakNet::BitStream tBitStream;
+
+	tBitStream.Write(MessageID(ID_SERVERLIST));
+	serversListMutex.Lock();
+	for(int i=0; i<MAX_SERVERS; i++)
 	{
-		RakNet::BitStream tBitStream;
-
-		tBitStream.Write(MessageID(ID_SERVERLIST));
-		for(int i=0; i<MAX_SERVERS; i++)
+		if(serverTunnelAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS)
 		{
-			if(serverTunnelAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS)
-			{
-				tBitStream.Write(true);
-				tBitStream.Write((unsigned char)i);
-				if(isClient)tBitStream.Write(SystemAddress(serverAdd[i]));
-				else tBitStream.Write(SystemAddress(serverTunnelAdd[i]));
-				tBitStream.Write(serverFull[i]);
-			}
+			tBitStream.Write(true);
+			tBitStream.Write((unsigned char)i);
+			if(isClient)tBitStream.Write(SystemAddress(serverAdd[i]));
+			else tBitStream.Write(SystemAddress(serverTunnelAdd[i]));
+			tBitStream.Write(serverFull[i]);
 		}
-		server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, target, false);
 	}
-	void notifyServerID(const unsigned char &iID, const SystemAddress &add)
+	serversListMutex.Unlock();
+	server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, target, false);
+}
+void ServerManager::notifyServerID(const unsigned char &iID, const SystemAddress &add)
+{
+	RakNet::BitStream tBitStream;
+
+	tBitStream.Write(MessageID(ID_SERVERCONNECTED));
+	tBitStream.Write(true);
+	tBitStream.Write(iID);
+	tBitStream.Write(SystemAddress(serverAdd[iID]));
+	tBitStream.Write(SystemAddress(serverTunnelAdd[iID]));
+	tBitStream.Write(true);
+
+	server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, add, false);
+}
+void ServerManager::broadcastServerConnected(const unsigned char &iID, const SystemAddress &exceptionAdd)
+{
+	RakNet::BitStream tBitStream;
+
+	tBitStream.Write(MessageID(ID_SERVERCONNECTED));
+	tBitStream.Write(true);
+	tBitStream.Write(iID);
+	tBitStream.Write(SystemAddress(serverAdd[iID]));
+	tBitStream.Write(SystemAddress(serverTunnelAdd[iID]));
+
+	server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, exceptionAdd, true);
+}
+void ServerManager::broadcastServerDisconnected(const unsigned char &iID, const SystemAddress &exceptionAdd)
+{
+	RakNet::BitStream tBitStream;
+
+	tBitStream.Write(MessageID(ID_SERVERCONNECTED));
+	tBitStream.Write(false);
+	tBitStream.Write(SystemAddress(serverAdd[iID]));
+	tBitStream.Write(SystemAddress(serverTunnelAdd[iID]));
+
+	server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, exceptionAdd, true);
+}
+void ServerManager::broadcastMaintenance(const unsigned char &time)
+{
+	RakNet::BitStream tBitStream;
+
+	tBitStream.Write(MessageID(ID_MAINTENANCE));
+	tBitStream.Write(time);
+
+	server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+}
+const OwnerToken ServerManager::assignToken(const SystemAddress &add, const unsigned char &serverID, const string &name, const unsigned short &charID)
+{
+	for(int i=0;i<MAX_CLIENTS;i++)
 	{
-		RakNet::BitStream tBitStream;
-
-		tBitStream.Write(MessageID(ID_SERVERCONNECTED));
-		tBitStream.Write(true);
-		tBitStream.Write(iID);
-		tBitStream.Write(SystemAddress(serverAdd[iID]));
-		tBitStream.Write(SystemAddress(serverTunnelAdd[iID]));
-		tBitStream.Write(true);
-
-		server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, add, false);
+		if(playerToken[i].add==UNASSIGNED_SYSTEM_ADDRESS)
+		{
+			playerToken[i].add = add;
+			playerToken[i].serverID = serverID;
+			playerToken[i].name = name;
+			playerToken[i].charID = charID;
+			loadPlayerData(i+1);
+			numClients++;
+			return (i+1);
+		}
 	}
-	void broadcastServerConnected(const unsigned char &iID, const SystemAddress &exceptionAdd)
+	return 0;
+}
+void ServerManager::unassignToken(const OwnerToken &token)
+{
+	if(token>0 && token<=MAX_CLIENTS)
 	{
-		RakNet::BitStream tBitStream;
-
-		tBitStream.Write(MessageID(ID_SERVERCONNECTED));
-		tBitStream.Write(true);
-		tBitStream.Write(iID);
-		tBitStream.Write(SystemAddress(serverAdd[iID]));
-		tBitStream.Write(SystemAddress(serverTunnelAdd[iID]));
-
-		server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, exceptionAdd, true);
+		savePlayerData(token);
+		playerToken[token-1] = PlayerToken();
+		numClients--;
 	}
-	void broadcastServerDisconnected(const unsigned char &iID, const SystemAddress &exceptionAdd)
+}
+void ServerManager::unassignToken(const SystemAddress &add)
+{
+	for(int i=0;i<MAX_CLIENTS;i++)
 	{
-		RakNet::BitStream tBitStream;
-
-		tBitStream.Write(MessageID(ID_SERVERCONNECTED));
-		tBitStream.Write(false);
-		tBitStream.Write(SystemAddress(serverAdd[iID]));
-		tBitStream.Write(SystemAddress(serverTunnelAdd[iID]));
-
-		server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, exceptionAdd, true);
+		if(playerToken[i].add==add)
+		{
+			unassignToken(i+1);
+			return;
+		}
 	}
-	void broadcastMaintenance(const unsigned char &time)
+}
+const OwnerToken ServerManager::getTokenByAdd(const SystemAddress &add)
+{
+	for(int i=0;i<MAX_CLIENTS;i++)
 	{
-		RakNet::BitStream tBitStream;
-
-		tBitStream.Write(MessageID(ID_MAINTENANCE));
-		tBitStream.Write(time);
-
-		server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+		if(playerToken[i].add==add)
+		{
+			return (i+1);
+		}
 	}
-	const OwnerToken assignToken(const SystemAddress &add, const unsigned char &serverID, const string &name, const unsigned short &charID)
+	return 0;
+}
+const OwnerToken ServerManager::getTokenByName(const string &name)
+{
+	for(int i=0;i<MAX_CLIENTS;i++)
 	{
-		for(int i=0;i<MAX_CLIENTS;i++)
+		if(toLowerCase(playerToken[i].name)==toLowerCase(name))
 		{
-			if(playerToken[i].add==UNASSIGNED_SYSTEM_ADDRESS)
-			{
-				playerToken[i].add = add;
-				playerToken[i].serverID = serverID;
-				playerToken[i].name = name;
-				playerToken[i].charID = charID;
-				loadPlayerData(i+1);
-				numClients++;
-				return (i+1);
-			}
+			return (i+1);
 		}
-		return 0;
 	}
-	void unassignToken(const OwnerToken &token)
+	return 0;
+}
+void ServerManager::unassignTokens(const SystemAddress &serverAdd)
+{
+	const unsigned char tServerID = getServerID(serverAdd);
+	for(int i=0;i<MAX_CLIENTS;i++)
 	{
-		if(token>0 && token<=MAX_CLIENTS)
+		if(playerToken[i].add!=UNASSIGNED_SYSTEM_ADDRESS && playerToken[i].serverID==tServerID)
 		{
-			savePlayerData(token);
-			playerToken[token-1] = PlayerToken();
-			numClients--;
+			unassignToken(i+1);
 		}
 	}
-	void unassignToken(const SystemAddress &add)
+}
+void ServerManager::broadcastServerUpdate()
+{
+	serversListMutex.Lock();
+	for(int i=0; i<MAX_SERVERS; i++)
 	{
-		for(int i=0;i<MAX_CLIENTS;i++)
+		if(serverTunnelAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS)
 		{
-			if(playerToken[i].add==add)
-			{
-				unassignToken(i+1);
-				return;
-			}
+			RakNet::BitStream tBitStream;
+
+			tBitStream.Write(MessageID(ID_SERVERUPDATE));
+
+			server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, serverTunnelAdd[i], false);
 		}
 	}
-	const OwnerToken getTokenByAdd(const SystemAddress &add)
-	{
-		for(int i=0;i<MAX_CLIENTS;i++)
-		{
-			if(playerToken[i].add==add)
-			{
-				return (i+1);
-			}
-		}
-		return 0;
-	}
-	const OwnerToken getTokenByName(const string &name)
-	{
-		for(int i=0;i<MAX_CLIENTS;i++)
-		{
-			if(toLowerCase(playerToken[i].name)==toLowerCase(name))
-			{
-				return (i+1);
-			}
-		}
-		return 0;
-	}
-	void unassignTokens(const SystemAddress &serverAdd)
-	{
-		const unsigned char tServerID = getServerID(serverAdd);
-		for(int i=0;i<MAX_CLIENTS;i++)
-		{
-			if(playerToken[i].add!=UNASSIGNED_SYSTEM_ADDRESS && playerToken[i].serverID==tServerID)
-			{
-				unassignToken(i+1);
-			}
-		}
-	}
-	void broadcastServerUpdate()
-	{
-		for(int i=0; i<MAX_SERVERS; i++)
-		{
-			if(serverTunnelAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS)
-			{
-				RakNet::BitStream tBitStream;
+	serversListMutex.Unlock();
+}
+void ServerManager::loadPlayerData(const OwnerToken &token)
+{
+	if(token<=0 || token>MAX_CLIENTS)return;
 
-				tBitStream.Write(MessageID(ID_SERVERUPDATE));
-
-				server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, serverTunnelAdd[i], false);
-			}
-		}
-	}
-	void loadPlayerData(const OwnerToken &token)
-	{
-		if(token<=0 || token>MAX_CLIENTS)return;
-
-		string tName = "";
-		bool tSuccess = false;
-		std::ifstream inFile(getFilename(playerToken[token-1].name.c_str(),".charlist").c_str());
-		if(inFile.good())
-		{
-			unsigned short tCount = 0;
-			while(!inFile.eof() && inFile.good())
-			{
-				char tLine[32] = "";
-				inFile.getline(tLine,32);
-				if(playerToken[token-1].charID==tCount)
-				{
-					tName = tLine;
-					tSuccess = true;
-					break;
-				}
-				tCount++;
-			}
-		}
-		inFile.close();
-		if(!tSuccess)return;
-
-		string tFilename = playerToken[token-1].name;
-		tFilename += "_";
-		tFilename += tName;
-
-		//Load everything
-		char tItem[MAX_EQUIP][16];
-		for(int j=0;j<MAX_EQUIP;j++)strcpy(tItem[j],"");
-		char tHP[16] = "";
-		char tSkills[512] = "";
-		char tPet[32] = "";
-		inFile.open(getFilename(tFilename.c_str(),".item").c_str());
-		if(inFile.good())
-		{
-			for(int j=0;j<MAX_EQUIP;j++)
-				if(inFile.good())inFile.getline(tItem[j],16);
-			if(inFile.good())inFile.getline(tHP,16);
-			if(inFile.good())inFile.getline(tSkills,512);
-			if(inFile.good())inFile.getline(tPet,32);
-		}
-		inFile.close();
-
-		for(int j=0;j<MAX_EQUIP;j++)playerToken[token-1].item[j] = tItem[j];
-		const vector<string> tHPPart = tokenize(string(tHP),";\n");
-		if(tHPPart.size()==2)
-		{
-			playerToken[token-1].hp.first = atoi(tHPPart[0].c_str());
-			playerToken[token-1].hp.second = atoi(tHPPart[1].c_str());
-		}
-		else
-		{
-			playerToken[token-1].hp.first = 500;
-			playerToken[token-1].hp.second = 500;
-		}
-		const vector<string> tSkillLine = tokenize(string(tSkills),"|\n");
-		for(int i=0;i<(int)tSkillLine.size();i++)
-		{
-			const vector<string> tSkillPart = tokenize(tSkillLine[i],";");
-			if(tSkillPart.size()==2)
-			{
-				playerToken[token-1].skill.push_back(pair<string,unsigned char>(tSkillPart[0],atoi(tSkillPart[1].c_str())));
-			}
-		}
-		playerToken[token-1].pet = tPet;
-	}
-	void savePlayerData(const OwnerToken &token)
-	{
-		if(token<=0 || token>MAX_CLIENTS)return;
-
-		string tName = "";
-		bool tSuccess = false;
-		std::ostringstream sin;
-		std::ifstream inFile(getFilename(playerToken[token-1].name.c_str(),".charlist").c_str());
-		if(inFile.good())
-		{
-			unsigned short tCount = 0;
-			while(!inFile.eof() && inFile.good())
-			{
-				char tLine[32] = "";
-				inFile.getline(tLine,32);
-				if(playerToken[token-1].charID==tCount)
-				{
-					tName = tLine;
-					tSuccess = true;
-					break;
-				}
-				tCount++;
-			}
-		}
-		inFile.close();
-		if(!tSuccess)return;
-
-		//Write new item file
-		string tFilename = playerToken[token-1].name;
-		tFilename += "_";
-		tFilename += tName;
-
-		//Items
-		string tBuffer = "";
-		for(int j=0;j<MAX_EQUIP;j++)
-		{
-			tBuffer += playerToken[token-1].item[j];
-			tBuffer += "\n";
-		}
-
-		//HP
-		char tHP[6] = "";
-		char tMaxHP[6] = "";
-		sprintf(tHP,"%i",playerToken[token-1].hp.first);
-		sprintf(tMaxHP,"%i",(playerToken[token-1].hp.second==0?500:playerToken[token-1].hp.second));
-		string tHPStr = tHP;
-		tHPStr += ";";
-		tHPStr += tMaxHP;
-
-		tBuffer += tHPStr;
-		tBuffer += "\n";
-
-		//Skills
-		string tSkill = "";
-		for(int j=0;j<(int)playerToken[token-1].skill.size();j++)
-		{
-			tSkill += playerToken[token-1].skill[j].first;
-			tSkill += ";";
-			char tStock[4] = "";
-			sprintf(tStock,"%i",playerToken[token-1].skill[j].second);
-			tSkill += tStock;
-			tSkill += "|";
-		}
-		if(tSkill.length()>=512)
-		{
-			printf("(%i)%s skill length longer than 512\n",(int)token,playerToken[token-1].name.c_str());
-			ofstream outFile("./exceptions.log",ios_base::app);
-			char tBuffer[128] = "";
-			sin << (int)token;
-			std::string val = sin.str();
-			strcpy(tBuffer,val.c_str());
-			//itoa((int)token,tBuffer,10);
-			outFile.write(tBuffer,strlen(tBuffer));
-			strcpy(tBuffer,playerToken[token-1].name.c_str());
-			outFile.write(tBuffer,strlen(tBuffer));
-			strcpy(tBuffer," skill length longer than 512\n");
-			outFile.write(tBuffer,strlen(tBuffer));
-			outFile.close();
-		}
-
-		tBuffer += tSkill;
-		tBuffer += "\n";
-
-		//Pet
-		tBuffer += playerToken[token-1].pet;
-		tBuffer += "\n";
-
-		std::ofstream outFile(getFilename(tFilename.c_str(),".item").c_str());
-		outFile.write(tBuffer.c_str(),tBuffer.length());
-		outFile.close();
-	}
-	const vector<string> tokenize(const string& str, const string& delimiters = " ")
-	{
-		vector<string> tokens;
-		// Skip delimiters at beginning.
-		string::size_type lastPos = str.find_first_not_of(delimiters, 0);
-		// Find first "non-delimiter".
-		string::size_type pos     = str.find_first_of(delimiters, lastPos);
-
-		while (string::npos != pos || string::npos != lastPos)
-		{
-			// Found a token, add it to the vector.
-			tokens.push_back(str.substr(lastPos, pos - lastPos));
-			// Skip delimiters.  Note the "not_of"
-			lastPos = str.find_first_not_of(delimiters, pos);
-			// Find next "non-delimiter"
-			pos = str.find_first_of(delimiters, lastPos);
-		}
-
-		return tokens;
-	}
-	void updateTimer()
-	{
-		time_t currTime;
-		time(&currTime);
-		const float timeSinceLastUpdate = (float)difftime(currTime,prevTime);
-		prevTime = currTime;
-		dayTime += timeSinceLastUpdate;
-		if(dayTime>=2400)dayTime = 0;
-		weatherTime += timeSinceLastUpdate;
-		if(weatherTime>=7000)weatherTime = 0;
-
-		//4 hourly maintenance
-		const unsigned short MAINTENANCE_PERIOD = 14400;
-		/*unsigned char tPrepareMark=0;
-		if(maintenanceTime<MAINTENANCE_PERIOD-60)tPrepareMark = 60;
-		else if(maintenanceTime<MAINTENANCE_PERIOD-30)tPrepareMark = 30;
-		else if(maintenanceTime<MAINTENANCE_PERIOD-15)tPrepareMark = 15;*/
-		maintenanceTime += timeSinceLastUpdate;
-		//Check if timer crossed the mark
-		//if(tPrepareMark!=0 && maintenanceTime>=MAINTENANCE_PERIOD-tPrepareMark)broadcastMaintenance(tPrepareMark);
-		if(maintenanceTime>=MAINTENANCE_PERIOD)
-		{
-			updateBanlist();
-			saveBanlist();
-			//broadcastServerUpdate();
-			maintenanceTime = 0;
-		}
-	}
-	void updateServers(bool forceUpdate=false)
-	{
-		if(!forceUpdate && (int(dayTime)%10!=0))return;
-		for(int i=0;i<MAX_SERVERS;i++)
-		{
-			if(serverTunnelAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS)
-			{
-				const int tPing = server->GetAveragePing(serverTunnelAdd[i]);
-				if(tPing>=highPing)
-				{
-					serverFull[i] = true;
-				}
-				else if(tPing<=lowPing)
-				{
-					serverFull[i] = false;
-				}
-			}
-		}
-	}
-	const unsigned short getNumClientsInServer(const unsigned char &serverID)
+	string tName = "";
+	bool tSuccess = false;
+	std::ifstream inFile(getFilename(playerToken[token-1].name.c_str(),".charlist").c_str());
+	if(inFile.good())
 	{
 		unsigned short tCount = 0;
-		for(int i=0;i<MAX_CLIENTS;i++)
+		while(!inFile.eof() && inFile.good())
 		{
-			if(playerToken[i].serverID==serverID)
+			char tLine[32] = "";
+			inFile.getline(tLine,32);
+			if(playerToken[token-1].charID==tCount)
 			{
-				tCount++;
+				tName = tLine;
+				tSuccess = true;
+				break;
 			}
+			tCount++;
 		}
-		return tCount;
 	}
-	const string XOR7(const string &input)
+	inFile.close();
+	if(!tSuccess)return;
+
+	string tFilename = playerToken[token-1].name;
+	tFilename += "_";
+	tFilename += tName;
+
+	//Load everything
+	char tItem[MAX_EQUIP][16];
+	for(int j=0;j<MAX_EQUIP;j++)strcpy(tItem[j],"");
+	char tHP[16] = "";
+	char tSkills[512] = "";
+	char tPet[32] = "";
+	inFile.open(getFilename(tFilename.c_str(),".item").c_str());
+	if(inFile.good())
 	{
-		string output = "";
-		for(int i=0;i<(int)input.length();i++)
+		for(int j=0;j<MAX_EQUIP;j++)
+			if(inFile.good())inFile.getline(tItem[j],16);
+		if(inFile.good())inFile.getline(tHP,16);
+		if(inFile.good())inFile.getline(tSkills,512);
+		if(inFile.good())inFile.getline(tPet,32);
+	}
+	inFile.close();
+
+	for(int j=0;j<MAX_EQUIP;j++)playerToken[token-1].item[j] = tItem[j];
+	const vector<string> tHPPart = tokenize(string(tHP),";\n");
+	if(tHPPart.size()==2)
+	{
+		playerToken[token-1].hp.first = atoi(tHPPart[0].c_str());
+		playerToken[token-1].hp.second = atoi(tHPPart[1].c_str());
+	}
+	else
+	{
+		playerToken[token-1].hp.first = 500;
+		playerToken[token-1].hp.second = 500;
+	}
+	const vector<string> tSkillLine = tokenize(string(tSkills),"|\n");
+	for(int i=0;i<(int)tSkillLine.size();i++)
+	{
+		const vector<string> tSkillPart = tokenize(tSkillLine[i],";");
+		if(tSkillPart.size()==2)
 		{
-			char tC = input[i];
-			tC ^= 7*(i%7+1);
-			//Replace illegal characters with original character
-			if(tC>char(126) || tC<char(32))tC = input[i];
-			output += tC;
+			playerToken[token-1].skill.push_back(pair<string,unsigned char>(tSkillPart[0],atoi(tSkillPart[1].c_str())));
 		}
-		return output;
 	}
-	const string XOR7OLD(const string &input)
+	playerToken[token-1].pet = tPet;
+}
+void ServerManager::savePlayerData(const OwnerToken &token)
+{
+	if(token<=0 || token>MAX_CLIENTS)return;
+
+	string tName = "";
+	bool tSuccess = false;
+	std::ostringstream sin;
+	std::ifstream inFile(getFilename(playerToken[token-1].name.c_str(),".charlist").c_str());
+	if(inFile.good())
 	{
-		string output = "";
-		for(int i=0;i<(int)input.length();i++)
+		unsigned short tCount = 0;
+		while(!inFile.eof() && inFile.good())
 		{
-			char tC = input[i];
-			tC ^= 7*(i%7+1);
-			output += tC;
-		}
-		return output;
-	}
-	void saveBanlist()
-	{
-		std::ostringstream sin;
-		std::ofstream outFile("banlist.txt");
-		string tBuffer;
-		for(int i=0;i<(int)banlist.size();i++)
-		{
-			char tYear[6] = "";
-			char tDay[6] = "";
-			sin << banlist[i].year;
-			std::string val = sin.str();
-			strcpy(tYear,val.c_str());
-			sin << banlist[i].yDay;
-			val = sin.str();
-			strcpy(tDay,val.c_str());
-			//itoa(banlist[i].year,tYear,6,10);
-			//itoa(banlist[i].yDay,tDay,6,10);
-			tBuffer = banlist[i].name + ";" + tYear + ";" + tDay + "|";
-			outFile.write(tBuffer.c_str(),tBuffer.length());
-			for(int j=0;j<(int)banlist[i].IPList.size();j++)
+			char tLine[32] = "";
+			inFile.getline(tLine,32);
+			if(playerToken[token-1].charID==tCount)
 			{
-				tBuffer = banlist[i].IPList[j] + ";";
-				outFile.write(tBuffer.c_str(),tBuffer.length());
+				tName = tLine;
+				tSuccess = true;
+				break;
 			}
-			tBuffer = "\n";
-			outFile.write(tBuffer.c_str(),tBuffer.length());
+			tCount++;
 		}
+	}
+	inFile.close();
+	if(!tSuccess)return;
+
+	//Write new item file
+	string tFilename = playerToken[token-1].name;
+	tFilename += "_";
+	tFilename += tName;
+
+	//Items
+	string tBuffer = "";
+	for(int j=0;j<MAX_EQUIP;j++)
+	{
+		tBuffer += playerToken[token-1].item[j];
+		tBuffer += "\n";
+	}
+
+	//HP
+	char tHP[6] = "";
+	char tMaxHP[6] = "";
+	sprintf(tHP,"%i",playerToken[token-1].hp.first);
+	sprintf(tMaxHP,"%i",(playerToken[token-1].hp.second==0?500:playerToken[token-1].hp.second));
+	string tHPStr = tHP;
+	tHPStr += ";";
+	tHPStr += tMaxHP;
+
+	tBuffer += tHPStr;
+	tBuffer += "\n";
+
+	//Skills
+	string tSkill = "";
+	for(int j=0;j<(int)playerToken[token-1].skill.size();j++)
+	{
+		tSkill += playerToken[token-1].skill[j].first;
+		tSkill += ";";
+		char tStock[4] = "";
+		sprintf(tStock,"%i",playerToken[token-1].skill[j].second);
+		tSkill += tStock;
+		tSkill += "|";
+	}
+	if(tSkill.length()>=512)
+	{
+		printf("(%i)%s skill length longer than 512\n",(int)token,playerToken[token-1].name.c_str());
+		ofstream outFile("./exceptions.log",ios_base::app);
+		char tBuffer[128] = "";
+		sin << (int)token;
+		std::string val = sin.str();
+		strcpy(tBuffer,val.c_str());
+		//itoa((int)token,tBuffer,10);
+		outFile.write(tBuffer,strlen(tBuffer));
+		strcpy(tBuffer,playerToken[token-1].name.c_str());
+		outFile.write(tBuffer,strlen(tBuffer));
+		strcpy(tBuffer," skill length longer than 512\n");
+		outFile.write(tBuffer,strlen(tBuffer));
 		outFile.close();
 	}
-	void loadBanlist()
-	{
-		std::ifstream inFile("banlist.txt");
-		while(inFile.good() && !inFile.eof())
-		{
-			char tBuffer[1024] = "";
-			inFile.getline(tBuffer,1024);
-			const vector<string> tPart = tokenize(tBuffer,"|");
-			if(tPart.size()>1)
-			{
-				const vector<string> tInfo = tokenize(tPart[0],";");
-				if(tInfo.size()>2)
-				{
-					BanInfo tBanInfo(tInfo[0],atoi(tInfo[1].c_str()),atoi(tInfo[2].c_str()));
-					const vector<string> tIPs = tokenize(tPart[1],";");
-					for(int i=0;i<(int)tIPs.size();i++)
-					{
-						tBanInfo.IPList.push_back(tIPs[i]);
-						server->AddToBanList(tIPs[i].c_str());
-					}
-					banlist.push_back(tBanInfo);
-				}
-			}
-		}
-		inFile.close();
-	}
-	void updateBanlist()
-	{
-		time_t rawtime;
-		struct tm * timeinfo;
-		time(&rawtime);
-		timeinfo = localtime(&rawtime);
-		const int tCurrentYear = timeinfo->tm_year;
-		const int tCurrentDay = timeinfo->tm_yday;
 
-		vector<BanInfo>::iterator it = banlist.begin();
-		while(it!=banlist.end())
+	tBuffer += tSkill;
+	tBuffer += "\n";
+
+	//Pet
+	tBuffer += playerToken[token-1].pet;
+	tBuffer += "\n";
+
+	std::ofstream outFile(getFilename(tFilename.c_str(),".item").c_str());
+	outFile.write(tBuffer.c_str(),tBuffer.length());
+	outFile.close();
+}
+const vector<string> ServerManager::tokenize(const string& str, const string& delimiters)
+{
+	vector<string> tokens;
+	// Skip delimiters at beginning.
+	string::size_type lastPos = str.find_first_not_of(delimiters, 0);
+	// Find first "non-delimiter".
+	string::size_type pos     = str.find_first_of(delimiters, lastPos);
+
+	while (string::npos != pos || string::npos != lastPos)
+	{
+		// Found a token, add it to the vector.
+		tokens.push_back(str.substr(lastPos, pos - lastPos));
+		// Skip delimiters.  Note the "not_of"
+		lastPos = str.find_first_not_of(delimiters, pos);
+		// Find next "non-delimiter"
+		pos = str.find_first_of(delimiters, lastPos);
+	}
+
+	return tokens;
+}
+void ServerManager::updateTimer()
+{
+	time_t currTime;
+	time(&currTime);
+	const float timeSinceLastUpdate = (float)difftime(currTime,prevTime);
+	prevTime = currTime;
+	dayTime += timeSinceLastUpdate;
+	if(dayTime>=2400)dayTime = 0;
+	weatherTime += timeSinceLastUpdate;
+	if(weatherTime>=7000)weatherTime = 0;
+
+	//4 hourly maintenance
+	const unsigned short MAINTENANCE_PERIOD = 14400;
+	/*unsigned char tPrepareMark=0;
+	if(maintenanceTime<MAINTENANCE_PERIOD-60)tPrepareMark = 60;
+	else if(maintenanceTime<MAINTENANCE_PERIOD-30)tPrepareMark = 30;
+	else if(maintenanceTime<MAINTENANCE_PERIOD-15)tPrepareMark = 15;*/
+	maintenanceTime += timeSinceLastUpdate;
+	//Check if timer crossed the mark
+	//if(tPrepareMark!=0 && maintenanceTime>=MAINTENANCE_PERIOD-tPrepareMark)broadcastMaintenance(tPrepareMark);
+	if(maintenanceTime>=MAINTENANCE_PERIOD)
+	{
+		updateBanlist();
+		saveBanlist();
+		//broadcastServerUpdate();
+		maintenanceTime = 0;
+	}
+}
+void ServerManager::updateServers(bool forceUpdate)
+{
+	if(!forceUpdate && (int(dayTime)%10!=0))return;
+	serversListMutex.Lock();
+	for(int i=0;i<MAX_SERVERS;i++)
+	{
+		if(serverTunnelAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS)
 		{
-			BanInfo tInfo = *it;
-			const int tYear = tInfo.year - tCurrentYear;
-			const int tDay = tInfo.yDay - tCurrentDay;
-			if(tYear<0 || tYear==0&&tDay<=0)
+			const int tPing = server->GetAveragePing(serverTunnelAdd[i]);
+			if(tPing>=highPing)
 			{
-				for(int i=0;i<(int)tInfo.IPList.size();i++)
-					server->RemoveFromBanList(tInfo.IPList[i].c_str());
-				tInfo.IPList.clear();
-				it = banlist.erase(it);
-				continue;
+				serverFull[i] = true;
 			}
-			it++;
+			else if(tPing<=lowPing)
+			{
+				serverFull[i] = false;
+			}
 		}
 	}
-	void clearBanlist()
+	serversListMutex.Unlock();
+}
+const unsigned short ServerManager::getNumClientsInServer(const unsigned char &serverID)
+{
+	unsigned short tCount = 0;
+	for(int i=0;i<MAX_CLIENTS;i++)
 	{
-		vector<BanInfo>::iterator it = banlist.begin();
-		while(it!=banlist.end())
+		if(playerToken[i].serverID==serverID)
 		{
-			BanInfo tInfo = *it;
+			tCount++;
+		}
+	}
+	return tCount;
+}
+const string ServerManager::XOR7(const string &input)
+{
+	string output = "";
+	for(int i=0;i<(int)input.length();i++)
+	{
+		char tC = input[i];
+		tC ^= 7*(i%7+1);
+		//Replace illegal characters with original character
+		if(tC>char(126) || tC<char(32))tC = input[i];
+		output += tC;
+	}
+	return output;
+}
+const string ServerManager::XOR7OLD(const string &input)
+{
+	string output = "";
+	for(int i=0;i<(int)input.length();i++)
+	{
+		char tC = input[i];
+		tC ^= 7*(i%7+1);
+		output += tC;
+	}
+	return output;
+}
+void ServerManager::saveBanlist()
+{
+	std::ostringstream sin;
+	std::ofstream outFile("banlist.txt");
+	string tBuffer;
+	for(int i=0;i<(int)banlist.size();i++)
+	{
+		char tYear[6] = "";
+		char tDay[6] = "";
+		sin << banlist[i].year;
+		std::string val = sin.str();
+		strcpy(tYear,val.c_str());
+		sin << banlist[i].yDay;
+		val = sin.str();
+		strcpy(tDay,val.c_str());
+		//itoa(banlist[i].year,tYear,6,10);
+		//itoa(banlist[i].yDay,tDay,6,10);
+		tBuffer = banlist[i].name + ";" + tYear + ";" + tDay + "|";
+		outFile.write(tBuffer.c_str(),tBuffer.length());
+		for(int j=0;j<(int)banlist[i].IPList.size();j++)
+		{
+			tBuffer = banlist[i].IPList[j] + ";";
+			outFile.write(tBuffer.c_str(),tBuffer.length());
+		}
+		tBuffer = "\n";
+		outFile.write(tBuffer.c_str(),tBuffer.length());
+	}
+	outFile.close();
+}
+void ServerManager::loadBanlist()
+{
+	std::ifstream inFile("banlist.txt");
+	while(inFile.good() && !inFile.eof())
+	{
+		char tBuffer[1024] = "";
+		inFile.getline(tBuffer,1024);
+		const vector<string> tPart = tokenize(tBuffer,"|");
+		if(tPart.size()>1)
+		{
+			const vector<string> tInfo = tokenize(tPart[0],";");
+			if(tInfo.size()>2)
+			{
+				BanInfo tBanInfo(tInfo[0],atoi(tInfo[1].c_str()),atoi(tInfo[2].c_str()));
+				const vector<string> tIPs = tokenize(tPart[1],";");
+				for(int i=0;i<(int)tIPs.size();i++)
+				{
+					tBanInfo.IPList.push_back(tIPs[i]);
+					server->AddToBanList(tIPs[i].c_str());
+				}
+				banlist.push_back(tBanInfo);
+			}
+		}
+	}
+	inFile.close();
+}
+void ServerManager::updateBanlist()
+{
+	time_t rawtime;
+	struct tm * timeinfo;
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+	const int tCurrentYear = timeinfo->tm_year;
+	const int tCurrentDay = timeinfo->tm_yday;
+
+	vector<BanInfo>::iterator it = banlist.begin();
+	while(it!=banlist.end())
+	{
+		BanInfo tInfo = *it;
+		const int tYear = tInfo.year - tCurrentYear;
+		const int tDay = tInfo.yDay - tCurrentDay;
+		if(tYear<0 || tYear==0&&tDay<=0)
+		{
 			for(int i=0;i<(int)tInfo.IPList.size();i++)
 				server->RemoveFromBanList(tInfo.IPList[i].c_str());
 			tInfo.IPList.clear();
 			it = banlist.erase(it);
+			continue;
 		}
+		it++;
 	}
-	void endSession(Packet *p)
+}
+void ServerManager::clearBanlist()
+{
+	vector<BanInfo>::iterator it = banlist.begin();
+	while(it!=banlist.end())
 	{
-		unsigned int k = 0;
-		for(vector<pair<string,SystemAddress> >::iterator it = loginSession.begin(); it != loginSession.end(); it++)
+		BanInfo tInfo = *it;
+		for(int i=0;i<(int)tInfo.IPList.size();i++)
+			server->RemoveFromBanList(tInfo.IPList[i].c_str());
+		tInfo.IPList.clear();
+		it = banlist.erase(it);
+	}
+}
+void ServerManager::endSession(Packet *p)
+{
+	unsigned int k = 0;
+	for(vector<pair<string,SystemAddress> >::iterator it = loginSession.begin(); it != loginSession.end(); it++)
+	{
+		pair<string,SystemAddress> tSession = *it;
+		if(tSession.second==p->systemAddress)
 		{
-			pair<string,SystemAddress> tSession = *it;
-			if(tSession.second==p->systemAddress)
+			serversListMutex.Lock();
+			for(int i=0; i<MAX_SERVERS; i++)
 			{
-				for(int i=0; i<MAX_SERVERS; i++)
+				if(serverTunnelAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS)
 				{
-					if(serverTunnelAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS)
-					{
-						RakNet::BitStream tBitStream;
+					RakNet::BitStream tBitStream;
 
-						tBitStream.Write(MessageID(ID_FORCELOGOUT));
-						tBitStream.Write(false);
-						StringCompressor::Instance()->EncodeString(tSession.first.c_str(),16,&tBitStream);
+					tBitStream.Write(MessageID(ID_FORCELOGOUT));
+					tBitStream.Write(false);
+					StringCompressor::Instance()->EncodeString(tSession.first.c_str(), 16, &tBitStream);
 
-						server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, serverTunnelAdd[i], false);
-					}
+					server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, serverTunnelAdd[i], false);
 				}
-				loginSession.erase(it);
-				break;
 			}
-			k++;
+			serversListMutex.Unlock();
+			loginSession.erase(it);
+			break;
 		}
+		k++;
 	}
-	void loadPingRange()
+}
+void ServerManager::loadPingRange()
+{
+	lowPing = 400;
+	highPing = 500;
+	char tBuffer[16] = "";
+	std::ifstream inFile("pingrange.txt");
+	if(inFile.good() && !inFile.eof())
 	{
-		lowPing = 40;
-		highPing = 50;
-		char tBuffer[16] = "";
-		std::ifstream inFile("pingrange.txt");
-		if(inFile.good() && !inFile.eof())
-		{
-			inFile.getline(tBuffer,16);
-			const unsigned short tPing = atoi(tBuffer);
-			if(tPing!=0)lowPing = tPing;
-		}
-		if(inFile.good() && !inFile.eof())
-		{
-			strcpy(tBuffer,"");
-			inFile.getline(tBuffer,16);
-			const unsigned short tPing = atoi(tBuffer);
-			if(tPing!=0)highPing = tPing;
-		}
-		printf("Servers accept connections at ping below %i\n",(int)lowPing);
-		printf("Servers reject connections at ping above %i\n",(int)highPing);
-		inFile.close();
+		inFile.getline(tBuffer,16);
+		const unsigned short tPing = atoi(tBuffer);
+		if(tPing!=0)lowPing = tPing;
 	}
-	void savePingRange()
+	if(inFile.good() && !inFile.eof())
 	{
-		std::ofstream outFile("pingrange.txt");
-		std::ostringstream sin;
-		char tLowPing[16] = "", tHighPing[16] = "";
-		sin << lowPing;
-		std::string val = sin.str();
-		strcpy(tLowPing,val.c_str());
-		//itoa(lowPing,tLowPing,16,10);
-		sin << highPing;
-		val = sin.str();
-		strcpy(tHighPing,val.c_str());
-		//itoa(highPing,tHighPing,16,10);
-		string tBuffer = tLowPing;
-		tBuffer += "\n";
-		outFile.write(tBuffer.c_str(),tBuffer.length());
-		tBuffer = tHighPing;
-		tBuffer += "\n";
-		outFile.write(tBuffer.c_str(),tBuffer.length());
-		outFile.close();
+		strcpy(tBuffer,"");
+		inFile.getline(tBuffer,16);
+		const unsigned short tPing = atoi(tBuffer);
+		if(tPing!=0)highPing = tPing;
 	}
-};
+	printf("Servers accept connections at ping below %hu\n",lowPing);
+	printf("Servers reject connections at ping above %hu\n",highPing);
+	inFile.close();
+}
+void ServerManager::savePingRange()
+{
+	std::ofstream outFile("pingrange.txt");
+	std::ostringstream sin;
+	char tLowPing[16] = "", tHighPing[16] = "";
+	sin << lowPing;
+	std::string val = sin.str();
+	strcpy(tLowPing,val.c_str());
+	//itoa(lowPing,tLowPing,16,10);
+	sin.clear();
+	sin.str("");
+	sin << highPing;
+	val = sin.str();
+	strcpy(tHighPing,val.c_str());
+	//itoa(highPing,tHighPing,16,10);
+	string tBuffer = tLowPing;
+	tBuffer += "\n";
+	tBuffer += tHighPing;
+	tBuffer += "\n";
+	outFile.write(tBuffer.c_str(),tBuffer.length());
+	outFile.close();
+}
+RakNetStatistics* ServerManager::getStatistics()
+{
+	return server->GetStatistics(server->GetSystemAddressFromIndex(0));
+}
+int ServerManager::getAveragePing()
+{
+	return server->GetAveragePing(server->GetSystemAddressFromIndex(0));
+}
+void ServerManager::addToBanList(const char *input)
+{
+	server->AddToBanList(input);
+}
+bool ServerManager::ShowTraffic()
+{
+	showTraffic = !showTraffic;
+	return showTraffic;
+}
+unsigned short ServerManager::getNumClients()
+{
+	return numClients;
+}
+unsigned short ServerManager::getNumServers()
+{
+	return numServers;
+}
+void ServerManager::printServers()
+{
+	bool printed = false;
+	serversListMutex.Lock();
+	for (int i = 0; i<MAX_SERVERS; i++)
+	{
+		if (serverTunnelAdd[i] != UNASSIGNED_SYSTEM_ADDRESS)
+		{
+			printed = true;
+			printf("Server %i: %s  ", i + 1, serverAdd[i].ToString());
+			printf("Tunnel IP %i: %s  ", i + 1, serverTunnelAdd[i].ToString());
+			printf("Ping: %i ", server->GetAveragePing(serverTunnelAdd[i]));
+			printf("Clients: %i", (int)getNumClientsInServer(i));
+			if (serverFull[i])printf("(ping overload)\n");
+			else printf("\n");
+		}
+	}
+	serversListMutex.Unlock();
+	if (!printed)
+		printf("Nothing to print\n");
+}
+void ServerManager::printTimeWeather()
+{
+	printf("Day time: %i\nWeather time: %i\n", (int)dayTime, (int)weatherTime);
+}
+void ServerManager::enterPingRange()
+{
+	char input[512] = "";
+	printf("Enter Ping range with space between (low high): ");
+	gets_s(input);
+	const vector<string> tPart = tokenize(string(input), " \n");
+	if (tPart.size()>0)lowPing = atoi(tPart[0].c_str());
+	if (tPart.size()>1)highPing = atoi(tPart[1].c_str());
+	printf("Servers accept connections at ping below %i\n", (int)lowPing);
+	printf("Servers reject connections at ping above %i\n", (int)highPing);
+	updateServers(true);
+}
+void ServerManager::enterServerPing()
+{
+	char input[512] = "";
+	printf("Enter ServerID to Ping: ");
+	gets_s(input);
+	const string tInput = input;
+	const int tID = atoi(tInput.c_str());
+	serversListMutex.Lock();
+	if (tID>0 && tID <= MAX_SERVERS && serverTunnelAdd[tID - 1] != UNASSIGNED_SYSTEM_ADDRESS)
+		printf("Server %i Ping: %i\n", tID, server->GetAveragePing(serverTunnelAdd[tID - 1]));
+	else
+		printf("No such server: %i\n", tID);
+	serversListMutex.Unlock();
+}
+void ServerManager::reloadBanList()
+{
+	clearBanlist();
+	loadBanlist();
+}
+
 
 int main(void)
 {
 	ServerManager mServerMgr;
 
-	bool inited = false;
-	while(!inited)
+	std::thread loginServerThread(&ServerManager::startThread, &mServerMgr);
+
+	bool wekilled = false;
+	while (loginServerThread.joinable())
 	{
-		inited = mServerMgr.initialize();
-		if(!inited)RakSleep(5000);
+		RakSleep(200);
+#ifdef _WIN32
+		if (_kbhit())
+		{
+			char c = _getch();
+			if (c == 'Q')
+			{
+				puts("Quitting.");
+				mServerMgr.quit();
+				wekilled = true;
+				break;
+			}
+			else if (c == 'S')
+			{
+				char temp[2048] = "";
+				RakNetStatistics* rss = mServerMgr.getStatistics();
+				StatisticsToString(rss, temp, 2);
+				printf("%s", temp);
+				printf("Ping %i\n", mServerMgr.getAveragePing());
+			}
+			else if (c == 'B')
+			{
+				printf("Enter IP to ban.  You can use * as a wildcard\n");
+				char input[512] = "";
+				gets_s(input);
+				mServerMgr.addToBanList(input);
+				
+				printf("IP %s added to ban list.\n", input);
+			}
+			else if (c == 'T')
+			{
+				bool res = mServerMgr.ShowTraffic();
+				if (res)printf("ShowTraffic ON\n");
+				else printf("ShowTraffic OFF\n");
+			}
+			else if (c == 'C')
+			{
+				printf("Current number of connected clients: %i\n", mServerMgr.getNumClients());
+			}
+			else if (c == 'N')
+			{
+				printf("Current number of servers: %i\n", mServerMgr.getNumServers());
+			}
+			else if (c == 'M')
+			{
+				mServerMgr.printServers();
+			}
+			else if (c == 'U')
+			{
+				mServerMgr.broadcastServerUpdate();
+				printf("Sent broadcast\n");
+			}
+			else if (c == 'Y')
+			{
+				mServerMgr.printTimeWeather();
+			}
+			else if (c == 'P')
+			{
+				mServerMgr.enterPingRange();
+			}
+			else if (c == 'O')
+			{
+				mServerMgr.enterServerPing();
+			}
+			else if (c == 'R')
+			{
+				mServerMgr.reloadBanList();
+				printf("Reloaded the banlist\n");
+			}
+			else
+			{
+				printf("Possible commands:\n Q - Quit\n S - Stats\n B - Ban IP\n T - Show/hide traffic\n C - Numbers of Client\n N - Number of Servers\n M - Print connected servers\n"
+					" U - Broadcast Server Update\n Y - Print Time and Weather\n P - Enter new ping range\n O - Ping a server\n R - Reload ban list\n");
+			}
+		}
+#endif
 	}
+	if (!wekilled)
+		mServerMgr.shutdown();
 
-	mServerMgr.runLoop();
-	mServerMgr.shutdown();
-
+	loginServerThread.join(); // wait for the server to exit
+	RakSleep(1500);
 	return 0;
 }
 

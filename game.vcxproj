@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
@@ -19,11 +19,13 @@
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='XDebug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -44,7 +46,7 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\output\obj\$(ProjectName)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='XDebug|Win32'">$(SolutionDir)\output\obj\$(ProjectName)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='XDebug|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='XDebug|Win32'">true</LinkIncremental>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='XDebug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
@@ -55,11 +57,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmod-4.02\include;$(SolutionDir)deps\zziplib-0.13.57;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\include\OGRE;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\include\OIS;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47;$(SolutionDir)deps\RakNet_PC-4.082\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmod-4.02\include;$(SolutionDir)deps\zziplib-0.13.57;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\include\OGRE;$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\include\OIS;$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\boost_1_57;$(SolutionDir)deps\RakNet-3.25\Source;$(SolutionDir)deps\ogre-paged-1.1.4\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>true</MinimalRebuild>
@@ -73,12 +75,14 @@
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Full</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>zlib.lib;zziplib.lib;fmodex_vc.lib;OIS.lib;RakNet_LibStatic_Release_Win32.lib;PagedGeometry.lib;OgreMain.lib;libboost_thread-vc100-mt-1_47.lib;libboost_date_time-vc100-mt-1_47.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlib.lib;zziplib.lib;fmodex_vc.lib;OIS.lib;RakNet_LibStatic_Release_Win32.lib;PagedGeometry.lib;OgreMain.lib;libboost_thread-vc120-mt-gd-1_57.lib;libboost_date_time-vc120-mt-gd-1_57.lib;DbgHelp.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)deps\fmod-4.02\lib;$(SolutionDir)deps\zziplib-0.13.57\lib\Release;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47\lib;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\release;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\release\opt;$(SolutionDir)deps\RakNet_PC-4.082\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\zziplib-0.13.57\lib\Release;$(SolutionDir)deps\fmod-4.02\lib;$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\boost_1_57\lib;$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\lib\release;$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\lib\release\opt;$(SolutionDir)deps\RakNet-3.25\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -98,24 +102,24 @@
 mkdir "$(SolutionDir)build\client\media"
 echo copy "$(TargetPath)" "$(SolutionDir)build\client\$(TargetFileName)"
 copy "$(TargetPath)" "$(SolutionDir)build\client\$(TargetFileName)"
-echp copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\cg.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\cg.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\OgreMain.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\OgreMain.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\OIS.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\OIS.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\Plugin_BSPSceneManager.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\Plugin_BSPSceneManager.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\Plugin_CgProgramManager.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\Plugin_CgProgramManager.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\Plugin_OctreeSceneManager.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\Plugin_OctreeSceneManager.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\Plugin_ParticleFX.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\Plugin_ParticleFX.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\RenderSystem_Direct3D9.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\RenderSystem_Direct3D9.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\RenderSystem_GL.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\release\RenderSystem_GL.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\cg.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\cg.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\OgreMain.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\OgreMain.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\OIS.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\OIS.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\Plugin_BSPSceneManager.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\Plugin_BSPSceneManager.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\Plugin_CgProgramManager.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\Plugin_CgProgramManager.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\Plugin_OctreeSceneManager.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\Plugin_OctreeSceneManager.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\Plugin_ParticleFX.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\Plugin_ParticleFX.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\RenderSystem_Direct3D9.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\RenderSystem_Direct3D9.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\RenderSystem_GL.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\release\RenderSystem_GL.dll" "$(SolutionDir)build\client\"
 echo copy "$(SolutionDir)deps\fmod-4.02\lib\fmodex.dll"  "$(SolutionDir)build\client\"
 copy "$(SolutionDir)deps\fmod-4.02\lib\fmodex.dll"  "$(SolutionDir)build\client\"
 echo copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
@@ -129,7 +133,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmod-4.02\include;$(SolutionDir)deps\zziplib-0.13.57;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\include\OGRE;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\include\OIS;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47;$(SolutionDir)deps\RakNet_PC-4.082\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)config;$(SolutionDir)src\client\include;$(SolutionDir)deps\fmod-4.02\include;$(SolutionDir)deps\zziplib-0.13.57;$(SolutionDir)deps\ogre-paged-1.1.4\include;$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\include\OGRE;$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\include\OIS;$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\boost_1_57;$(SolutionDir)deps\RakNet-3.25\Source;$(SolutionDir)deps\ogre-paged-1.1.4\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>true</MinimalRebuild>
@@ -146,11 +150,11 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>zlibd.lib;zziplibd.lib;fmodex_vc.lib;OIS_d.lib;RakNet_LibStatic_Debug_Win32.lib;PagedGeometry_d.lib;OgreMain_d.lib;libboost_thread-vc100-mt-gd-1_47.lib;libboost_date_time-vc100-mt-gd-1_47.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ShowProgress>NotSet</ShowProgress>
+      <AdditionalDependencies>zlibd.lib;zziplibd.lib;fmodex_vc.lib;OIS_d.lib;RakNet_LibStatic_Debug_Win32.lib;PagedGeometry.lib;OgreMain_d.lib;libboost_thread-vc120-mt-gd-1_57.lib;libboost_date_time-vc120-mt-gd-1_57.lib;DbgHelp.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ShowProgress>LinkVerbose</ShowProgress>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)deps\zziplib-0.13.57\lib\Debug;$(SolutionDir)deps\fmod-4.02\lib;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\boost_1_47\lib;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\debug;$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\lib\debug\opt;$(SolutionDir)deps\RakNet_PC-4.082\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>libcmtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>$(SolutionDir)deps\zziplib-0.13.57\lib\Debug;$(SolutionDir)deps\fmod-4.02\lib;$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\boost_1_57\lib;$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\lib\debug;$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\lib\debug\opt;$(SolutionDir)deps\RakNet-3.25\Lib;$(SolutionDir)deps\ogre-paged-1.1.4\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -170,24 +174,24 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
 mkdir "$(SolutionDir)build\client\media"
 echo copy "$(TargetPath)" "$(SolutionDir)build\client\$(TargetFileName)"
 copy "$(TargetPath)" "$(SolutionDir)build\client\$(TargetFileName)"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\cg.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\cg.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\OgreMain_d.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\OgreMain_d.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\OIS_d.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\OIS_d.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\Plugin_BSPSceneManager_d.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\Plugin_BSPSceneManager_d.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\Plugin_CgProgramManager_d.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\Plugin_CgProgramManager_d.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\Plugin_OctreeSceneManager_d.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\Plugin_OctreeSceneManager_d.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\Plugin_ParticleFX_d.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\Plugin_ParticleFX_d.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\RenderSystem_Direct3D9_d.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\RenderSystem_Direct3D9_d.dll" "$(SolutionDir)build\client\"
-echo copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\RenderSystem_GL_d.dll" "$(SolutionDir)build\client\"
-copy "$(SolutionDir)deps\OgreSDK_vc10_v1-7-4\bin\debug\RenderSystem_GL_d.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\cg.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\cg.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\OgreMain_d.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\OgreMain_d.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\OIS_d.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\OIS_d.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\Plugin_BSPSceneManager_d.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\Plugin_BSPSceneManager_d.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\Plugin_CgProgramManager_d.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\Plugin_CgProgramManager_d.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\Plugin_OctreeSceneManager_d.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\Plugin_OctreeSceneManager_d.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\Plugin_ParticleFX_d.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\Plugin_ParticleFX_d.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\RenderSystem_Direct3D9_d.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\RenderSystem_Direct3D9_d.dll" "$(SolutionDir)build\client\"
+echo copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\RenderSystem_GL_d.dll" "$(SolutionDir)build\client\"
+copy "$(SolutionDir)deps\OgreSDK_vs12_v1-7-4\bin\debug\RenderSystem_GL_d.dll" "$(SolutionDir)build\client\"
 echo copy "$(SolutionDir)deps\fmod-4.02\lib\fmodex.dll"  "$(SolutionDir)build\client\"
 copy "$(SolutionDir)deps\fmod-4.02\lib\fmodex.dll"  "$(SolutionDir)build\client\"
 echo copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"
@@ -195,13 +199,57 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\client\include\movabletextoverlay.cpp" />
+    <ClCompile Include="src\client\src\MagixLiving.cpp" />
+    <ClCompile Include="src\client\include\MagixConst.h" />
+    <ClCompile Include="src\client\src\DebugTrace.cpp" />
+    <ClCompile Include="src\client\src\MagixAlertBox.cpp" />
+    <ClCompile Include="src\client\src\MagixAnimated.cpp" />
+    <ClCompile Include="src\client\src\MagixApplication.cpp" />
+    <ClCompile Include="src\client\src\MagixCamera.cpp" />
+    <ClCompile Include="src\client\src\MagixCampaignManager.cpp" />
+    <ClCompile Include="src\client\src\MagixCharScreenManager.cpp" />
+    <ClCompile Include="src\client\src\MagixChatManager.cpp" />
+    <ClCompile Include="src\client\src\MagixCollisionManager.cpp" />
+    <ClCompile Include="src\client\src\MagixCritter.cpp" />
+    <ClCompile Include="src\client\src\MagixCritterManager.cpp" />
+    <ClCompile Include="src\client\src\MagixEffectsManager.cpp" />
+    <ClCompile Include="src\client\src\MagixExternalDefinitions.cpp" />
+    <ClCompile Include="src\client\src\MagixFrameListener.cpp" />
+    <ClCompile Include="src\client\src\MagixGameStateManager.cpp" />
+    <ClCompile Include="src\client\src\MagixGUI.cpp" />
+    <ClCompile Include="src\client\src\MagixHandler.cpp" />
+    <ClCompile Include="src\client\src\MagixIndexedUnit.cpp" />
+    <ClCompile Include="src\client\src\MagixInputManager.cpp" />
+    <ClCompile Include="src\client\src\MagixItem.cpp" />
+    <ClCompile Include="src\client\src\MagixItemManager.cpp" />
+    <ClCompile Include="src\client\src\MagixLoadingBar.cpp" />
+    <ClCompile Include="src\client\src\MagixMiniMap.cpp" />
+    <ClCompile Include="src\client\src\MagixNetworkManager.cpp" />
+    <ClCompile Include="src\client\src\MagixObject.cpp" />
+    <ClCompile Include="src\client\src\MagixOwnershipManager.cpp" />
+    <ClCompile Include="src\client\src\MagixPlayer.cpp" />
+    <ClCompile Include="src\client\src\MagixSkyManager.cpp" />
+    <ClCompile Include="src\client\src\MagixSoundManager.cpp" />
+    <ClCompile Include="src\client\src\MagixUnit.cpp" />
+    <ClCompile Include="src\client\src\MagixUnitManager.cpp" />
+    <ClCompile Include="src\client\src\MagixWorld.cpp" />
+    <ClCompile Include="src\client\src\main.cpp" />
+    <ClCompile Include="src\client\src\ogremagixFrameListener.cpp" />
+    <ClCompile Include="src\client\src\movabletextoverlay.cpp" />
     <ClCompile Include="src\client\src\MagixEncryption.cpp" />
-    <ClCompile Include="src\client\src\ogremagix.cpp" />
-    <ClCompile Include="src\client\include\SoundManager.cpp" />
+    <ClCompile Include="src\client\src\ogremagixApp.cpp" />
+    <ClCompile Include="src\client\src\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config\GameConfig.h" />
+    <ClInclude Include="src\client\include\DebugTrace.h" />
+    <ClInclude Include="src\client\include\HeightFunction.h" />
+    <ClInclude Include="src\client\include\MagixAnimated.h" />
+    <ClInclude Include="src\client\include\MagixCritter.h" />
+    <ClInclude Include="src\client\include\MagixIndexedUnit.h" />
+    <ClInclude Include="src\client\include\MagixItem.h" />
+    <ClInclude Include="src\client\include\MagixLiving.h" />
+    <ClInclude Include="src\client\include\ogremagixFrameListener.h" />
     <ClInclude Include="src\client\include\MagixAlertBox.h" />
     <ClInclude Include="src\client\include\MagixApplication.h" />
     <ClInclude Include="src\client\include\MagixCamera.h" />
@@ -230,7 +278,7 @@ copy "$(SolutionDir)static\client\*.cfg" "$(SolutionDir)build\client\"</Command>
     <ClInclude Include="src\client\include\MagixUnit.h" />
     <ClInclude Include="src\client\include\MagixUnitManager.h" />
     <ClInclude Include="src\client\include\MagixWorld.h" />
-    <ClInclude Include="src\client\include\ogremagix.h" />
+    <ClInclude Include="src\client\include\ogremagixApp.h" />
     <ClInclude Include="src\client\res\Resource.h" />
     <ClInclude Include="src\client\include\SoundManager.h" />
     <ClInclude Include="src\client\include\MagixNetworkDefines.h" />

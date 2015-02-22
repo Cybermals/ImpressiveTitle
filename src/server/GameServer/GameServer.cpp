@@ -1,55 +1,8 @@
-#include "GameConfig.h"
-#include "MessageIdentifiers.h"
-//#include "RakNetworkFactory.h"
-#include "RakPeerInterface.h"
-#include "RakNetStatistics.h"
-#include "RakNetTypes.h"
-#include "BitStream.h"
-#include "RakSleep.h"
-#include "StringCompressor.h"
-#include <assert.h>
-#include <stdio.h>
-#ifdef __linux__
-#include <termios.h>
-#endif
-#include <cstdio>
-#include <cstring>
-#include <stdlib.h>
-#include <sstream>
-#ifdef _WIN32
-#include <conio.h>
-#endif
-#include <fstream>
-#include <iostream>
-#include <utility>
-#include <string>
-#include <vector>
-#include <time.h>
+#include "GameServer.h"
+#include "MagixNetworkDefines.h"
+#include "RakNetworkFactory.h"
+#include <thread>
 
-#ifdef __APPLE__
-#include <mach/task.h>
-#include <mach/mach_init.h>
-#endif
-
-#ifdef __linux__
-#include <sys/sysinfo.h>
-#include <sys/types.h>
-#include <sys/time.h>
-#endif
-
-#ifdef _WIN32
-#include <windows.h> // Sleep and CreateProcess
-#include <psapi.h>
-#else
-#include <unistd.h> // usleep
-#include <cstdio>
-#include <sys/resource.h>
-typedef char* PSTR, *LPSTR; 
-#endif
-
-#if defined(_CONSOLE_2)
-#include "Console2SampleIncludes.h"
-#endif
 using namespace RakNet;
 
 unsigned char GetPacketIdentifier(Packet *p);
@@ -58,7 +11,7 @@ unsigned char GetPacketIdentifier(Packet *p);
 _CONSOLE_2_SetSystemProcessParams
 #endif
 
-#include "MagixNetworkDefines.h"
+using namespace RakNet;
 using namespace std;
 
 #ifdef __linux__
@@ -100,479 +53,143 @@ string intToString(int number)
 	return ss.str();
 }
 
-class ServerManager
+
+ServerManager::ServerManager()
 {
-protected:
-	RakPeerInterface *server;
-	RakNetStatistics *rss;
-	bool clientIsMine[MAX_CLIENTS];
-	SystemAddress clientAdd[MAX_CLIENTS];
-	string clientMap[MAX_CLIENTS];
-	string clientName[MAX_CLIENTS];
-	bool clientIsReady[MAX_CLIENTS];
-	bool clientIsKicked[MAX_CLIENTS];
-	unsigned char clientDimension[MAX_CLIENTS];
-	bool clientHasTime[MAX_CLIENTS];
-	unsigned short numClients;
-	bool showTraffic;
-	bool showChat;
-	bool showMapChange;
-	bool printlog;
-	bool hideText;
-	SystemAddress mainServerAdd;
-	SystemAddress serverAdd[MAX_SERVERS];
-	unsigned char serverID;
-	bool serverConnected[MAX_SERVERS];
-	bool requestedPlayerData;
-	bool hasBegun;
-	unsigned short connectAttempts;
-	bool doUpdate;
-	vector<pair<MessageID,int> > listo;
-	float maintenanceTime;
-	time_t prevTime;
-	vector<string> bootlist;
-	string broadcastAdd;
-	string mainServerInitAdd;
-public:
-	ServerManager()
+	server = RakNetworkFactory::GetRakPeerInterface();
+	server->SetIncomingPassword(SERVER_PASSWORD, (int)strlen(SERVER_PASSWORD));
+
+	for(int i=0;i<MAX_CLIENTS;i++)
 	{
-		server=RakPeerInterface::GetInstance();// RakNetworkFactory::GetRakPeerInterface();
-		server->SetIncomingPassword(SERVER_PASSWORD, (int)strlen(SERVER_PASSWORD));
-
-		for(int i=0;i<MAX_CLIENTS;i++)
-		{
-			clientIsMine[i] = false;
-			clientAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
-			clientMap[i] = "";
-			clientName[i] = "";
-			clientIsReady[i] = false;
-			clientIsKicked[i] = false;
-			clientDimension[i] = 0;
-			clientHasTime[i] = false;
-		}
-		numClients = 0;
-		showTraffic = false;
-		showChat = false;
-		showMapChange = false;
-		printlog = false;
-		hideText = false;
-		mainServerAdd = UNASSIGNED_SYSTEM_ADDRESS;
-		for(int i=0;i<MAX_SERVERS;i++)
-		{
-			serverAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
-			serverConnected[i] = false;
-		}
-		serverID = MAX_SERVERS;
-		hasBegun = false;
-		requestedPlayerData = false;
-		connectAttempts = 0;
-		doUpdate = false;
-		listo.clear();
-		bootlist.clear();
-
-		//if(!readIPs())
-		//{
-			broadcastAdd = MAIN_SERVER_IP;
-			mainServerInitAdd = "127.0.0.1";//MAIN_SERVER_IP;
-		//}
+		clientIsMine[i] = false;
+		clientAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
+		clientMap[i] = "";
+		clientName[i] = "";
+		clientIsReady[i] = false;
+		clientIsKicked[i] = false;
+		clientDimension[i] = 0;
+		clientHasTime[i] = false;
 	}
-	~ServerManager()
+	numClients = 0;
+	showTraffic = false;
+	showChat = false;
+	showMapChange = false;
+	printlog = false;
+	hideText = false;
+	mainServerAdd = UNASSIGNED_SYSTEM_ADDRESS;
+	for(int i=0;i<MAX_SERVERS;i++)
 	{
+		serverAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
+		serverConnected[i] = false;
 	}
-	bool initialize(const unsigned int &sleepTime=0)
+	serverID = MAX_SERVERS;
+	hasBegun = false;
+	requestedPlayerData = false;
+	connectAttempts = 0;
+	doUpdate = false;
+	bootlist.clear();
+	alive = true;
+
+	//if(!readIPs())
+	//{
+		broadcastAdd = MAIN_SERVER_IP;
+		mainServerInitAdd = "127.0.0.1";//MAIN_SERVER_IP;
+	//}
+}
+ServerManager::~ServerManager()
+{
+}
+void ServerManager::startThread()
+{
+	bool inited = false;
+	while (!inited)
 	{
-		hasBegun = false;
-		mainServerAdd = UNASSIGNED_SYSTEM_ADDRESS;
-		if(sleepTime>0)RakSleep(sleepTime);
-		if(!hideText)puts("Starting server");
-		SocketDescriptor socketDescriptor(SERVER_PORT,0);
-		StartupResult b = server->Startup(MAX_CLIENTS, &socketDescriptor, 1);
-		if (b == RAKNET_STARTED)
-			puts("Server started, waiting for connections.");
-		else
-		{
-			puts("Server failed to start.  Terminating. Reason:");
-			switch (b) {
-			case RAKNET_ALREADY_STARTED : 
-				puts("RAKNET_ALREADY_STARTED");
-				break;
-			case INVALID_SOCKET_DESCRIPTORS :
-				puts("INVALID_SOCKET_DESCRIPTORS");
-				break;
-			case INVALID_MAX_CONNECTIONS :
-				puts("INVALID_MAX_CONNECTIONS");
-				break;
-			case SOCKET_FAMILY_NOT_SUPPORTED :
-				puts("SOCKET_FAMILY_NOT_SUPPORTED");
-				break;
-			case SOCKET_PORT_ALREADY_IN_USE :
-				puts("SOCKET_PORT_ALREADY_IN_USE");
-				break;
-			case SOCKET_FAILED_TO_BIND :
-				puts("SOCKET_FAILED_TO_BIND");
-				break;
-			case SOCKET_FAILED_TEST_SEND :
-				puts("SOCKET_FAILED_TEST_SEND");
-				break;
-			case PORT_CANNOT_BE_ZERO :
-				puts("PORT_CANNOT_BE_ZERO");
-				break;
-			case FAILED_TO_CREATE_NETWORK_THREAD :
-				puts("FAILED_TO_CREATE_NETWORK_THREAD");
-				break;
-			case COULD_NOT_GENERATE_GUID :
-				puts("COULD_NOT_GENERATE_GUID");
-				break;
-			case STARTUP_OTHER_FAILURE :
-				puts("STARTUP_OTHER_FAILURE");
-				break;
-			}
-			return false;
-		}
-		server->SetMaximumIncomingConnections(0);
-		server->SetOccasionalPing(true);
-		if(!hideText)puts("Connecting to main server.");
-
-		server->Connect(mainServerInitAdd.c_str(), MAIN_SERVER_PORT, SERVER_PASSWORD, (int)strlen(SERVER_PASSWORD));
-
-		return true;
+		inited = initialize();
+		if (!inited)RakSleep(5000);
 	}
-	void begin()
+	runLoop();
+	shutdown();
+}
+bool ServerManager::initialize(const unsigned int &sleepTime)
+{
+	if (!alive)
+		return false;
+	hasBegun = false;
+	mainServerAdd = UNASSIGNED_SYSTEM_ADDRESS;
+	if(sleepTime>0)RakSleep(sleepTime);
+	if(!hideText)puts("Starting server");
+	SocketDescriptor socketDescriptor(SERVER_PORT,0);
+	if (!server->Startup(MAX_CLIENTS, 30, &socketDescriptor, 1))
 	{
-		hasBegun = true;
-		server->SetMaximumIncomingConnections(MAX_CLIENTS);
-		if(!hideText)puts("Connected to main server. Starting server.");
-		if(!hideText)printf("Max players allowed: %i\n", MAX_CLIENTS);
-		//puts("'quit' to quit. 'stat' to show stats. 'ping' to ping.\n'ban' to ban an IP from connecting.\n'kick to kick a player.\n'traffic' to toggle show traffic.\nType to talk.");
-		if(!hideText)printf("Shift+Q to shutdown safely, Shift+S to show stats, Shift+H to hide.\n");
-
-		maintenanceTime = 0;
-		time(&prevTime);
-
-		//resetData();
-		//logNumPlayers();
+		if (!hideText)puts("Server failed to start.  Terminating.");
+		return false;
 	}
-	void runLoop()
+	server->SetMaximumIncomingConnections(0);
+	server->SetOccasionalPing(true);
+	if(!hideText)puts("Connecting to main server.");
+
+	server->Connect(mainServerInitAdd.c_str(), MAIN_SERVER_PORT, SERVER_PASSWORD, (int)strlen(SERVER_PASSWORD));
+
+	return true;
+}
+void ServerManager::begin()
+{
+	hasBegun = true;
+	server->SetMaximumIncomingConnections(MAX_CLIENTS);
+	if(!hideText)puts("Connected to main server. Starting server.");
+	if(!hideText)printf("Max players allowed: %i\n", MAX_CLIENTS);
+
+	maintenanceTime = 0;
+	time(&prevTime);
+
+	//resetData();
+	//logNumPlayers();
+}
+void ServerManager::runLoop()
+{
+	//string message="";
+
+	// Loop for input
+	while (alive)
 	{
-		//string message="";
-
-		// Loop for input
-		while (1)
-		{
-
 		// This sleep keeps RakNet responsive
 		RakSleep(30);
 
-			updateMemCheck(doUpdate);
-			if(doUpdate)break;
+		//updateMemCheck(doUpdate);
+		//if(doUpdate)break;
 
-	#ifdef _WIN32
-			if (_kbhit())
-			{
-				printf("Entering _kbhit()\n");
-				char c = _getch();
-				if(c=='Q')
-				{
-					puts("Quitting.");
-					break;
-				}
-				if (c=='S')
-				{
-					char temp[2048]="";
-					rss = server->GetStatistics(server->GetSystemAddressFromIndex(0));
-					StatisticsToString(rss, temp, 2);
-					printf("%s", temp);
-					printf("Ping %i\n", server->GetAveragePing(server->GetSystemAddressFromIndex(0)));
-				}
-				if (c=='C')
-				{
-					showChat = !showChat;
-					if(showChat)printf("Showchat ON\n");
-					else printf("Showchat OFF\n");
-				}
-				if (c=='H')
-				{
-					hideText = !hideText;
-					if(hideText)system("cls");
-					else printf("Unhiding text\n");
-				}
-				if (c=='V')
-				{
-					printf("Version: 0.719\n");
-				}
-				if (c=='L')
-				{
-					ofstream outFile("./listo.log",ios_base::app);
-					for(int i=0;i<(int)listo.size();i++)
-					{
-						char tBuffer[128] = "";
-						_itoa_s((int)listo[i].first,tBuffer,10);
-						outFile.write(tBuffer,strlen(tBuffer));
-						strcpy_s(tBuffer," = ");
-						outFile.write(tBuffer,strlen(tBuffer));
-						_itoa_s((int)listo[i].second,tBuffer,10);
-						outFile.write(tBuffer,strlen(tBuffer));
-						strcpy_s(tBuffer,"\n");
-						outFile.write(tBuffer,strlen(tBuffer));
-					}
-					char tBuffer2[8] = "";
-					strcpy_s(tBuffer2,"---\n");
-					outFile.write(tBuffer2,strlen(tBuffer2));
-					outFile.close();
-					printf("Printed\n");
-				}
-				if (c=='M')
-				{
-					printMemInfo();
-				}
-				printf("Leaving _kbhit()\n");
-			}
-	/*
-			{
-				// Notice what is not here: something to keep our network running.  It's
-				// fine to block on gets or anything we want
-				// Because the network engine was painstakingly written using threads.
-				char input[512]="";
-				gets_s(input);
-				message = input;
+		// Get a packet from either the server or the client
 
-				if (message=="quit")
-				{
-					puts("Quitting.");
-					break;
-				}
-
-				if (message=="stat")
-				{
-					char temp[2048]="";
-					rss = server->GetStatistics(server->GetSystemAddressFromIndex(0));
-					StatisticsToString(rss, temp, 2);
-					printf("%s", temp);
-					printf("Ping %i\n", server->GetAveragePing(server->GetSystemAddressFromIndex(0)));
-			
-					continue;
-				}
-
-				if (message=="ping")
-				{
-					printf("Enter player ID to ping\n");
-					gets_s(input);
-					unsigned short iID = atoi(input);
-					if(iID<=MAX_CLIENTS && iID>0)
-					if(clientAdd[iID-1]!=UNASSIGNED_SYSTEM_ADDRESS)server->Ping(clientAdd[iID-1]);
-
-					continue;
-				}
-
-				if (message=="getping")
-				{
-					printf("Enter player ID to ping\n");
-					gets_s(input);
-					unsigned short iID = atoi(input);
-					if(iID<=MAX_CLIENTS && iID>0)
-						if(clientAdd[iID-1]!=UNASSIGNED_SYSTEM_ADDRESS)printf("Ping: %i\n",server->GetAveragePing(clientAdd[iID-1]));
-
-					continue;
-				}
-
-				if (message=="kick")
-				{
-					printf("Enter player ID to kick\n");
-					gets_s(input);
-					unsigned short iID = atoi(input);
-					if(iID<=MAX_CLIENTS && iID>0)
-					if(clientAdd[iID-1]!=UNASSIGNED_SYSTEM_ADDRESS)server->CloseConnection(clientAdd[iID-1], true, 0);
-
-					continue;
-				}
-
-
-				if (message=="ban")
-				{
-					printf("Enter IP to ban.  You can use * as a wildcard\n");
-					gets_s(input);
-					server->AddToBanList(input);
-					printf("IP %s added to ban list.\n", input);
-
-					continue;
-				}
-
-				if (message=="traffic")
-				{
-					showTraffic = !showTraffic;
-					continue;
-				}
-				if (message=="showchat")
-				{
-					showChat = !showChat;
-					continue;
-				}
-				if (message=="showmapchange")
-				{
-					showMapChange = !showMapChange;
-					continue;
-				}
-				if (message=="numplayers")
-				{
-					printf("Current number of players: %i\n",numClients);
-					continue;
-				}
-				if (message=="numitems")
-				{
-					//printf("Current number of items: %i\n",numItems);
-					continue;
-				}
-				if (message=="printlog")
-				{
-					printlog = !printlog;
-					if(printlog)
-					{
-						printf("Will print number of players in C:/numplayers.log\n");
-						logNumPlayers();
-					}
-					else printf("Logging stopped\n");
-					continue;
-				}
-				if (message=="findplayer")
-				{
-					printf("Enter player ID to find\n");
-					gets_s(input);
-					unsigned short iID = atoi(input);
-					if(iID<=MAX_CLIENTS && iID>0)
-					if(clientAdd[iID-1]!=UNASSIGNED_SYSTEM_ADDRESS)
-					{
-						printf("Player %i is in ", iID);
-						printf("%s.\n", clientMap[iID-1].c_str());
-					}
-
-					continue;
-				}
-
-				// Message now holds what we want to broadcast
-				if(message.length()>0)
-				{
-					message.insert(0,"Server: ");
-					RakNet::BitStream tBitStream;
-
-					tBitStream.Write(MessageID(ID_CHAT));
-					tBitStream.Write(OwnerToken(SERVER_ID));
-					StringCompressor::Instance()->EncodeString(message.c_str(),256,&tBitStream);
-				
-					server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
-				}
-			}
-	*/
-	#elif defined(__linux__)
-/*		if (kbhit())
+		Packet *p = server->Receive();
+		if (!alive)
+			break;
+		if (!server->IsActive())
 		{
-			printf("Entering kbhit()\n");
-			int ch = getchar();
-			if(ch=='Q')
-			{
-				puts("Quitting.");
-				break;
-			}
-			if (ch=='S')
-			{
-				char temp[2048]="";
-				rss = server->GetStatistics(server->GetSystemAddressFromIndex(0));
-				StatisticsToString(rss, temp, 2);
-				printf("%s", temp);
-				printf("Ping %i\n", server->GetAveragePing(server->GetSystemAddressFromIndex(0)));
-				continue;
-			}
-			if (ch=='C')
-			{
-				showChat = !showChat;
-				if(showChat)printf("Showchat ON\n");
-				else printf("Showchat OFF\n");
-				continue;
-			}
-			if (ch=='H')
-			{
-				hideText = !hideText;
-				if(hideText)system("clear");
-				else printf("Unhiding text\n");
-				continue;
-			}
-			if (ch=='V')
-			{
-				printf("Version: 0.719\n");
-				continue;
-			}
-			if (ch=='L')
-			{
-				ofstream outFile("./listo.log",ios_base::app);
-				std::ostringstream sin;
-				for(int i=0;i<(int)listo.size();i++)
-				{
-					char tBuffer[128] = "";
-					sin << (int)listo[i].first;
-					std::string val = sin.str();
-					strcpy(tBuffer,val.c_str());
-					//_itoa_s((int)listo[i].first,tBuffer,10);
-					outFile.write(tBuffer,strlen(tBuffer));
-					strcpy(tBuffer," = ");
-					outFile.write(tBuffer,strlen(tBuffer));
-					sin << (int)listo[i].first;
-					val = sin.str();
-					strcpy(tBuffer,val.c_str());
-					//_itoa_s((int)listo[i].second,tBuffer,10);
-					outFile.write(tBuffer,strlen(tBuffer));
-					strcpy(tBuffer,"\n");
-					outFile.write(tBuffer,strlen(tBuffer));
-				}
-				char tBuffer2[8] = "";
-				strcpy(tBuffer2,"---\n");
-				outFile.write(tBuffer2,strlen(tBuffer2));
-				outFile.close();
-				printf("Printed\n");
-			}
-			if (ch=='M')
-			{
-				printMemInfo();
-				continue;
-			}
-			printf("Leaving kbhit()\n");
-		}*/
-	#endif
+			printf("-------------------------\n");
+			printf("network threads have died\n");
+			printf("    Restarting Raknet    \n");
+			printf("-------------------------\n");
+			shutdown();
+			initialize();
+		}
+		bool tCont = true;
 
-			// Get a packet from either the server or the client
-
-			Packet *p = server->Receive();
-			bool tCont = true;
-
-			/*if (p==0)
-				continue; // Didn't get any packets
-			*/
-			while(p && tCont)
-			{
-			updateMemCheck(doUpdate);
+		/*if (p==0)
+			continue; // Didn't get any packets
+		*/
+		while(p && tCont)
+		{
+			/*updateMemCheck(doUpdate);
 			if(doUpdate)
 			{
 				tCont = false;
 				break;
-			}
+			}*/
 
 			// We got a packet, get the identifier with our handy function
 			const unsigned char packetIdentifier = GetPacketIdentifier(p);
 			//printf("Packet: %u\n", packetIdentifier);
 
-			//Packet history
-			/*if(!hideText)
-			{
-				bool tFound = false;
-				for(int i=0;i<(int)listo.size();i++)
-				{
-					if(listo[i].first==packetIdentifier)
-					{
-						tFound = true;
-						listo[i].second++;
-						break;
-					}
-				}
-				if(!tFound)listo.push_back(pair<MessageID,int>(packetIdentifier,1));
-			}*/
 
 			PacketPriority tPacketPriority = NUMBER_OF_PRIORITIES;
 			PacketReliability tPacketReliability = NUMBER_OF_RELIABILITIES;
@@ -584,7 +201,7 @@ public:
 					{
 						RakNet::BitStream tBitStream;
 						tBitStream.Write(MessageID(ID_IMASERVER));
-						StringCompressor::Instance()->EncodeString(broadcastAdd.c_str(),64,&tBitStream);
+						StringCompressor::Instance()->EncodeString(broadcastAdd.c_str(), 64, &tBitStream);
 						server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, p->systemAddress, false);
 
 						if(!hasBegun)
@@ -619,8 +236,8 @@ public:
 
 								tBitStream.Write(MessageID(ID_PLAYERDATA));
 								tBitStream.Write(OwnerToken(i+1));
-								StringCompressor::Instance()->EncodeString(clientName[i].c_str(),16,&tBitStream);
-								StringCompressor::Instance()->EncodeString(clientMap[i].c_str(),32,&tBitStream);
+								StringCompressor::Instance()->EncodeString(clientName[i].c_str(), 16, &tBitStream);
+								StringCompressor::Instance()->EncodeString(clientMap[i].c_str(), 32, &tBitStream);
 								tBitStream.Write(clientDimension[i]);
 
 								server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, p->systemAddress, false);
@@ -639,8 +256,8 @@ public:
 
 						tReceiveBit.Read(tMessage);
 						tReceiveBit.Read(tToken);
-						StringCompressor::Instance()->DecodeString(tName,16,&tReceiveBit);
-						StringCompressor::Instance()->DecodeString(tMapName,32,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tName, 16, &tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tMapName, 32, &tReceiveBit);
 						tReceiveBit.Read(tDimension);
 
 						assignPlayerData(tToken,false,p,tName,tMapName,tDimension/*,0*/);
@@ -663,7 +280,7 @@ public:
 					{
 						if(!hideText)printf("Failed to connect to %s with packet ID %i\n",p->systemAddress.ToString(),(int)packetIdentifier);
 						if(isServerAdd(p->systemAddress))
-							server->Connect(p->systemAddress.ToString(false), p->systemAddress.GetPort(), SERVER_PASSWORD, (int)strlen(SERVER_PASSWORD));
+							server->Connect(p->systemAddress.ToString(false), p->systemAddress.port, SERVER_PASSWORD, (int)strlen(SERVER_PASSWORD));
 					}
 					break;
 				case ID_INVALID_PASSWORD:
@@ -755,7 +372,7 @@ public:
 
 						tReceiveBit.Read(tMessage);
 						tReceiveBit.Read(tAdd);
-						StringCompressor::Instance()->DecodeString(tName,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tName, 16, &tReceiveBit);
 
 						if(tAdd)
 						{
@@ -783,7 +400,7 @@ public:
 					}
 					break;
 
-				/*case ID_MODIFIED_PACKET:
+				/*case ID_MODIFIED_PACKET: // Packet type unavailable in newer RakNet
 					{
 						string tMapName;
 						const OwnerToken tPlayerToken = getOwnerToken(p,tMapName);
@@ -822,7 +439,7 @@ public:
 							if(tServerList[i].first>=0 && tServerList[i].first<MAX_SERVERS)
 							{
 								serverAdd[tServerList[i].first] = tServerList[i].second;
-								server->Connect(tServerList[i].second.ToString(false), tServerList[i].second.GetPort(), SERVER_PASSWORD, (int)strlen(SERVER_PASSWORD));
+								server->Connect(tServerList[i].second.ToString(false), tServerList[i].second.port, SERVER_PASSWORD, (int)strlen(SERVER_PASSWORD));
 							}
 						}
 						tServerList.clear();
@@ -969,7 +586,7 @@ public:
 							if(tSender<=0 || tSender>MAX_CLIENTS)break;
 						}
 						tReceiveBit.Read(tToken);
-						StringCompressor::Instance()->DecodeString(tMapName,32,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tMapName, 32, &tReceiveBit);
 						tReceiveBit.Read(tDimension);
 
 						//Broadcast player's map change to other players in old map
@@ -1015,8 +632,8 @@ public:
 
 								tBitStream.Write(MessageID(ID_PLAYERDATA));
 								tBitStream.Write(true);
-								StringCompressor::Instance()->EncodeString(clientName[tSender-1].c_str(),16,&tBitStream);
-								StringCompressor::Instance()->EncodeString(clientMap[tSender-1].c_str(),32,&tBitStream);
+								StringCompressor::Instance()->EncodeString(clientName[tSender - 1].c_str(), 16, &tBitStream);
+								StringCompressor::Instance()->EncodeString(clientMap[tSender - 1].c_str(), 32, &tBitStream);
 
 								sendMyPlayers(server, &tBitStream, LOW_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS);
 							}
@@ -1039,8 +656,8 @@ public:
 
 						tReceiveBit.Read(tMessage);
 						tReceiveBit.Read(tToken);
-						StringCompressor::Instance()->DecodeString(tName,16,&tReceiveBit);
-						StringCompressor::Instance()->DecodeString(tMapName,32,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tName, 16, &tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tMapName, 32, &tReceiveBit);
 						tReceiveBit.Read(tDimension);
 						tReceiveBit.Read(tIsNotMine);
 
@@ -1050,8 +667,8 @@ public:
 
 							tBitStream.Write(tMessage);
 							tBitStream.Write(tToken);
-							StringCompressor::Instance()->EncodeString(tName,16,&tBitStream);
-							StringCompressor::Instance()->EncodeString(tMapName,32,&tBitStream);
+							StringCompressor::Instance()->EncodeString(tName, 16, &tBitStream);
+							StringCompressor::Instance()->EncodeString(tMapName, 32, &tBitStream);
 							tBitStream.Write(tDimension);
 							tBitStream.Write(true);
 							
@@ -1089,8 +706,8 @@ public:
 
 									tBitStream.Write(MessageID(ID_PLAYERDATA));
 									tBitStream.Write(true);
-									StringCompressor::Instance()->EncodeString(clientName[i].c_str(),16,&tBitStream);
-									StringCompressor::Instance()->EncodeString(clientMap[i].c_str(),32,&tBitStream);
+									StringCompressor::Instance()->EncodeString(clientName[i].c_str(), 16, &tBitStream);
+									StringCompressor::Instance()->EncodeString(clientMap[i].c_str(), 32, &tBitStream);
 
 									server->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 0, p->systemAddress, false);
 								}
@@ -1123,8 +740,8 @@ public:
 
 							tBitStream.Write(MessageID(ID_PLAYERDATA));
 							tBitStream.Write(true);
-							StringCompressor::Instance()->EncodeString(tName,16,&tBitStream);
-							StringCompressor::Instance()->EncodeString(tMapName,32,&tBitStream);
+							StringCompressor::Instance()->EncodeString(tName, 16, &tBitStream);
+							StringCompressor::Instance()->EncodeString(tMapName, 32, &tBitStream);
 
 							sendMyPlayers(server, &tBitStream, LOW_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS);
 						}
@@ -1168,7 +785,7 @@ public:
 						if(tIsRequest)
 						{
 							char tTarget[32];
-							StringCompressor::Instance()->DecodeString(tTarget,32,&tReceiveBit);
+							StringCompressor::Instance()->DecodeString(tTarget, 32, &tReceiveBit);
 							tToken = getTokenByName(tTarget);
 							if(tToken==0)break;
 							if(!clientIsMine[tToken-1])break;
@@ -1206,7 +823,7 @@ public:
 						char tName[16];
 
 						tReceiveBit.Read(tMessage);
-						StringCompressor::Instance()->DecodeString(tName,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tName, 16, &tReceiveBit);
 
 						OwnerToken tToken = getTokenByName(tName);
 						if(tToken==0)break;
@@ -1221,7 +838,7 @@ public:
 
 							RakNet::BitStream tBitStream;
 							tBitStream.Write(MessageID(ID_KICK));
-							StringCompressor::Instance()->EncodeString(tName,16,&tBitStream);
+							StringCompressor::Instance()->EncodeString(tName, 16, &tBitStream);
 							if(tIsBanned)
 							{
 								tBitStream.Write(tIsBanned);
@@ -1301,7 +918,7 @@ public:
 						float tZ;
 
 						tReceiveBit.Read(tID);
-						StringCompressor::Instance()->DecodeString(tMesh,16,&tReceiveBit);
+						StringCompressor::Instance()->DecodeString(tMesh, 16, &tReceiveBit);
 						tReceiveBit.Read(tX);
 						tReceiveBit.Read(tZ);
 
@@ -1318,7 +935,7 @@ public:
 						RakNet::BitStream tBitStream;
 						tBitStream.Write(MessageID(ID_ITEMDROP));
 						tBitStream.Write(tID);
-						StringCompressor::Instance()->EncodeString(tMesh,16,&tBitStream);
+						StringCompressor::Instance()->EncodeString(tMesh, 16, &tBitStream);
 						tBitStream.Write(tX);
 						tBitStream.Write(tZ);
 
@@ -1498,10 +1115,10 @@ public:
 							tReceiveBit.Read(tIsWorldCritter);
 							if(!tIsWorldCritter)
 							{
-								StringCompressor::Instance()->DecodeString(tType,32,&tReceiveBit);
+								StringCompressor::Instance()->DecodeString(tType, 32, &tReceiveBit);
 								tReceiveBit.Read(tf); // x
-                                                                tReceiveBit.Read(tf); // y
-                                                                tReceiveBit.Read(tf); // z
+								tReceiveBit.Read(tf); // y
+								tReceiveBit.Read(tf); // z
 								tReceiveBit.Read(tIsPet);
 								if(!tIsPet)
 								{
@@ -1512,7 +1129,7 @@ public:
 									const string tCaption = "<<(SPAWN)>> "+clientName[tSender-1]+" SPAWNED "+tType;
 									RakNet::BitStream wBitStream;
 									wBitStream.Write(MessageID(ID_GODSPEAK));
-									StringCompressor::Instance()->EncodeString(tCaption.c_str(),512,&wBitStream);
+									StringCompressor::Instance()->EncodeString(tCaption.c_str(), 512, &wBitStream);
 									broadcastInMap(tMapName, tDimension, server, &wBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS);
 								}
 							}
@@ -1736,8 +1353,8 @@ public:
 						
 						string tMapName;
 						unsigned char tDimension;
-                                                bool tIsUpdate = false;
-                                                bool tIsHit = false;
+												bool tIsUpdate = false;
+												bool tIsHit = false;
 
 						tReceiveBit.Read(tMessage);
 						BitSize_t offset;
@@ -1748,16 +1365,16 @@ public:
 							if(tSender<=0 || tSender>MAX_CLIENTS)break;
 							tMapName = clientMap[tSender-1];
 							tDimension = clientDimension[tSender-1];
-        	                                        tReceiveBit.Read(tIsUpdate);
-	                                                tReceiveBit.Read(tIsHit);
+        											tReceiveBit.Read(tIsUpdate);
+													tReceiveBit.Read(tIsHit);
 						}
 						else 
 						{
 							offset = tReceiveBit.GetReadOffset();
 							getOwnerToken(p,tMapName,tDimension);
 							tReceiveBit.Read(tSender);
-                                                        tReceiveBit.Read(tIsUpdate);
-                                                        tReceiveBit.Read(tIsHit);
+														tReceiveBit.Read(tIsUpdate);
+														tReceiveBit.Read(tIsHit);
 						}
 
 						if(tIsHit)
@@ -1772,16 +1389,16 @@ public:
 								const string tCaption = "<<(SERVER WARNING)>> "+clientName[tSender-1]+" ATTACKED "+clientName[tUnitID-1]+" FOR "+intToString((int)tDamage);
 								RakNet::BitStream wBitStream;
 								wBitStream.Write(MessageID(ID_GODSPEAK));
-								StringCompressor::Instance()->EncodeString(tCaption.c_str(),512,&wBitStream);
+								StringCompressor::Instance()->EncodeString(tCaption.c_str(), 512, &wBitStream);
 								sendMyPlayers(server,&wBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS);
 							}
 							tReceiveBit.SetReadOffset(offset);
 						}
-                                                //Complete packet relay
-                                                RakNet::BitStream tBitStream;
+												//Complete packet relay
+												RakNet::BitStream tBitStream;
 
-                                                tBitStream.Write(tMessage);
-                                                tBitStream.Write(&tReceiveBit);
+												tBitStream.Write(tMessage);
+												tBitStream.Write(&tReceiveBit);
 
 						broadcastInMap(tMapName, tDimension, server, &tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS);
 					}
@@ -1871,7 +1488,7 @@ public:
 						if(!tIsToken)
 						{
 							char tTarget[16];
-							StringCompressor::Instance()->DecodeString(tTarget,16,&tReceiveBit);
+							StringCompressor::Instance()->DecodeString(tTarget, 16, &tReceiveBit);
 							tToken = getTokenByName(tTarget,false,tMap,tDimension);
 							tName = tTarget;
 						}
@@ -1892,13 +1509,13 @@ public:
 
 						RakNet::BitStream tBitStream;
 						tBitStream.Write(tMessage);
-						StringCompressor::Instance()->EncodeString(tName.c_str(),16,&tBitStream);
+						StringCompressor::Instance()->EncodeString(tName.c_str(), 16, &tBitStream);
 						const bool tFound = (tToken!=0);
 						tBitStream.Write(tFound);
 						if(tFound)
 						{
 							tBitStream.Write(tToken);
-							StringCompressor::Instance()->EncodeString(tMap.c_str(),32,&tBitStream);
+							StringCompressor::Instance()->EncodeString(tMap.c_str(), 32, &tBitStream);
 							tBitStream.Write(tDimension);
 						}
 
@@ -1981,12 +1598,12 @@ public:
 							if(tIsPM && tToken==TOKEN_NULL)
 							{
 								char tPMTarget[16]="";
-								StringCompressor::Instance()->DecodeString(tPMTarget,16,&tReceiveBit);
+								StringCompressor::Instance()->DecodeString(tPMTarget, 16, &tReceiveBit);
 
 								if(showChat)
 								{
-									if(tReadSenderToken)printChat(tSender,&tReceiveBit,tPMTarget);
-									else printChat(p,&tReceiveBit,tPMTarget);
+									if (tReadSenderToken)printChat(tSender, &tReceiveBit, tPMTarget);
+									else printChat(p, &tReceiveBit, tPMTarget);
 								}
 
 								//Set target token to PMTarget (affects who to send to below)
@@ -2001,7 +1618,7 @@ public:
 
 									tBitStream.Write(MessageID(ID_CHAT));
 									tBitStream.Write(OwnerToken(SERVER_ID));
-									StringCompressor::Instance()->EncodeString(tMessage.c_str(),256,&tBitStream);
+									StringCompressor::Instance()->EncodeString(tMessage.c_str(), 256, &tBitStream);
 									tBitStream.Write(false);
 								
 									server->Send(&tBitStream, tPacketPriority, tPacketReliability, tOrderingChannel, p->systemAddress, false);
@@ -2014,7 +1631,7 @@ public:
 								if(tPlayerName!="")
 								{
 									char tChat[256];
-									StringCompressor::Instance()->DecodeString(tChat,256,&tReceiveBit);
+									StringCompressor::Instance()->DecodeString(tChat, 256, &tReceiveBit);
 
 									RakNet::BitStream tBitStream;
 									string tMessage = "((";
@@ -2024,9 +1641,9 @@ public:
 
 									tBitStream.Write(MessageID(ID_CHAT));
 									tBitStream.Write(OwnerToken(SERVER_ID));
-									StringCompressor::Instance()->EncodeString(tMessage.c_str(),256,&tBitStream);
+									StringCompressor::Instance()->EncodeString(tMessage.c_str(), 256, &tBitStream);
 									tBitStream.Write(true);
-									StringCompressor::Instance()->EncodeString(tPlayerName.c_str(),16,&tBitStream);
+									StringCompressor::Instance()->EncodeString(tPlayerName.c_str(), 16, &tBitStream);
 								
 									server->Send(&tBitStream, tPacketPriority, tPacketReliability, tOrderingChannel, clientAdd[tToken-1], false);
 									break;
@@ -2041,13 +1658,13 @@ public:
 								{
 									if(showChat)
 									{
-										if(tReadSenderToken)printChat(tSender,&tReceiveBit);
-										else printChat(p,&tReceiveBit);
+										if (tReadSenderToken)printChat(tSender, &tReceiveBit);
+										else printChat(p, &tReceiveBit);
 									}
 
 									char tChat[256];
 									string tMapName,tSenderName;
-									StringCompressor::Instance()->DecodeString(tChat,256,&tReceiveBit);
+									StringCompressor::Instance()->DecodeString(tChat, 256, &tReceiveBit);
 									if(tReadSenderToken)
 									{
 										tMapName = clientMap[tSender-1];
@@ -2063,7 +1680,7 @@ public:
 
 									tBitStream.Write(MessageID(ID_CHAT));
 									tBitStream.Write(OwnerToken(SERVER_ID));
-									StringCompressor::Instance()->EncodeString(tMessage.c_str(),256,&tBitStream);
+									StringCompressor::Instance()->EncodeString(tMessage.c_str(), 256, &tBitStream);
 									tBitStream.Write(false);
 									tBitStream.Write(true);
 								
@@ -2075,8 +1692,8 @@ public:
 
 							if(showChat && !tIsPM) // dont show privates
 							{
-								if(tReadSenderToken)printChat(tSender,&tReceiveBit);
-								else printChat(p,&tReceiveBit);
+								if (tReadSenderToken)printChat(tSender, &tReceiveBit);
+								else printChat(p, &tReceiveBit);
 							}
 						}
 						//Save item equip
@@ -2088,7 +1705,7 @@ public:
 							char tItem[256];
 							unsigned short tSlot;
 							bool tDontTellMainServer = false;
-							StringCompressor::Instance()->DecodeString(tItem,16,&tCopyBit);
+							StringCompressor::Instance()->DecodeString(tItem, 16, &tCopyBit);
 							tCopyBit.Read(tSlot);
 							tCopyBit.Read(tDontTellMainServer);
 							
@@ -2099,7 +1716,7 @@ public:
 
 								tBitStream.Write(tMessage);
 								tBitStream.Write(tOwner);
-								StringCompressor::Instance()->EncodeString(tItem,16,&tBitStream);
+								StringCompressor::Instance()->EncodeString(tItem, 16, &tBitStream);
 								tBitStream.Write(tSlot);
 								server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, mainServerAdd, false);
 							}
@@ -2185,721 +1802,625 @@ public:
 
 			server->DeallocatePacket(p);
 			if(tCont)p = server->Receive();
-			}
 		}
 	}
-	void printChat(Packet *p, RakNet::BitStream *bitStream, const char* pmTarget="")
+}
+void ServerManager::printChat(Packet *p, RakNet::BitStream *bitStream, const char* pmTarget)
+{
+	char tChat[256];
+	BitSize_t offset = bitStream->GetReadOffset();
+	StringCompressor::Instance()->DecodeString(tChat, 256, bitStream);
+	bitStream->SetReadOffset(offset);
+
+	const OwnerToken tPlayerToken = getOwnerToken(p);
+	printf("(%i)%s: ", tPlayerToken, clientName[tPlayerToken - 1].c_str());
+	if (strcmp(pmTarget, "") != 0)printf("[%s]: ", pmTarget);
+	printf("%s\n", tChat);
+}
+void ServerManager::printChat(const OwnerToken &sender, RakNet::BitStream *bitStream, const char* pmTarget)
+{
+	if (sender <= 0 || sender>MAX_CLIENTS)return;
+	char tChat[256];
+	BitSize_t offset = bitStream->GetReadOffset();
+	StringCompressor::Instance()->DecodeString(tChat, 256, bitStream);
+	bitStream->SetReadOffset(offset);
+
+	printf("(%i)%s: ", sender, clientName[sender - 1].c_str());
+	if (strcmp(pmTarget, "") != 0)printf("[%s]: ", pmTarget);
+	printf("%s\n", tChat);
+}
+void ServerManager::sendNewPlayerProcedure(const OwnerToken &playerToken, const string &mapName, const unsigned char &dimension)
+{
+	if(playerToken==0)return;
+
+	//allow player to start game first
+	const bool tHasOtherPlayers = (playersInMap(mapName,dimension)>1);
 	{
-		//RakNet::BitStream tBit;
-		//tBit.SetData(bitStream.GetData());
-		char tChat[256];
-		BitSize_t offset = bitStream->GetReadOffset();
-		StringCompressor::Instance()->DecodeString(tChat,256,bitStream);
-		bitStream->SetReadOffset(offset);
-
-		const OwnerToken tPlayerToken = getOwnerToken(p);
-		printf("(%i)%s: ",tPlayerToken,clientName[tPlayerToken-1].c_str());
-		if(strcmp(pmTarget,"")!=0)printf("[%s]: ",pmTarget);
-		printf("%s\n", tChat);
-	}
-	void printChat(const OwnerToken &sender, RakNet::BitStream *bitStream, const char* pmTarget="")
-	{
-		if(sender<=0 || sender>MAX_CLIENTS)return;
-		//RakNet::BitStream tBit;
-		//tBit.SetData(bitStream.GetData());
-		char tChat[256];
-		BitSize_t offset = bitStream->GetReadOffset();
-		StringCompressor::Instance()->DecodeString(tChat,256,bitStream);
-		bitStream->SetReadOffset(offset);
-
-		printf("(%i)%s: ",sender,clientName[sender-1].c_str());
-		if(strcmp(pmTarget,"")!=0)printf("[%s]: ",pmTarget);
-		printf("%s\n", tChat);
-	}
-	void sendNewPlayerProcedure(const OwnerToken &playerToken, const string &mapName, const unsigned char &dimension)
-	{
-		if(playerToken==0)return;
-
-		//allow player to start game first
-		const bool tHasOtherPlayers = (playersInMap(mapName,dimension)>1);
-		{
-			RakNet::BitStream tBitStream;
-
-			tBitStream.Write(MessageID(ID_WORLDINFO));
-			tBitStream.Write(OwnerToken(SERVER_ID));
-			tBitStream.Write(tHasOtherPlayers);
-
-			server->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 1, clientAdd[playerToken-1], false);
-			if(showMapChange)printf("Sent direct %s data to player %i.\n",mapName.c_str(),playerToken);
-		}
-		if(tHasOtherPlayers)
-		{
-			//Ping all old players to send newplayer info
-			RakNet::BitStream tBitStream2;
-
-			tBitStream2.Write(MessageID(ID_NEWPLAYERUPDATE));
-			tBitStream2.Write(playerToken);
-
-			broadcastInMap(mapName, dimension, server, &tBitStream2, HIGH_PRIORITY, RELIABLE, 1, clientAdd[playerToken-1]);
-			if(showMapChange)printf("Broadcasted ID_NEWPLAYERUPDATE in %s for player %i.\n",mapName.c_str(),playerToken);
-			
-			/*//request map info from a player
-			pair<int,SystemAddress> tLowestPing;
-			tLowestPing.second = UNASSIGNED_SYSTEM_ADDRESS;
-			for(int i=0;i<MAX_CLIENTS;i++)
-			{
-				if(clientIsMine[i] && clientHasTime[i] && i!=(playerToken-1) && !clientIsKicked[i] && clientMap[i]==mapName && clientDimension[i]==dimension)
-				{
-					const int tPing = server->GetAveragePing(clientAdd[i]);
-					if(tLowestPing.second==UNASSIGNED_SYSTEM_ADDRESS || (tLowestPing.first>tPing&&tPing!=-1))
-					{
-						tLowestPing.first = tPing;
-						tLowestPing.second = clientAdd[i];
-					}
-				}
-			}
-			RakNet::BitStream tBitStream;
-
-			tBitStream.Write(MessageID(ID_REQUESTMAPINFO));
-			tBitStream.Write(playerToken);
-			if(tLowestPing.second!=UNASSIGNED_SYSTEM_ADDRESS)
-			{
-				server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 1, tLowestPing.second, false);
-				if(showMapChange)printf("Requested a player to send %s data to player %i.\n",mapName.c_str(),playerToken);
-			}
-			else sendNextServer(&tBitStream, HIGH_PRIORITY, RELIABLE, 1);*/
-		}
-
-		//Broadcast player data
 		RakNet::BitStream tBitStream;
 
-		tBitStream.Write(MessageID(ID_PLAYERDATA));
-		tBitStream.Write(true);
-		StringCompressor::Instance()->EncodeString(clientName[playerToken-1].c_str(),16,&tBitStream);
-		StringCompressor::Instance()->EncodeString(clientMap[playerToken-1].c_str(),32,&tBitStream);
+		tBitStream.Write(MessageID(ID_WORLDINFO));
+		tBitStream.Write(OwnerToken(SERVER_ID));
+		tBitStream.Write(tHasOtherPlayers);
 
-		sendMyPlayers(server,&tBitStream,HIGH_PRIORITY, RELIABLE, 1,UNASSIGNED_SYSTEM_ADDRESS);
+		server->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 1, clientAdd[playerToken-1], false);
+		if(showMapChange)printf("Sent direct %s data to player %i.\n",mapName.c_str(),playerToken);
 	}
-	void broadcastInMap(const string &mapName, const unsigned char &dimension, RakPeerInterface *peer, RakNet::BitStream *bitStream, const PacketPriority &priority, const PacketReliability &reliability, const char &orderingChannel, const SystemAddress &exceptionAddress)
+	if(tHasOtherPlayers)
 	{
-		if(mapName=="" || !peer)return;
+		//Ping all old players to send newplayer info
+		RakNet::BitStream tBitStream2;
+
+		tBitStream2.Write(MessageID(ID_NEWPLAYERUPDATE));
+		tBitStream2.Write(playerToken);
+
+		broadcastInMap(mapName, dimension, server, &tBitStream2, HIGH_PRIORITY, RELIABLE, 1, clientAdd[playerToken-1]);
+		if(showMapChange)printf("Broadcasted ID_NEWPLAYERUPDATE in %s for player %i.\n",mapName.c_str(),playerToken);
+			
+		/*//request map info from a player
+		pair<int,SystemAddress> tLowestPing;
+		tLowestPing.second = UNASSIGNED_SYSTEM_ADDRESS;
 		for(int i=0;i<MAX_CLIENTS;i++)
 		{
-			if(clientIsMine[i] && clientAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS && clientDimension[i]==dimension && clientAdd[i]!=exceptionAddress && clientMap[i]==mapName)
-				peer->Send(bitStream, priority, reliability, orderingChannel, clientAdd[i], false);
-		}
-	}
-	void sendMyPlayers(RakPeerInterface *peer, RakNet::BitStream *bitStream, const PacketPriority &priority, const PacketReliability &reliability, const char &orderingChannel, const SystemAddress &exceptionAddress)
-	{
-		if(!peer)return;
-		for(int i=0;i<MAX_CLIENTS;i++)
-		{
-			if(clientIsMine[i] && clientAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS && clientAdd[i]!=exceptionAddress)
-				peer->Send(bitStream, priority, reliability, orderingChannel, clientAdd[i], false);
-		}
-	}
-	void relayPacket(Packet *p, const PacketPriority &priority, const PacketReliability &reliability, const char &orderingChannel)
-	{
-		if(!imTheOwner(p))return;
-		RakNet::BitStream tReceiveBit(p->data, p->length, false);
-		sendAllServers(&tReceiveBit, priority, reliability, orderingChannel, UNASSIGNED_SYSTEM_ADDRESS);
-	}
-	void sendAllServers(RakNet::BitStream *bitStream, const PacketPriority &priority, const PacketReliability &reliability, const char &orderingChannel, const SystemAddress &exceptionAddress)
-	{
-		for(int i=0;i<MAX_SERVERS;i++)
-		{
-			if(serverAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS && serverAdd[i]!=exceptionAddress && serverConnected[i])
+			if(clientIsMine[i] && clientHasTime[i] && i!=(playerToken-1) && !clientIsKicked[i] && clientMap[i]==mapName && clientDimension[i]==dimension)
 			{
-				server->Send(bitStream, priority, reliability, orderingChannel, serverAdd[i], false);
+				const int tPing = server->GetAveragePing(clientAdd[i]);
+				if(tLowestPing.second==UNASSIGNED_SYSTEM_ADDRESS || (tLowestPing.first>tPing&&tPing!=-1))
+				{
+					tLowestPing.first = tPing;
+					tLowestPing.second = clientAdd[i];
+				}
 			}
 		}
-	}
-	void sendNextServer(RakNet::BitStream *bitStream, const PacketPriority &priority, const PacketReliability &reliability, const char &orderingChannel)
-	{
-		for(int i=(serverID+1);i<MAX_SERVERS;i++)
+		RakNet::BitStream tBitStream;
+
+		tBitStream.Write(MessageID(ID_REQUESTMAPINFO));
+		tBitStream.Write(playerToken);
+		if(tLowestPing.second!=UNASSIGNED_SYSTEM_ADDRESS)
 		{
-			if(serverAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS && serverConnected[i])
-			{
-				server->Send(bitStream, priority, reliability, orderingChannel, serverAdd[i], false);
-				return;
-			}
+			server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 1, tLowestPing.second, false);
+			if(showMapChange)printf("Requested a player to send %s data to player %i.\n",mapName.c_str(),playerToken);
 		}
-		for(int i=0;i<serverID;i++)
+		else sendNextServer(&tBitStream, HIGH_PRIORITY, RELIABLE, 1);*/
+	}
+
+	//Broadcast player data
+	RakNet::BitStream tBitStream;
+
+	tBitStream.Write(MessageID(ID_PLAYERDATA));
+	tBitStream.Write(true);
+	StringCompressor::Instance()->EncodeString(clientName[playerToken - 1].c_str(), 16, &tBitStream);
+	StringCompressor::Instance()->EncodeString(clientMap[playerToken - 1].c_str(), 32, &tBitStream);
+
+	sendMyPlayers(server,&tBitStream,HIGH_PRIORITY, RELIABLE, 1,UNASSIGNED_SYSTEM_ADDRESS);
+}
+void ServerManager::broadcastInMap(const string &mapName, const unsigned char &dimension, RakPeerInterface *peer, RakNet::BitStream *bitStream, const PacketPriority &priority, const PacketReliability &reliability, const char &orderingChannel, const SystemAddress &exceptionAddress)
+{
+	if(mapName=="" || !peer)return;
+	for(int i=0;i<MAX_CLIENTS;i++)
+	{
+		if(clientIsMine[i] && clientAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS && clientDimension[i]==dimension && clientAdd[i]!=exceptionAddress && clientMap[i]==mapName)
+			peer->Send(bitStream, priority, reliability, orderingChannel, clientAdd[i], false);
+	}
+}
+void ServerManager::sendMyPlayers(RakPeerInterface *peer, RakNet::BitStream *bitStream, const PacketPriority &priority, const PacketReliability &reliability, const char &orderingChannel, const SystemAddress &exceptionAddress)
+{
+	if(!peer)return;
+	for(int i=0;i<MAX_CLIENTS;i++)
+	{
+		if(clientIsMine[i] && clientAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS && clientAdd[i]!=exceptionAddress)
+			peer->Send(bitStream, priority, reliability, orderingChannel, clientAdd[i], false);
+	}
+}
+void ServerManager::relayPacket(Packet *p, const PacketPriority &priority, const PacketReliability &reliability, const char &orderingChannel)
+{
+	if(!imTheOwner(p))return;
+	RakNet::BitStream tReceiveBit(p->data, p->length, false);
+	sendAllServers(&tReceiveBit, priority, reliability, orderingChannel, UNASSIGNED_SYSTEM_ADDRESS);
+}
+void ServerManager::sendAllServers(RakNet::BitStream *bitStream, const PacketPriority &priority, const PacketReliability &reliability, const char &orderingChannel, const SystemAddress &exceptionAddress)
+{
+	for(int i=0;i<MAX_SERVERS;i++)
+	{
+		if(serverAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS && serverAdd[i]!=exceptionAddress && serverConnected[i])
 		{
-			if(serverAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS && serverConnected[i])
-			{
-				server->Send(bitStream, priority, reliability, orderingChannel, serverAdd[i], false);
-				return;
-			}
+			server->Send(bitStream, priority, reliability, orderingChannel, serverAdd[i], false);
 		}
 	}
-	const OwnerToken getOwnerToken(Packet *p, string &mapName, string &playerName)
+}
+void ServerManager::sendNextServer(RakNet::BitStream *bitStream, const PacketPriority &priority, const PacketReliability &reliability, const char &orderingChannel)
+{
+	for(int i=(serverID+1);i<MAX_SERVERS;i++)
 	{
-		mapName = "";
-		for(int i=0;i<MAX_CLIENTS;i++)
+		if(serverAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS && serverConnected[i])
 		{
-			if(p->systemAddress==clientAdd[i])
-			{
-				mapName = clientMap[i];
-				playerName = clientName[i];
-				return (i+1);
-			}
+			server->Send(bitStream, priority, reliability, orderingChannel, serverAdd[i], false);
+			return;
 		}
-		return 0;
 	}
-	const OwnerToken getOwnerToken(Packet *p, string &mapName)
+	for(int i=0;i<serverID;i++)
 	{
-		mapName = "";
-		for(int i=0;i<MAX_CLIENTS;i++)
+		if(serverAdd[i]!=UNASSIGNED_SYSTEM_ADDRESS && serverConnected[i])
 		{
-			if(p->systemAddress==clientAdd[i])
-			{
-				mapName = clientMap[i];
-				return (i+1);
-			}
+			server->Send(bitStream, priority, reliability, orderingChannel, serverAdd[i], false);
+			return;
 		}
-		return 0;
 	}
-	const OwnerToken getOwnerToken(Packet *p, string &mapName, unsigned char &dimension)
+}
+const OwnerToken ServerManager::getOwnerToken(Packet *p, string &mapName, string &playerName)
+{
+	mapName = "";
+	for(int i=0;i<MAX_CLIENTS;i++)
 	{
-		mapName = "";
-		for(int i=0;i<MAX_CLIENTS;i++)
+		if(p->systemAddress==clientAdd[i])
 		{
-			if(p->systemAddress==clientAdd[i])
+			mapName = clientMap[i];
+			playerName = clientName[i];
+			return (i+1);
+		}
+	}
+	return 0;
+}
+const OwnerToken ServerManager::getOwnerToken(Packet *p, string &mapName)
+{
+	mapName = "";
+	for(int i=0;i<MAX_CLIENTS;i++)
+	{
+		if(p->systemAddress==clientAdd[i])
+		{
+			mapName = clientMap[i];
+			return (i+1);
+		}
+	}
+	return 0;
+}
+const OwnerToken ServerManager::getOwnerToken(Packet *p, string &mapName, unsigned char &dimension)
+{
+	mapName = "";
+	for(int i=0;i<MAX_CLIENTS;i++)
+	{
+		if(p->systemAddress==clientAdd[i])
+		{
+			mapName = clientMap[i];
+			dimension = clientDimension[i];
+			return (i+1);
+		}
+	}
+	return 0;
+}
+const OwnerToken ServerManager::getOwnerToken(Packet *p)
+{
+	for(int i=0;i<MAX_CLIENTS;i++)
+	{
+		if(p->systemAddress==clientAdd[i])
+		{
+			return (i+1);
+		}
+	}
+	return 0;
+}
+const OwnerToken ServerManager::getTokenByName(const string &playerName, bool caseSensitive)
+{
+	for(int i=0;i<MAX_CLIENTS;i++)
+	{
+		if(caseSensitive)
+		{
+			if(clientName[i]==playerName)return (i+1);
+		}
+		else
+		{
+			if(toLowerCase(clientName[i])==toLowerCase(playerName))return (i+1);
+		}
+	}
+	return 0;
+}
+const OwnerToken ServerManager::getTokenByName(const string &playerName, bool caseSensitive, string &map, unsigned char &dimension)
+{
+	for(int i=0;i<MAX_CLIENTS;i++)
+	{
+		if(caseSensitive)
+		{
+			if(clientName[i]==playerName)
 			{
-				mapName = clientMap[i];
+				map = clientMap[i];
 				dimension = clientDimension[i];
 				return (i+1);
 			}
 		}
-		return 0;
-	}
-	const OwnerToken getOwnerToken(Packet *p)
-	{
-		for(int i=0;i<MAX_CLIENTS;i++)
+		else
 		{
-			if(p->systemAddress==clientAdd[i])
+			if(toLowerCase(clientName[i])==toLowerCase(playerName))
 			{
+				map = clientMap[i];
+				dimension = clientDimension[i];
 				return (i+1);
 			}
 		}
-		return 0;
 	}
-	const OwnerToken getTokenByName(const string &playerName, bool caseSensitive=false)
+	return 0;
+}
+const string ServerManager::toLowerCase(string text)
+{
+	const char tDiff = char('A') - char('a');
+	for(int i=0;i<(int)text.length();i++)
 	{
-		for(int i=0;i<MAX_CLIENTS;i++)
-		{
-			if(caseSensitive)
-			{
-				if(clientName[i]==playerName)return (i+1);
-			}
-			else
-			{
-				if(toLowerCase(clientName[i])==toLowerCase(playerName))return (i+1);
-			}
-		}
-		return 0;
+		if(text[i]>=char('A')&&text[i]<=char('Z'))text[i] -= tDiff;
 	}
-	const OwnerToken getTokenByName(const string &playerName, bool caseSensitive, string &map, unsigned char &dimension)
-	{
-		for(int i=0;i<MAX_CLIENTS;i++)
-		{
-			if(caseSensitive)
-			{
-				if(clientName[i]==playerName)
-				{
-					map = clientMap[i];
-					dimension = clientDimension[i];
-					return (i+1);
-				}
-			}
-			else
-			{
-				if(toLowerCase(clientName[i])==toLowerCase(playerName))
-				{
-					map = clientMap[i];
-					dimension = clientDimension[i];
-					return (i+1);
-				}
-			}
-		}
-		return 0;
-	}
-	const string toLowerCase(string text)
-	{
-		const char tDiff = char('A') - char('a');
-		for(int i=0;i<(int)text.length();i++)
-		{
-			if(text[i]>=char('A')&&text[i]<=char('Z'))text[i] -= tDiff;
-		}
-		return text;
-	}
-	void shutdown()
-	{
-		unregisterAllServers();
-		requestedPlayerData = false;
-		serverID = MAX_SERVERS;
+	return text;
+}
+void ServerManager::shutdown()
+{
+	unregisterAllServers();
+	requestedPlayerData = false;
+	serverID = MAX_SERVERS;
+	if (server)
 		server->Shutdown(300);
-		resetData();
-		bootlist.clear();
-	}
-	void resetData()
+	resetData();
+	bootlist.clear();
+}
+void ServerManager::quit()
+{
+	alive = false;
+}
+void ServerManager::resetData()
+{
+	for(int i=0;i<MAX_CLIENTS;i++)
 	{
-		for(int i=0;i<MAX_CLIENTS;i++)
+		unassignToken(i+1);
+	}
+	numClients = 0;
+}
+const OwnerToken ServerManager::unassignToken(Packet *p)
+{
+	for(int i=0;i<MAX_CLIENTS;i++)
+	{
+		if(clientAdd[i] == p->systemAddress)
 		{
 			unassignToken(i+1);
+			return (i+1);
 		}
-		numClients = 0;
 	}
-	const OwnerToken unassignToken(Packet *p)
+	return 0;
+}
+void ServerManager::unassignToken(const OwnerToken &token)
+{
+	if(token<=0 || token>MAX_CLIENTS)return;
+	clientIsMine[token-1] = false;
+	clientAdd[token-1] = UNASSIGNED_SYSTEM_ADDRESS;
+	clientMap[token-1] = "";
+	clientName[token-1] = "";
+	clientIsReady[token-1] = false;
+	clientIsKicked[token-1] = false;
+	clientHasTime[token-1] = false;
+	numClients -= 1;
+}
+const unsigned short ServerManager::playersInMap(const string &mapName, const unsigned char &dimension)
+{
+	unsigned short tNum = 0;
+	for(int i=0;i<MAX_CLIENTS;i++)
 	{
-		for(int i=0;i<MAX_CLIENTS;i++)
+		if(clientMap[i]==mapName /*&& clientDimension[i]==dimension*/)
 		{
-			if(clientAdd[i] == p->systemAddress)
-			{
-				unassignToken(i+1);
-				return (i+1);
-			}
-		}
-		return 0;
-	}
-	void unassignToken(const OwnerToken &token)
-	{
-		if(token<=0 || token>MAX_CLIENTS)return;
-		clientIsMine[token-1] = false;
-		clientAdd[token-1] = UNASSIGNED_SYSTEM_ADDRESS;
-		clientMap[token-1] = "";
-		clientName[token-1] = "";
-		clientIsReady[token-1] = false;
-		clientIsKicked[token-1] = false;
-		clientHasTime[token-1] = false;
-		numClients -= 1;
-	}
-	const unsigned short playersInMap(const string &mapName, const unsigned char &dimension)
-	{
-		unsigned short tNum = 0;
-		for(int i=0;i<MAX_CLIENTS;i++)
-		{
-			if(clientMap[i]==mapName /*&& clientDimension[i]==dimension*/)
-			{
-				tNum += 1;
-			}
-		}
-		return tNum;
-	}
-	void assignPlayerData(const OwnerToken &token, bool isMine, Packet *p, const string &playerName, const string &mapName, const unsigned char &dimension/*, const unsigned short &charID*/)
-	{
-		if(token>0 && token<=MAX_CLIENTS)
-		{
-			clientIsMine[token-1] = isMine;
-			clientAdd[token-1] = p->systemAddress;
-			clientName[token-1] = playerName;
-			clientMap[token-1] = mapName;
-			clientDimension[token-1] = dimension;
+			tNum += 1;
 		}
 	}
-	void sendTokenDisconnectProcedure(const OwnerToken &token)
+	return tNum;
+}
+void ServerManager::assignPlayerData(const OwnerToken &token, bool isMine, Packet *p, const string &playerName, const string &mapName, const unsigned char &dimension/*, const unsigned short &charID*/)
+{
+	if(token>0 && token<=MAX_CLIENTS)
 	{
-		sendDisconnectProcedureToMyPlayers(token,true);
+		clientIsMine[token-1] = isMine;
+		clientAdd[token-1] = p->systemAddress;
+		clientName[token-1] = playerName;
+		clientMap[token-1] = mapName;
+		clientDimension[token-1] = dimension;
 	}
-	void sendDisconnectProcedure(Packet *p, bool normalDisconnect)
-	{
-		const OwnerToken tPlayerToken = getOwnerToken(p);
-		//Registered player
-		if(tPlayerToken!=0)
-		{
-			RakNet::BitStream tReceiveBit(p->data, p->length, false);
-			MessageID tMessage;
-			tReceiveBit.Read(tMessage);
-
-			RakNet::BitStream tBitStream;
-
-			tBitStream.Write(MessageID(ID_PLAYERDISCONNECTED));
-			tBitStream.Write(tPlayerToken);
-			tBitStream.Write(normalDisconnect);
-			
-			sendAllServers(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS);
-			sendTokenDisconnected(tPlayerToken);
-			sendDisconnectProcedureToMyPlayers(tPlayerToken,normalDisconnect);
-		}
-		//Unregistered player
-		else sendTokenDisconnected(p->systemAddress);
-	}
-	void sendRemoteDisconnectProcedure(Packet *p)
+}
+void ServerManager::sendTokenDisconnectProcedure(const OwnerToken &token)
+{
+	sendDisconnectProcedureToMyPlayers(token,true);
+}
+void ServerManager::sendDisconnectProcedure(Packet *p, bool normalDisconnect)
+{
+	const OwnerToken tPlayerToken = getOwnerToken(p);
+	//Registered player
+	if(tPlayerToken!=0)
 	{
 		RakNet::BitStream tReceiveBit(p->data, p->length, false);
 		MessageID tMessage;
-		OwnerToken tPlayerToken;
-		bool tNormalDisconnect;
-
 		tReceiveBit.Read(tMessage);
-		tReceiveBit.Read(tPlayerToken);
-		tReceiveBit.Read(tNormalDisconnect);
-		
-		sendDisconnectProcedureToMyPlayers(tPlayerToken,tNormalDisconnect);
-	}
-	void sendDisconnectProcedureToMyPlayers(const OwnerToken &token, bool normalDisconnect)
-	{
-		string tPlayerName = "";
-		string tMapName = "";
-		unsigned char tDimension = 0;
-		if(token>0 && token<=MAX_CLIENTS)
-		{
-			tPlayerName = clientName[token-1];
-			tMapName = clientMap[token-1];
-			tDimension = clientDimension[token-1];
-		}
-		else return;
-		if(normalDisconnect)
-		{
-			if(!hideText)printf("ID_DISCONNECTION_NOTIFICATION from %s ", clientAdd[token-1].ToString());
-			if(!hideText)printf("(Player token %i)\n", token);
-		}
-		else
-		{
-			if(!hideText)printf("ID_CONNECTION_LOST from %s ", clientAdd[token-1].ToString());
-			if(!hideText)printf("(Player token %i)\n", token);
-		}
-		//Broadcast player disconnect in map
+
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_PLAYERDISCONNECTED));
-		tBitStream.Write(token);
+		tBitStream.Write(tPlayerToken);
 		tBitStream.Write(normalDisconnect);
-		broadcastInMap(tMapName, tDimension, server, &tBitStream, HIGH_PRIORITY, RELIABLE, 0, clientAdd[token-1]);
+			
+		sendAllServers(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS);
+		sendTokenDisconnected(tPlayerToken);
+		sendDisconnectProcedureToMyPlayers(tPlayerToken,normalDisconnect);
+	}
+	//Unregistered player
+	else sendTokenDisconnected(p->systemAddress);
+}
+void ServerManager::sendRemoteDisconnectProcedure(Packet *p)
+{
+	RakNet::BitStream tReceiveBit(p->data, p->length, false);
+	MessageID tMessage;
+	OwnerToken tPlayerToken;
+	bool tNormalDisconnect;
 
-		//Broadcast delete player data
-		if(tPlayerName!="")
-		{
-			RakNet::BitStream tBitStream2;
+	tReceiveBit.Read(tMessage);
+	tReceiveBit.Read(tPlayerToken);
+	tReceiveBit.Read(tNormalDisconnect);
+		
+	sendDisconnectProcedureToMyPlayers(tPlayerToken,tNormalDisconnect);
+}
+void ServerManager::sendDisconnectProcedureToMyPlayers(const OwnerToken &token, bool normalDisconnect)
+{
+	string tPlayerName = "";
+	string tMapName = "";
+	unsigned char tDimension = 0;
+	if(token>0 && token<=MAX_CLIENTS)
+	{
+		tPlayerName = clientName[token-1];
+		tMapName = clientMap[token-1];
+		tDimension = clientDimension[token-1];
+	}
+	else return;
+	if(normalDisconnect)
+	{
+		if(!hideText)printf("ID_DISCONNECTION_NOTIFICATION from %s ", clientAdd[token-1].ToString());
+		if(!hideText)printf("(Player token %i)\n", token);
+	}
+	else
+	{
+		if(!hideText)printf("ID_CONNECTION_LOST from %s ", clientAdd[token-1].ToString());
+		if(!hideText)printf("(Player token %i)\n", token);
+	}
+	//Broadcast player disconnect in map
+	RakNet::BitStream tBitStream;
 
-			tBitStream2.Write(MessageID(ID_PLAYERDATA));
-			tBitStream2.Write(false);
-			StringCompressor::Instance()->EncodeString(tPlayerName.c_str(),16,&tBitStream2);
+	tBitStream.Write(MessageID(ID_PLAYERDISCONNECTED));
+	tBitStream.Write(token);
+	tBitStream.Write(normalDisconnect);
+	broadcastInMap(tMapName, tDimension, server, &tBitStream, HIGH_PRIORITY, RELIABLE, 0, clientAdd[token-1]);
 
-			sendMyPlayers(server, &tBitStream2, LOW_PRIORITY, RELIABLE, 1, clientAdd[token-1]);
-		}
-		unassignToken(token);
-	}
-	void logNumPlayers()
+	//Broadcast delete player data
+	if(tPlayerName!="")
 	{
-		std::ostringstream sin;
-		if(!printlog)return;
-		ofstream outFile("C:/numplayers.log");
-		char tBuffer[32] = "";
-		sin << numClients;
-		std::string val = sin.str();
-		strcpy(tBuffer,val.c_str());
-		//_itoa_s(numClients,tBuffer,10);
-		outFile.write(tBuffer,strlen(tBuffer));
-		outFile.close();
+		RakNet::BitStream tBitStream2;
+
+		tBitStream2.Write(MessageID(ID_PLAYERDATA));
+		tBitStream2.Write(false);
+		StringCompressor::Instance()->EncodeString(tPlayerName.c_str(), 16, &tBitStream2);
+
+		sendMyPlayers(server, &tBitStream2, LOW_PRIORITY, RELIABLE, 1, clientAdd[token-1]);
 	}
-	void registerServer(Packet *p)
+	unassignToken(token);
+}
+void ServerManager::logNumPlayers()
+{
+	std::ostringstream sin;
+	if(!printlog)return;
+	ofstream outFile("numplayers.log");
+	char tBuffer[32] = "";
+	sin << numClients;
+	std::string val = sin.str();
+	strcpy(tBuffer,val.c_str());
+	//_itoa_s(numClients,tBuffer,10);
+	outFile.write(tBuffer,strlen(tBuffer));
+	outFile.close();
+}
+void ServerManager::registerServer(Packet *p)
+{
+	for(int i=0; i<MAX_SERVERS; i++)
 	{
-		for(int i=0; i<MAX_SERVERS; i++)
+		if(serverAdd[i]==p->systemAddress)
 		{
-			if(serverAdd[i]==p->systemAddress)
-			{
-				serverConnected[i] = true;
-				if(!hideText)printf("Server %i connected, IP: %s\n",i+1,p->systemAddress.ToString());
-				break;
-			}
+			serverConnected[i] = true;
+			if(!hideText)printf("Server %i connected, IP: %s\n",i+1,p->systemAddress.ToString());
+			break;
 		}
 	}
-	bool unregisterServer(const SystemAddress &add)
+}
+bool ServerManager::unregisterServer(const SystemAddress &add)
+{
+	for(int i=0; i<MAX_SERVERS; i++)
 	{
-		for(int i=0; i<MAX_SERVERS; i++)
+		if(serverAdd[i]==add)
 		{
-			if(serverAdd[i]==add)
-			{
-				if(serverConnected[i])sendDisconnectProcedureOfAllTokensConnectedTo(add);
-				serverAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
-				serverConnected[i] = false;
-				if(!hideText)printf("Server %i disconnected, IP: %s\n",i+1,add.ToString());
-				
-				return true;
-			}
-		}
-		return false;
-	}
-	bool unregisterServer(Packet *p)
-	{
-		return unregisterServer(p->systemAddress);
-	}
-	bool isServerAdd(const SystemAddress &add)
-	{
-		for(int i=0; i<MAX_SERVERS; i++)
-		{
-			if(serverAdd[i]==add)return true;
-		}
-		return false;
-	}
-	bool imTheOwner(Packet *p)
-	{
-		const SystemAddress tAdd = p->systemAddress;
-		if(tAdd==mainServerAdd)return false;
-		/*for(int i=0; i<MAX_SERVERS; i++)
-		{
-			if(serverAdd[i]==p->systemAddress)return false;
-		}
-		return true;*/
-		for(int i=0;i<MAX_CLIENTS;i++)
-		{
-			if(clientAdd[i]==tAdd)return clientIsMine[i];
-		}
-		return false;
-	}
-	void unregisterAllServers()
-	{
-		for(int i=0; i<MAX_SERVERS; i++)
-		{
+			if(serverConnected[i])sendDisconnectProcedureOfAllTokensConnectedTo(add);
 			serverAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
 			serverConnected[i] = false;
+			if(!hideText)printf("Server %i disconnected, IP: %s\n",i+1,add.ToString());
+				
+			return true;
 		}
 	}
-	void sendTokenDisconnected(const SystemAddress &add)
+	return false;
+}
+bool ServerManager::unregisterServer(Packet *p)
+{
+	return unregisterServer(p->systemAddress);
+}
+bool ServerManager::isServerAdd(const SystemAddress &add)
+{
+	for(int i=0; i<MAX_SERVERS; i++)
+	{
+		if(serverAdd[i]==add)return true;
+	}
+	return false;
+}
+bool ServerManager::imTheOwner(Packet *p)
+{
+	const SystemAddress tAdd = p->systemAddress;
+	if(tAdd==mainServerAdd)return false;
+	/*for(int i=0; i<MAX_SERVERS; i++)
+	{
+		if(serverAdd[i]==p->systemAddress)return false;
+	}
+	return true;*/
+	for(int i=0;i<MAX_CLIENTS;i++)
+	{
+		if(clientAdd[i]==tAdd)return clientIsMine[i];
+	}
+	return false;
+}
+void ServerManager::unregisterAllServers()
+{
+	for(int i=0; i<MAX_SERVERS; i++)
+	{
+		serverAdd[i] = UNASSIGNED_SYSTEM_ADDRESS;
+		serverConnected[i] = false;
+	}
+}
+void ServerManager::sendTokenDisconnected(const SystemAddress &add)
+{
+	RakNet::BitStream tBitStream;
+
+	tBitStream.Write(MessageID(ID_TOKENDISCONNECTED));
+	tBitStream.Write(false);
+	tBitStream.Write(SystemAddress(add));
+
+	server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, mainServerAdd, false);
+}
+void ServerManager::sendTokenDisconnected(const OwnerToken &tToken)
+{
+	if(tToken<=MAX_CLIENTS && tToken>0)
+	if(clientAdd[tToken-1]!= UNASSIGNED_SYSTEM_ADDRESS)
+	if(clientIsMine[tToken-1])
 	{
 		RakNet::BitStream tBitStream;
 
 		tBitStream.Write(MessageID(ID_TOKENDISCONNECTED));
-		tBitStream.Write(false);
-		tBitStream.Write(SystemAddress(add));
+		tBitStream.Write(true);
+		tBitStream.Write(OwnerToken(tToken));
 
 		server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, mainServerAdd, false);
 	}
-	void sendTokenDisconnected(const OwnerToken &tToken)
-	{
-		if(tToken<=MAX_CLIENTS && tToken>0)
-		if(clientAdd[tToken-1]!= UNASSIGNED_SYSTEM_ADDRESS)
-		if(clientIsMine[tToken-1])
-		{
-			RakNet::BitStream tBitStream;
-
-			tBitStream.Write(MessageID(ID_TOKENDISCONNECTED));
-			tBitStream.Write(true);
-			tBitStream.Write(OwnerToken(tToken));
-
-			server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, mainServerAdd, false);
-		}
-	}
-	void sendDisconnectProcedureOfAllTokensConnectedTo(const SystemAddress &add)
-	{
-		for(int i=0;i<MAX_CLIENTS;i++)
-		{
-			if(clientAdd[i]==add)
-			{
-				sendTokenDisconnectProcedure(i+1);
-			}
-		}
-	}
-	bool needsUpdate()
-	{
-		return doUpdate;
-	}
-	void updateMemCheck(bool &doReset)
-	{
-		time_t currTime;
-		time(&currTime);
-		const float timeSinceLastUpdate = (float)difftime(currTime,prevTime);
-		prevTime = currTime;
-		maintenanceTime += timeSinceLastUpdate;
-		if(maintenanceTime<60)return;
-		else maintenanceTime = 0;
-		
-		
-		#if defined(__linux__)
-			size_t size = 0;
-			FILE *file = fopen("/proc/self/statm", "r");
-			if (file) {
-				unsigned int vmsize = 0;
-				fscanf (file, "%u", &vmsize);  // Just need the first num: vm size
-				fclose (file);
-				size = (size_t)vmsize * getpagesize();
-				if((unsigned int)size>200000000)doReset = true;
-			}
-		#elif defined(__APPLE__)
-			struct task_basic_info t_info;
-			mach_msg_type_number_t t_info_count = TASK_BASIC_INFO_COUNT;
-			task_info(current_task(), TASK_BASIC_INFO, (task_info_t)&t_info, &t_info_count);
-			size_t size = (resident ? t_info.resident_size : t_info.virtual_size);
-			if((unsigned int)size>200000000)doReset = true;
-		#elif defined(_WINDOWS)
-		PROCESS_MEMORY_COUNTERS pmc;
-		if ( GetProcessMemoryInfo( GetCurrentProcess(), &pmc, sizeof(pmc)) )
-		{
-			if((unsigned int)pmc.WorkingSetSize>200000000)doReset = true;
-		}
-		#else
-			// No idea what platform this is
-			return;   // Punt
-		#endif
-	}
-	void printMemInfo()
-	{
-		#if defined(__linux__)
-			// Ugh, getrusage doesn't work well on Linux.  Try grabbing info
-			// directly from the /proc pseudo-filesystem.  Reading from
-			// /proc/self/statm gives info on your own process, as one line of
-			// numbers that are: virtual mem program size, resident set size,
-			// shared pages, text/code, data/stack, library, dirty pages.  The
-			// mem sizes should all be multiplied by the page size.
-			/*
-			 /proc/[pid]/statm
-              Provides information about memory usage, measured in pages.  The
-              columns are:
-
-                  size       total program size
-                             (same as VmSize in /proc/[pid]/status)
-                  resident   resident set size
-                             (same as VmRSS in /proc/[pid]/status)
-                  share      shared pages (from shared mappings)
-                  text       text (code)
-                  lib        library (unused in Linux 2.6)
-                  data       data + stack
-                  dt         dirty pages (unused in Linux 2.6)
-			*/
-			size_t size = 0;
-			FILE *file = fopen("/proc/self/statm", "r");
-			if (file) {
-				unsigned int vmsize = 0;
-				fscanf (file, "%u", &vmsize);  // Just need the first num: vm size
-				fclose (file);
-				size = (size_t)vmsize * getpagesize();
-				printf("\tMemory usage: %i\n", size);
-			}
-			return;
-		#elif defined(__APPLE__)
-			// Inspired by:
-			// http://miknight.blogspot.com/2005/11/resident-set-size-in-mac-os-x.html
-			struct task_basic_info t_info;
-			mach_msg_type_number_t t_info_count = TASK_BASIC_INFO_COUNT;
-			task_info(current_task(), TASK_BASIC_INFO, (task_info_t)&t_info, &t_info_count);
-			size_t size = (resident ? t_info.resident_size : t_info.virtual_size);
-			printf("\tMemory usage: %i\n", size);
-			return;
-		#elif defined(_WINDOWS)
-			PROCESS_MEMORY_COUNTERS pmc;
-			if ( GetProcessMemoryInfo( GetCurrentProcess(), &pmc, sizeof(pmc)) )
-			{
-				printf( "\tPageFaultCount: %i\n", (unsigned int)pmc.PageFaultCount );
-				printf( "\tPeakWorkingSetSize: %i\n", 
-						  (unsigned int)pmc.PeakWorkingSetSize );
-				printf( "\tWorkingSetSize: %i\n", pmc.WorkingSetSize );
-				printf( "\tQuotaPeakPagedPoolUsage: %i\n", 
-						  (unsigned int)pmc.QuotaPeakPagedPoolUsage );
-				printf( "\tQuotaPagedPoolUsage: %i\n", 
-						  (unsigned int)pmc.QuotaPagedPoolUsage );
-				printf( "\tQuotaPeakNonPagedPoolUsage: %i\n", 
-						  (unsigned int)pmc.QuotaPeakNonPagedPoolUsage );
-				printf( "\tQuotaNonPagedPoolUsage: %i\n", 
-						  (unsigned int)pmc.QuotaNonPagedPoolUsage );
-				printf( "\tPagefileUsage: %i\n", (unsigned int)pmc.PagefileUsage ); 
-				printf( "\tPeakPagefileUsage: %i\n", 
-						  (unsigned int)pmc.PeakPagefileUsage );
-			}
-		#else
-			// No idea what platform this is
-			return;   // Punt
-		#endif
-	}
-	void bootPlayer(const char *tName)
-	{
-		const OwnerToken tCurrentToken = getTokenByName(tName);
-		if(tCurrentToken>0 && tCurrentToken<=MAX_CLIENTS)
-		{
-			if(clientIsMine[tCurrentToken-1])
-			{
-				//Boot current user out
-				RakNet::BitStream tBitStream;
-				tBitStream.Write(MessageID(ID_FORCELOGOUT));
-				StringCompressor::Instance()->EncodeString(tName,16,&tBitStream);
-				server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 1, clientAdd[tCurrentToken-1], false);
-			}
-			clientIsKicked[tCurrentToken-1] = true;
-		}
-	}
-	const bool readIPs()
-	{
-		ifstream inFile("connection.txt");
-		if(!inFile.good())return false;
-		char buffer[128] = "";
-		inFile.getline(buffer,128);
-		mainServerInitAdd = buffer;
-		inFile.getline(buffer,128);
-		broadcastAdd = buffer;
-		inFile.close();
-		return true;
-	}
-};
-
-void launchUpdate(LPSTR fileDir, LPSTR fileName)
+}
+void ServerManager::sendDisconnectProcedureOfAllTokensConnectedTo(const SystemAddress &add)
 {
-	#ifdef _WIN32
-	PROCESS_INFORMATION pi;
-	STARTUPINFO si;
-
-	// Set up the start up info struct.
-	memset(&si, 0,  sizeof(STARTUPINFO));
-	si.cb = sizeof(STARTUPINFO);
-
-	// Launch the child process.
-	if (!CreateProcess(
-		NULL,
-		fileName,
-		NULL, NULL,
-		TRUE,
-		CREATE_NEW_CONSOLE,
-		NULL, fileDir,
-		&si,
-		&pi))
-		return;
-
-	CloseHandle( pi.hProcess );
-	CloseHandle( pi.hThread );
-	#endif
+	for(int i=0;i<MAX_CLIENTS;i++)
+	{
+		if(clientAdd[i]==add)
+		{
+			sendTokenDisconnectProcedure(i+1);
+		}
+	}
+}
+bool ServerManager::needsUpdate()
+{
+	return doUpdate;
+}
+void ServerManager::bootPlayer(const char *tName)
+{
+	const OwnerToken tCurrentToken = getTokenByName(tName);
+	if(tCurrentToken>0 && tCurrentToken<=MAX_CLIENTS)
+	{
+		if(clientIsMine[tCurrentToken-1])
+		{
+			//Boot current user out
+			RakNet::BitStream tBitStream;
+			tBitStream.Write(MessageID(ID_FORCELOGOUT));
+			StringCompressor::Instance()->EncodeString(tName, 16, &tBitStream);
+			server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 1, clientAdd[tCurrentToken-1], false);
+		}
+		clientIsKicked[tCurrentToken-1] = true;
+	}
+}
+bool ServerManager::ShowChat()
+{
+	showChat = !showChat;
+	return showChat;
+}
+bool ServerManager::HideText()
+{
+	hideText = !hideText;
+	return hideText;
+}
+RakNetStatistics* ServerManager::getStatistics()
+{
+	return server->GetStatistics(server->GetSystemAddressFromIndex(0));
+}
+int ServerManager::getAveragePing()
+{
+	return server->GetAveragePing(server->GetSystemAddressFromIndex(0));
+}
+const bool ServerManager::readIPs()
+{
+	ifstream inFile("connection.txt");
+	if(!inFile.good())return false;
+	char buffer[128] = "";
+	inFile.getline(buffer,128);
+	mainServerInitAdd = buffer;
+	inFile.getline(buffer,128);
+	broadcastAdd = buffer;
+	inFile.close();
+	return true;
 }
 
 int main(void)
 {
 	ServerManager mServerMgr;
+
+	std::thread gameServerThread(&ServerManager::startThread, &mServerMgr);
 	
-	bool inited = false;
-	
-	while(!inited)
+	bool wekilled = false;
+	while (gameServerThread.joinable())
 	{
-		inited = mServerMgr.initialize();
-		if(!inited)RakSleep(5000);
+		RakSleep(200);
+#ifdef _WIN32
+		if (_kbhit())
+		{
+			char c = _getch();
+			if (c == 'Q')
+			{
+				puts("Quitting.");
+				mServerMgr.quit();
+				wekilled = true;
+				break;
+			}
+			else if (c == 'S')
+			{
+				char temp[2048] = "";
+				RakNetStatistics* rss = mServerMgr.getStatistics();
+				StatisticsToString(rss, temp, 2);
+				printf("%s", temp);
+				printf("Ping %i\n", mServerMgr.getAveragePing());
+			}
+			else if (c == 'C')
+			{
+				bool res = mServerMgr.ShowChat();
+				if (res)printf("Showchat ON\n");
+				else printf("Showchat OFF\n");
+			}
+			else if (c == 'H')
+			{
+				bool res = mServerMgr.HideText();
+				if (res)system("cls");
+				else printf("Unhiding text\n");
+			}
+			else if (c == 'V')
+			{
+				printf("Version: Final KITO\n");
+			}
+			else
+			{
+				printf("Possible commands:\n Q - Quit\n S - Stats\n C - Show Chat\n H - Hide Text\n V - Version\n");
+			}
+		}
+#endif
 	}
-	#if defined(__linux__)
-		changemode(1);
-	#endif
-	mServerMgr.runLoop();
-	mServerMgr.shutdown();
+	if (!wekilled)
+		mServerMgr.shutdown();
 	mServerMgr.logNumPlayers();
 
-	#ifdef _WIN32
-	//if(mServerMgr.needsUpdate())launchUpdate("./","MagixServerUpdater.exe");
-	#endif
-	#if defined(__linux__)
-		changemode(0);
-	#endif
+	gameServerThread.join(); // wait for the server to exit
+	RakSleep(1500);
 	return 0;
 }
 
-// Copied from Multiplayer.cpp
-// If the first byte is ID_TIMESTAMP, then we want the 5th byte
-// Otherwise we want the 1st byte
-MessageID GetPacketIdentifier(Packet *p)
-{
-	if (p==0)
-		return 255;
 
-	if ((unsigned char)p->data[0] == ID_TIMESTAMP)
-	{
-		assert(p->length > sizeof(unsigned char) + sizeof(unsigned long));
-		return (unsigned char) p->data[sizeof(unsigned char) + sizeof(unsigned long)];
-	}
-	else
-		return (unsigned char) p->data[0];
-}
 

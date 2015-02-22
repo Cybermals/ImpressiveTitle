@@ -6,7 +6,7 @@
 #include <zzip/plugin.h>
  
 // Change this magic number to a value of your choosing.
-static const char xor_values[10] = ENCRYPTION_XORS;
+static const unsigned char xor_values[10] = ENCRYPTION_XORS;
 static zzip_plugin_io_handlers xor_handlers = { };
 // Change "OBFUSZIP" to match the file extension of your choosing.
 static zzip_strings_t xor_fileext[] = { ENCRYPTION_EXTENSION, 0 };
