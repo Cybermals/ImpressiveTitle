@@ -24,7 +24,7 @@
 // BIG FAT WARNING:
 // DO NOT DECREASE THESE VALUES ONCE SET. WILL LEAD TO CRASHES
 // Read the names of these defines and they'll make sense (Game Max ____)
-#define GMAXHEADS 8
+#define GMAXHEADS 6
 #define GMAXMANES 25
 #define GMAXTAILS 7
 #define GMAXWINGS 4
