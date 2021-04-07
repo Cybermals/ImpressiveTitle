@@ -1,0 +1,13 @@
+RetroIT 1.0:
+* added private chat channel (no more typing "/username:message" every time, just once. yay!)
+* fixed chat box scrollbar glitch
+* added body selector
+* fixed staff blocking glitch
+* upgraded to newest versions of FMOD and RakNet
+* made the changes necessary to get IT to build with MinGW-w64 and CodeBlocks 17.12
+* improved loading screen
+* fixed lag caused by music being loaded
+
+RetroIT 2.0:
+* switched the build system to CMake
+* removed private items and maps

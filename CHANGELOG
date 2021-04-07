@@ -1,0 +1,40 @@
+# 2nd release
+* Now using KITO's custom OgreSDK with fixes
+* Now using the newest version of directx (no more _42.dll missing errors)
+* The original media is now added (excluding private items)
+* Added debug libraries to add break points and overall debug the game in detail.
+
+# 3rd release
+* Fixed server admins having too easy access to sensitive info
+* Fixed dimensions limiting
+* Readded users violations code (logs huge (larger than 2) characters only atm) - violations.log/txt
+* Added resource loading information
+* Added quick-start xorkey .dat files for xorkey 0. See static folder
+* Rearranged code to make window appear a little faster
+
+# 4th release
+* Fixed players not being able to heal each other
+
+# 5th release
+* Allowing encrypted zip files
+* Allowing encrypted items.cfg file
+
+# 5.1 release
+* Fix to encrypted.cfg file
+
+# 5.2 release
+* Fix to encrypted.cfg file
+
+# 5.3 release
+* Improving reading speed of encrypted .zip files
+
+# 5.4 release
+* Upstream fix to caching zip files
+
+# 5.5 release
+* Updated Raknet from 3.25 to 4.082 because zero packets could kill the network thread inside Raknet.
+
+# 6.0 release
+* Downgraded Raknet to 3.25 again due to bandwidth issues.
+* OO'd the Game and servers resulting in 40% higher FPS.
+* Upgraded projects and solutions to Visual Studio 2013
