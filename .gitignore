@@ -1,16 +1,8 @@
-#OS junk files
-[Tt]humbs.db
-*.DS_Store
+# Possible Install Prefix
+bin/**
 
-#Visual Studio files
-*.user
-*.suo
-*.sdf
-*.opensdf
+# Data Files
+data/**
 
-#Project files
-[Bb]uild/
-[Oo]utput/
-
-*.ipch
-/.vs
+# Python virtual environments
+venv/**
