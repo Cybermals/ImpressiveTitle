@@ -1,0 +1,294 @@
+[Another Tunnel;1]
+limit=20
+critterList=Bat,0.1
+
+[Another Tunnel;10]
+limit=20
+critterList=Bat,0.1
+
+[Another Tunnel;2]
+limit=20
+critterList=Bat,0.1
+
+[Another Tunnel;3]
+limit=20
+critterList=Bat,0.1
+
+[Another Tunnel;4]
+limit=20
+critterList=Bat,0.1
+
+[Another Tunnel;5]
+limit=20
+critterList=Bat,0.1
+
+[Another Tunnel;6]
+limit=20
+critterList=Bat,0.1
+
+[Another Tunnel;7]
+limit=20
+critterList=Bat,0.1
+
+[Another Tunnel;8]
+limit=20
+critterList=Bat,0.1
+
+[Another Tunnel;9]
+limit=20
+critterList=Bat,0.1
+
+[Ascension Island]
+limit=50
+critterList=Eagle,0.01
+critterList=Osprey,0.01
+
+[Badlands]
+limit=30
+critterList=Vulture,0.01
+
+[Bonfire Island]
+limit=30
+critterList=Osprey,0.01
+
+[Castle]
+limit=100
+critterList=Penguin,0.1
+critterList=Pemgi,0.1
+
+[Crater]
+limit=10
+
+[Default]
+limit=100
+critterList=Bunny,0.1
+critterList=Fennec Fox,0.1
+critterList=Green Swallowtail,0.1
+critterList=Hare,0.1
+critterList=Hummingbird,0.1
+critterList=Kitten,0.1
+critterList=Mitzi,0.01
+
+[Desert]
+limit=10
+
+[First Cave]
+limit=20
+critterList=Bat,0.1
+
+[Forest]
+limit=30
+critterList=Praying Mantis,0.01
+critterList=Morpho,0.02
+critterList=Green Swallowtail,0.02
+critterList=Zebra Longwing,0.02
+
+[Gorge]
+limit=30
+critterList=Eagle,0.01
+
+[Graveyard]
+limit=0
+
+[GreatFalls]
+limit=50
+critterList=Duckling,0.1
+critterList=Eagle,0.01
+critterList=Hawk,0.01
+
+[Haven]
+limit=20
+
+[Hidden Valley]
+limit=50
+
+[HydroPillar]
+limit=20
+critterList=Manta Ray,0.01
+critterList=Salmon,0.01
+
+[Ice]
+limit=50
+critterList=Penguin,0.8
+critterList=Winter Hare,0.8
+
+[Ice Cave]
+limit=0
+
+[Island]
+limit=30
+critterList=Osprey,0.01
+
+[Jungle]
+limit=50
+critterList=Panda,0.01
+critterList=Red Panda,0.001
+critterList=Peacock,0.005
+
+[Labyrinth]
+limit=0
+
+[Last Cave]
+limit=1
+clearList=true
+critterList=Monster Ray,0.000001,true,0
+roamArea=100,0,100,9900,500,9900
+
+[Lava]
+limit=0
+
+[Lava Cave]
+limit=0
+
+[Marsh]
+limit=40
+critterList=Hawk,0.8
+critterList=Dire Hawk,0.1
+critterList=Frog,0.05
+critterList=Great Hawk,0.0005
+
+[Oasis]
+limit=20
+
+[Ocean]
+limit=40
+critterList=Salmon,0.4,true,0
+critterList=Salmon,0.4,true,1
+critterList=Salmon,0.4,true,2
+critterList=Salmon,0.4,true,3
+critterList=Starfish,0.01
+critterList=Manta Ray,0.04,true,0
+critterList=Manta Ray,0.04,true,1
+critterList=Manta Ray,0.04,true,2
+critterList=Manta Ray,0.04,true,3
+critterList=Giant Manta Ray,0.000025,true,0
+critterList=Giant Manta Ray,0.000025,true,1
+critterList=Giant Manta Ray,0.000025,true,2
+critterList=Giant Manta Ray,0.000025,true,3
+roamArea=1400,0,1200,4000,580,1800
+roamArea=4400,0,1200,1100,580,4600
+roamArea=400,0,4300,5300,580,1500
+roamArea=1300,0,1200,2200,580,4700
+
+[Paradise]
+limit=20
+
+[Playground]
+limit=20
+
+[Pride]
+limit=20
+
+[ReallyBig]
+limit=200
+critterList=Hare,0.2
+critterList=Gazelle,0.2
+critterList=Dire Hare,0.04
+critterList=Greater Gazelle,0.02
+critterList=Hawk,0.01
+critterList=Fennec Fox,0.1
+critterList=Dire Fennec Fox,0.002
+critterList=Hummingbird,0.01
+critterList=Overgrown Gazelle,0.0001
+critterList=Mutant Hare,0.0001
+
+[Savannah]
+limit=200
+critterList=Dire Wildebeast,0.01
+critterList=Dire Zebra,0.01
+critterList=Earthshaker,0.001
+critterList=Elder Elephant,0.01
+critterList=Elephant,0.1
+critterList=Gazelle,0.5
+critterList=Giraffe,0.5
+critterList=Great Wildebeast,0.1
+critterList=Greater Gazelle,0.1
+critterList=Okapi,0.005
+critterList=Overgrown Gazelle,0.001
+critterList=Overgrown Zebra,0.001
+critterList=Skyscraper,0.001
+critterList=Wildebeast,0.1
+
+[Savannah Forest Cave]
+limit=20
+critterList=Bat,0.1
+
+[Savannah Kopje Cave]
+limit=20
+critterList=Bat,0.1
+
+[Savannah Stonefield Cave]
+limit=20
+critterList=Bat,0.1
+
+[Secret Tunnel]
+limit=20
+critterList=Bat,0.1
+
+[Serpent's Pass]
+limit=10
+critterList=Salmon,0.1,true,0
+critterList=Manta Ray,0.4,true,0
+critterList=Dire Ray,0.2,true,0
+critterList=Nautilus,0.2,true,0
+critterList=Giant Manta Ray,0.0001,true,0
+roamArea=300,0,300,1400,570,1400
+
+[Shadow Veldt]
+limit=0
+
+[Shrieking Hill]
+limit=30
+critterList=Raven,0.01
+
+[Sun Temple]
+limit=0
+
+[Tainted Plains]
+limit=100
+critterList=Hopping Spook,0.25
+critterList=Feathered Mist,0.1
+critterList=Shadowgrazer,0.2
+critterList=Howler,0.2
+critterList=Nightmare,0.005
+critterList=Skyshroud,0.04
+critterList=Haunted Tower,0.0001
+
+[The Anointed Hills]
+limit=0
+
+[Underwater Cave]
+limit=0
+
+[Valley Plains]
+limit=100
+critterList=Dire Hare,0.2
+critterList=Zebra,0.2
+critterList=Giraffe,0.2
+critterList=Elephant,0.05
+critterList=Wildebeest,0.1
+critterList=Dire Zebra,0.04
+critterList=Greater Giraffe,0.04
+critterList=Dire Wildebeest,0.03
+critterList=Elder Elephant,0.01
+critterList=Okapi,0.02
+critterList=Mutant Hare,0.0001
+critterList=Overgrown Zebra,0.0001
+critterList=Great Wildebeest,0.0001
+critterList=Skyscraper,0.00005
+critterList=Earthshaker,0.00005
+
+[Volcano]
+limit=0
+
+[Waterfall]
+limit=20
+
+[Waterfall Cave]
+limit=20
+critterList=Bat,0.01
+
+[Wyvern Hills]
+limit=1
+clearList=true
+critterList=Zombie Dragon,0.00000001
