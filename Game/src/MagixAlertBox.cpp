@@ -101,7 +101,7 @@ void MagixAlertBox::showAlert(const String &caption, Real left, Real top,
     //compute text width/height
     const Font *pFont = dynamic_cast<Ogre::Font*>(Ogre::FontManager::getSingleton().getByName(DEFAULT_FONT).getPointer());
 
-    vector<String>::type tText = StringUtil::split(caption, "\n");
+    vector<String>::type tText = StringUtil::split(caption, "\r\n");
     Real tLongestWidth = 0;
 
     for(int i = 0; i<int(tText.size()); i++)

@@ -28,7 +28,7 @@ public:
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
         mResourcePath = macBundlePath() + "/Contents/Resources/";
 #else
-        mResourcePath = "";
+        mResourcePath = "./";
 #endif
     }
 
