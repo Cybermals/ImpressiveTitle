@@ -2498,7 +2498,7 @@ void MagixNetworkManager::processLoadChar(Packet *p)
         {
             char tHP[16];
             stringCompressor->DecodeString(tHP, 16, &tBitStream);
-            const vector<String>::type tPart = StringUtil::split(tHP, ";\n");
+            const vector<String>::type tPart = StringUtil::split(tHP, ";\r\n");
             const unsigned short tMaxHP = StringConverter::parseInt(tPart[1]);
 
             if(tPart.size() > 1)
@@ -2524,7 +2524,7 @@ void MagixNetworkManager::processLoadChar(Packet *p)
         {
             char tSkills[512];
             stringCompressor->DecodeString(tSkills, 512, &tBitStream);
-            const vector<String>::type tLine = StringUtil::split(tSkills, "|\n");
+            const vector<String>::type tLine = StringUtil::split(tSkills, "|\r\n");
 
             for(int i = 0; i < (int)tLine.size(); i++)
             {

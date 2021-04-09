@@ -6834,7 +6834,7 @@ void MagixGUI::showCreditsCaption(const String &caption)
     OverlayElement *tCaption = OverlayManager::getSingleton().getOverlayElement(
         "GUI/CreditsCaption");
     tCaption->setCaption(caption);
-    vector<String>::type tLines = StringUtil::split(caption, "\n");
+    vector<String>::type tLines = StringUtil::split(caption, "\r\n");
     tCaption->setTop((Real)(0.5 - StringConverter::parseReal(
         tCaption->getParameter("char_height"))*int(tLines.size()) / 2));
 }

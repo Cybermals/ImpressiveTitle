@@ -3,6 +3,7 @@ Notes:
 Funtions for loading and parsing data files. Some security functions as well.
 */
 
+#include <cstdlib>
 #include <sstream>
 
 #include "MagixExternalDefinitions.h"
@@ -126,7 +127,7 @@ void MagixExternalDefinitions::loadUnitMeshes(const String &filename)
     if(tPart.size()==4)
     for(int i=0;i<4;i++)
     {
-    const vector<String> tMesh = StringUtil::split(tPart[i],"\n");
+    const vector<String> tMesh = StringUtil::split(tPart[i],"\r\n");
 
     if(tMesh[0]=="HeadMesh]")
     {
@@ -179,7 +180,7 @@ void MagixExternalDefinitions::loadUnitEmotes(const String &filename)
 
     for(int i = 0; i < maxEmotes; i++)
     {
-        const vector<String>::type tLine = StringUtil::split(tPart[i], "\n", 3);
+        const vector<String>::type tLine = StringUtil::split(tPart[i], "\r\n", 3);
 
         if(tLine.size() == 3)
         {
@@ -222,7 +223,7 @@ bool MagixExternalDefinitions::isRestricted(const short &headID,
     if(tPart.size()>0)
     for(int i=0;i<int(tPart.size());i++)
     {
-    vector<String> tLine = StringUtil::split(tPart[i],"\n");
+    vector<String> tLine = StringUtil::split(tPart[i],"\r\n");
     if(tLine.size()>0)
     {
     tLine[0].erase(tLine[0].find_first_of("]"));
@@ -264,7 +265,7 @@ void MagixExternalDefinitions::loadSettings(bool &isTablet,
         tData = ss.str();
     }
 
-    const vector<String>::type tLine = StringUtil::split(tData, "\n#", 16);
+    const vector<String>::type tLine = StringUtil::split(tData, "\r\n#", 16);
 
     if(tLine.size() >= 7)
     {
@@ -422,7 +423,13 @@ void MagixExternalDefinitions::saveBanFile(bool flag, const unsigned short &numD
             time_t rawtime;
             tm timeinfo;
             time(&rawtime);
+            
+            #ifdef __WIN32__
             localtime_s(&timeinfo, &rawtime);
+            #else
+            memcpy(&timeinfo, localtime(&rawtime), sizeof(timeinfo));
+            #endif
+            
             int tYear = timeinfo.tm_year;
             int tDay = timeinfo.tm_yday + numDays;
 
@@ -491,7 +498,13 @@ const bool MagixExternalDefinitions::loadBanFile(unsigned short &numDays)
         time_t rawtime;
         tm timeinfo;
         time(&rawtime);
+        
+        #ifdef __WIN32__
         localtime_s(&timeinfo, &rawtime);
+        #else
+        memcpy(&timeinfo, localtime(&rawtime), sizeof(timeinfo));
+        #endif
+        
         tYear -= timeinfo.tm_year;
         tDay -= timeinfo.tm_yday;
 
@@ -661,7 +674,7 @@ bool MagixExternalDefinitions::loadWorld(const String &filename, String &terrain
 
     for(int i = 0; i < int(tPart.size()); i++)
     {
-        const vector<String>::type tLine = StringUtil::split(tPart[i], "\n", 6);
+        const vector<String>::type tLine = StringUtil::split(tPart[i], "\r\n", 6);
 
         if(tLine.size() > 0)
         {
@@ -734,7 +747,7 @@ void MagixExternalDefinitions::loadCampaignList(vector<String>::type &list, bool
 
     for(int i = 0; i < int(tCampaign.size()); i++)
     {
-        const vector<String>::type tLine = StringUtil::split(tCampaign[i], "\n",
+        const vector<String>::type tLine = StringUtil::split(tCampaign[i], "\r\n",
             2);
 
         if(tLine.size() > 0)
@@ -772,7 +785,7 @@ bool MagixExternalDefinitions::loadCampaign(const String &name,
 
     for(int i = 0; i < int(tCampaign.size()); i++)
     {
-        const vector<String>::type tLine = StringUtil::split(tCampaign[i], "\n",
+        const vector<String>::type tLine = StringUtil::split(tCampaign[i], "\r\n",
             2);
 
         if(tLine.size() > 0)
@@ -1066,7 +1079,7 @@ const vector<String>::type MagixExternalDefinitions::loadFriendList(bool isBlock
         return tBlank;
     }
 
-    return StringUtil::split(tData, "\n");
+    return StringUtil::split(tData, "\r\n");
 }
 
 
@@ -1344,7 +1357,7 @@ void MagixExternalDefinitions::loadItems(const String &filename, const bool decr
         ss << inFile.rdbuf();
         tData = ss.str();
 
-        const vector<String>::type tLine = StringUtil::split(tData, "\n#");
+        const vector<String>::type tLine = StringUtil::split(tData, "\r\n#");
 
         maxItems = int(tLine.size());
 
@@ -1556,7 +1569,7 @@ void MagixExternalDefinitions::loadHotkeys(const String &filename)
 
     inFile.close();
 
-    const vector<String>::type tLine = StringUtil::split(tData, "\n#");
+    const vector<String>::type tLine = StringUtil::split(tData, "\r\n#");
 
     if((int)tLine.size() == MAX_HOTKEYF)
     {
@@ -1715,7 +1728,7 @@ vector<String> tStuff;
 const vector<String> tPart = StringUtil::split(tData,"[#");
 for(int i=0;i<int(tPart.size());i++)
 {
-const vector<String> tLine = StringUtil::split(tPart[i],"\n");
+const vector<String> tLine = StringUtil::split(tPart[i],"\r\n");
 if(tLine.size()>0)
 {
 if(StringUtil::startsWith(tLine[0],"Object",false))
@@ -1799,7 +1812,7 @@ void MagixExternalDefinitions::loadWeatherCycle(const String &type, vector<Weath
 
     for(int i = 0; i < int(tPart.size()); i++)
     {
-        const vector<String>::type tLine = StringUtil::split(tPart[i], "\n", 2);
+        const vector<String>::type tLine = StringUtil::split(tPart[i], "\r\n", 2);
 
         if(tLine.size() > 1)
         {
@@ -1899,7 +1912,7 @@ void MagixExternalDefinitions::loadWeather(const String &type, String &particle,
 
     for(int i = 0; i<int(tPart.size()); i++)
     {
-        const vector<String>::type tLine = StringUtil::split(tPart[i], "\n", 4);
+        const vector<String>::type tLine = StringUtil::split(tPart[i], "\r\n", 4);
         if(tLine.size() >= 2)
         {
             if(StringUtil::startsWith(tLine[0], type, false))
@@ -2630,7 +2643,7 @@ bool MagixExternalDefinitions::loadCustomCritterSpawnList(const String &filename
 
     for(int i = 0; i < int(tSection.size()); i++)
     {
-        const vector<String>::type tLine = StringUtil::split(tSection[i], "\n");
+        const vector<String>::type tLine = StringUtil::split(tSection[i], "\r\n");
 
         if(tLine.size() > 0)
         {

@@ -198,7 +198,7 @@ void MagixApplication::setupResources(void)
                     delete[] tBuffer;
 
                     const vector<String>::type tLine = StringUtil::split(tData,
-                        "\n#");
+                        "\r\n#");
 
                     for(int j = 0; j < (int)tLine.size(); j++)
                     {

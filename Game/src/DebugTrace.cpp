@@ -3,8 +3,11 @@
 #include <stdarg.h>
 #include <string.h>
 #include <iomanip>
-#include <Windows.h>
-#include <DbgHelp.h>
+
+#ifdef __WIN32__
+    #include <Windows.h>
+    #include <DbgHelp.h>
+#endif
 
 #include "DebugTrace.h"
 
@@ -14,16 +17,21 @@
 
 volatile long *allocateLineCount()
 {
+    #ifdef __WIN32__
     static volatile long *lineCount;
 
     lineCount = (long*)_aligned_malloc(sizeof(long), 32);
     *lineCount = 0;
     return lineCount;
+    #else
+    return NULL;
+    #endif
 }
 
 
 void printStack()
 {
+    #ifdef __WIN32__
     unsigned int   i;
     void         * stack[100];
     volatile unsigned short frames;
@@ -55,11 +63,13 @@ void printStack()
 
     debugTraceVars("STACK %s", buffer);
     free(symbol);
+    #endif
 }
 
 
 void debugTraceStr(const std::wstringstream& item)
 {
+    #ifdef __WIN32__
     static volatile long *lineCount = allocateLineCount();
     FILETIME timestamp;
     GetSystemTimeAsFileTime(&timestamp);
@@ -72,11 +82,13 @@ void debugTraceStr(const std::wstringstream& item)
         << L" " << item.str() << std::endl;
 
     OutputDebugStringW(debug.str().c_str());
+    #endif
 }
 
 
 void debugTraceVars(const char *format, ...)
 {
+    #ifdef __WIN32__
     va_list args;
     va_start(args, format);
     char buffer[500];
@@ -84,4 +96,5 @@ void debugTraceVars(const char *format, ...)
     std::wstringstream result;
     result << buffer;
     debugTraceStr(result);
+    #endif
 }

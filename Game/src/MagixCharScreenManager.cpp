@@ -1865,7 +1865,7 @@ void MagixCharScreenManager::updateChar(const String &data)
         static_cast<MagixPlayer*>(mUnit)->reset();
     }
 
-    const vector<String>::type tString = StringUtil::split(data, "|\n", 2);
+    const vector<String>::type tString = StringUtil::split(data, "|\r\n", 2);
 
     //Loaded successfully
     if(tString.size() > 0)

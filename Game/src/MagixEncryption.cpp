@@ -35,7 +35,12 @@ struct FileNameCompare : public std::binary_function<Ogre::FileInfo, Ogre::Strin
 // Static method that un-obfuscates an obfuscated file.
 static zzip_ssize_t xor_read(int fd, void* buf, zzip_size_t len)
 {
+    #ifdef __WIN32__
     zzip_off_t y = tell(fd);
+    #else
+    zzip_off_t y = ftell(fd);
+    #endif
+    
     const zzip_ssize_t bytes = read(fd, buf, len);
     zzip_ssize_t i;
     char* pch = (char*)buf;
