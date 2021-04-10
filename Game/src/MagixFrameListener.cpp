@@ -107,7 +107,7 @@ MagixFrameListener::MagixFrameListener(MagixHandler *magixHandler,
         pl.insert(std::make_pair(std::string("x11_mouse_hide"),
             std::string("true")));
         pl.insert(std::make_pair(std::string("x11_keyboard_grab"), 
-            std::string("false")));
+            std::string("true")));
         //pl.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
         #endif
         
