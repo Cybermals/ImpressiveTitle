@@ -47,12 +47,12 @@ if(UNIX)
         PUBLIC
         include
         ../config
-        ../deps/linux/amd64/gcc/Ogre/include/OGRE
-        ../deps/linux/amd64/gcc/Ogre/include/OIS
-        ../deps/linux/amd64/gcc/PagedGeometry/include/PagedGeometry
+        ../deps/linux/amd64/gcc9/Ogre/include/OGRE
+        ../deps/linux/amd64/gcc9/Ogre/include/OIS
+        ../deps/linux/amd64/gcc9/PagedGeometry/include
         ../deps/linux/amd64/all/fmod/include
-        ../deps/linux/amd64/gcc/zziplib/include
-        ../deps/linux/amd64/gcc/RakNet/include
+        ../deps/linux/amd64/gcc9/zziplib/include
+        ../deps/linux/amd64/gcc9/RakNet/include
         ../Game/include
     )
 endif(UNIX)
@@ -88,10 +88,11 @@ if(UNIX)
     target_link_directories(
         Game
         PUBLIC
-        ../deps/linux/amd64/gcc/Ogre/bin/release
-        ../deps/linux/amd64/gcc/PagedGeometry/lib
-        ../deps/linux/amd64/all/fmod/bin
-        ../deps/linux/amd64/gcc/RakNet/bin
+        ../deps/linux/amd64/gcc9/Ogre/lib
+        ../deps/linux/amd64/gcc9/PagedGeometry/lib
+        ../deps/linux/amd64/all/fmod/lib
+        ../deps/linux/amd64/gcc9/zziplib/lib
+        ../deps/linux/amd64/gcc9/RakNet/lib
     )
 endif(UNIX)
 
@@ -133,9 +134,9 @@ set(
     src/MagixUnitManager.cpp
     src/MagixWorld.cpp
     src/main.cpp
-    src/movabletextoverlay.cpp
-    src/ogremagixApp.cpp
-    src/ogremagixFrameListener.cpp
+    src/MovableTextOverlay.cpp
+    src/OgreMagixApp.cpp
+    src/OgreMagixFrameListener.cpp
     src/SoundManager.cpp
 )
 
@@ -189,6 +190,7 @@ if(UNIX)
     target_link_libraries(
         Game
         ${LIBS}
+        fmod
     )
 endif(UNIX)
 
@@ -198,6 +200,10 @@ if(MINGW)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--enable-stdcall-fixup")
 endif(MINGW)
+
+if(UNIX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
+endif(UNIX)
 
 if(MSVC10)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /TP")
@@ -235,17 +241,25 @@ endif(WIN32)
 if(UNIX)
     file(
         GLOB DEPS
-        ../deps/linux/amd64/gcc/Ogre/bin/release/*
-        ../deps/linux/amd64/gcc/PagedGeometry/docs/LICENSE*
-        ../deps/linux/amd64/all/fmod/bin/*
-        ../deps/linux/amd64/gcc/RakNet/bin/*
+        ../deps/linux/amd64/gcc9/Ogre/lib/*
+        ../deps/linux/amd64/gcc9/PagedGeometry/docs/LICENSE*
+        ../deps/linux/amd64/all/fmod/lib/*
+        ../deps/linux/amd64/gcc9/RakNet/lib/*
     )
     file(COPY ${DEPS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif(UNIX)
 
 #Copy data files
 file(COPY ../data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-file(GLOB CONFIG ../static/client/config/*)
+
+if(WIN32)
+    file(GLOB CONFIG ../static/client/config/windows/*)
+endif(WIN32)
+
+if(UNIX)
+    file(GLOB CONFIG ../static/client/config/linux/*)
+endif(UNIX)
+
 file(COPY ${CONFIG} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(GLOB DAT ../static/client/default/*)
 file(COPY ${DAT} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
@@ -255,3 +269,4 @@ install(TARGETS Game DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/client)
 install(FILES ${DEPS} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/client)
 install(DIRECTORY ../data DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/client)
 install(FILES ${CONFIG} ${DAT} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/client)
+install(DIRECTORY ../static/client/screenshots DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/client)

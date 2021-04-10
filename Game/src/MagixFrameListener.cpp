@@ -94,25 +94,29 @@ MagixFrameListener::MagixFrameListener(MagixHandler *magixHandler,
 
     if(useWindowsCursor)
     {
-#if defined OIS_WIN32_PLATFORM
+        #if defined OIS_WIN32_PLATFORM
         pl.insert(std::make_pair(std::string("w32_mouse"),
             std::string("DISCL_FOREGROUND")));
         pl.insert(std::make_pair(std::string("w32_mouse"),
             std::string("DISCL_NONEXCLUSIVE")));
         //pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
         //pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_NONEXCLUSIVE")));
-#elif defined OIS_LINUX_PLATFORM
+       #elif defined OIS_LINUX_PLATFORM
         pl.insert(std::make_pair(std::string("x11_mouse_grab"),
             std::string("false")));
         pl.insert(std::make_pair(std::string("x11_mouse_hide"),
-            std::string("false")));
-        //pl.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+            std::string("true")));
+        pl.insert(std::make_pair(std::string("x11_keyboard_grab"), 
+            std::string("true")));
         //pl.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
-#endif
+        #endif
+        
+        #ifdef __WIN32__
         if(ShowCursor(false) < -1)
         {
             ShowCursor(true);
         }
+        #endif
     }
 
     mInputManager = InputManager::createInputSystem(pl);

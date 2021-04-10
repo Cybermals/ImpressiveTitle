@@ -18,7 +18,7 @@ LGPL like the rest of the OGRE engine.
 -----------------------------------------------------------------------------
 */
 
-#include "ogremagixApp.h"
+#include "OgreMagixApp.h"
 
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

@@ -127,7 +127,7 @@ const String MagixChatManager::getChatBlock(const unsigned short &lines,
             chatString[channel][i], chatSayer[channel][i], 
             chatType[channel][i], boxWidth, charHeight), 
             chatSayer[channel][i], chatType[channel][i]);
-        vector<String>::type tCaption = StringUtil::split(tLineBlock, "\n");
+        vector<String>::type tCaption = StringUtil::split(tLineBlock, "\r\n");
 
         for(int j = 0; j < int(tCaption.size()); j++)
         {

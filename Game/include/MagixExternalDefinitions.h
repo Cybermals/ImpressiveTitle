@@ -6,6 +6,10 @@
 #include <OgreStreamSerialiser.h>
 #include <OgreException.h>
 
+#ifdef __linux__
+    #define _unlink unlink
+#endif
+
 //using namespace std;
 using namespace Ogre;
 

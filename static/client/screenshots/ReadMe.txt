@@ -1,0 +1,1 @@
+All the screenshots you take will be saved in this folder.

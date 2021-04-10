@@ -2,12 +2,16 @@
 #include "MagixConst.h"
 #include "DebugTrace.h"
 
+#ifdef __WIN32__
 #define DBOUT( s )            \
 {                             \
    std::ostringstream os_;    \
    os_ << s;                   \
    OutputDebugString( os_.str().c_str() );  \
 }
+#else
+#define DBOUT(s)
+#endif
 
 
 //Animated Object Functions

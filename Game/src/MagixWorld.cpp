@@ -288,7 +288,7 @@ void MagixWorld::loadWorld(const String &name)
 
         for(int i = 0; i < int(tPart.size()); i++)
         {
-            const vector<String>::type tLine = StringUtil::split(tPart[i], "\n");
+            const vector<String>::type tLine = StringUtil::split(tPart[i], "\r\n");
 //            Ogre::LogManager::getSingletonPtr()->logMessage(tPart[i]);
 
             if(tLine.size() > 0)
@@ -766,7 +766,7 @@ void MagixWorld::loadWorld(const String &name)
 
                 for(int i = 0; i < (int)tPart.size(); i++)
                 {
-                    const vector<String>::type tLine = StringUtil::split(tPart[i], "\n");
+                    const vector<String>::type tLine = StringUtil::split(tPart[i], "\r\n");
 
                     if(tLine.size() > 1)
                     {
@@ -1012,7 +1012,7 @@ void MagixWorld::loadWorld(const String &name)
 
                 for(int i = 0; i < (int)tPart.size(); i++)
                 {
-                    const vector<String>::type tLine = StringUtil::split(tPart[i], "\n");
+                    const vector<String>::type tLine = StringUtil::split(tPart[i], "\r\n");
 
                     if(tLine.size() > 1)
                     {
@@ -1144,7 +1144,7 @@ void MagixWorld::loadWorld(const String &name)
 
             for(int i = 0; i < (int)tPart.size(); i++)
             {
-                const vector<String>::type tLine = StringUtil::split(tPart[i], "\n");
+                const vector<String>::type tLine = StringUtil::split(tPart[i], "\r\n");
 
                 if(tLine.size() > 1)
                 {

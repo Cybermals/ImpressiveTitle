@@ -114,7 +114,7 @@ void MagixUnit::createUnit(const unsigned short iID, SceneManager *sceneMgr,
             wingMesh + ".mesh");
     }
 
-    if(tuftMesh != "Tuftless")
+    if(tuftMesh != "Tuftless" && tuftMesh != "Tuftless\r")
     {
         mTuftEnt = sceneMgr->createEntity("Tuft" + StringConverter::toString(iID),
             tuftMesh + ".mesh");
@@ -3374,7 +3374,7 @@ void MagixUnit::replaceWingMesh(SceneManager *sceneMgr, const String &meshName,
 void MagixUnit::replaceTuftMesh(SceneManager *sceneMgr, const String &meshName,
     bool resetMaterial)
 {
-    if(meshName == "Tuftless")
+    if(meshName == "Tuftless" || meshName == "Tuftless\r")
     {
         if(mTuftEnt)
         {
