@@ -130,6 +130,7 @@ set(
     src/MagixPlayer.cpp
     src/MagixSkyManager.cpp
     src/MagixSoundManager.cpp
+    src/MagixTimer.cpp
     src/MagixUnit.cpp
     src/MagixUnitManager.cpp
     src/MagixWorld.cpp

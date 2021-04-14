@@ -1,4 +1,7 @@
+#include <iostream>
+
 #include "MagixFrameListener.h"
+#include "MagixTimer.h"
 
 #if defined(DEBUG) || defined(_DEBUG)
 #define SHOW_DBG_OVERLAY true
@@ -224,6 +227,7 @@ bool MagixFrameListener::frameEnded(const FrameEvent& evt)
         updateStats();
     }
 
+    //std::cout << "Delta Time: " << (float)GetDeltaTime() / 1000.0f << std::endl;
     return true;
 }
 
