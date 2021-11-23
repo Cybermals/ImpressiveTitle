@@ -8,7 +8,7 @@ See the LEGAL file for details.
 ![img](https://i.imgur.com/rMLrraJ.png)
 ![img](https://i.imgur.com/368cJ02.png)
 1. download and install MinGW-w64 8.1.0
-2. download and install CMake
+2. download and install CMake 3.13
 3. clone this repo
 4. download the media files from the latest release
 5. unzip the media files into the project folder
