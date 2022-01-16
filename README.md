@@ -52,4 +52,4 @@ folder you gave earlier
 7. to shutdown the servers, switch to the GameServer window and press Ctrl+C
 8. switch to the LoginServer window and press Ctrl+C
 
-Note: You can find a more in-depth tutorial (courtesy of PingableRam) ![here](https://docs.google.com/document/d/1mP41a-02IhHx_maUDV1KVInzSYQxq-2J_lhX--WDboI/edit?usp=sharing)
+Note: You can find a more in-depth tutorial (courtesy of PingableRam) here: <https://docs.google.com/document/d/1mP41a-02IhHx_maUDV1KVInzSYQxq-2J_lhX--WDboI/edit?usp=sharing>
