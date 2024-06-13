@@ -64,33 +64,108 @@ void MagixChatManager::push(const String &caption, const String &sayer,
         break;
     }
 
-    //Enforce max line width
-    String text = caption;
-    String sender = sayer;
-    int prefixLen = (int)sender.size() + 3;
+    //Calculate prefix length
+    String prefix = "<" + sayer + ">";
+    Font *pFont = dynamic_cast<Font*>(FontManager::getSingletonPtr()->getByName(DEFAULT_FONT).getPointer());
+    Real lineWidth = 0.0f;
 
-    while((int)text.size() > 35 - prefixLen)
+    for(int i = 0; i < prefix.size(); i++)
     {
-        //Push next part of message
-        chatString[tChannel].push_back(text.substr(0, 
-            35 - prefixLen));
-        chatSayer[tChannel].push_back(sender);
-        chatType[tChannel].push_back(type);
-
-        //Remove message frag from buffer
-        text.erase(0, 35 - prefixLen);
-
-        if(prefixLen)
+        if(prefix[i] == 0x0020)
         {
-            sender = "";
-            prefixLen = 0;
+            lineWidth += pFont->getGlyphAspectRatio(0x0030);
+        }
+        else
+        {
+            lineWidth += pFont->getGlyphAspectRatio(prefix[i]);
         }
     }
 
-    chatString[tChannel].push_back(text);
-    chatSayer[tChannel].push_back(sender);
-    chatType[tChannel].push_back(type);
+    // Split message into words
+    Ogre::StringVector words = StringUtil::split(caption, " \t\r\n");
 
+    // Do word wrap
+    String text = caption;
+    String sender = sayer;
+    String buf = "";
+    Real spaceWidth = pFont->getGlyphAspectRatio(String(" ")[0]);
+
+    for(int i = 0; i < words.size(); i++)
+    {
+        // Measure width of next word
+        String word = words[i];
+        Real wordWidth = 0.0f;
+
+        for(int j = 0; j < word.size(); j++)
+        {
+            if(word[j] == 0x0020)
+            {
+                wordWidth += pFont->getGlyphAspectRatio(0x0030);
+            }
+            else
+            {
+                wordWidth += pFont->getGlyphAspectRatio(word[j]);
+            }
+        }
+
+        // Is the next word too wide for the current line or are we on the last word?
+        if(lineWidth + wordWidth + spaceWidth > 20)
+        {
+            chatString[tChannel].push_back(buf);
+            chatSayer[tChannel].push_back(sender);
+            chatType[tChannel].push_back(type);
+            sender = "";
+            buf = "";
+            lineWidth = 0.0f;
+        }
+
+        // Is the next word wider than the maximum line width?
+        if(wordWidth + spaceWidth > 20)
+        {
+            // Process long word
+            for(int j = 0; j < word.size(); j++)
+            {
+                //Add next character to buffer
+                buf += word.substr(j, 1);
+
+                if(word[j] == 0x0020)
+                {
+                    lineWidth += pFont->getGlyphAspectRatio(0x0030);
+                }
+                else
+                {
+                    lineWidth += pFont->getGlyphAspectRatio(word[j]);
+                }
+
+                //Is the line too long?
+                if(lineWidth > 16)
+                {
+                    chatString[tChannel].push_back(buf);
+                    chatSayer[tChannel].push_back(sender);
+                    chatType[tChannel].push_back(type);
+                    sender = "";
+                    lineWidth = 0.0f;
+                    buf = "";
+                }
+            }
+
+            continue;
+        }
+        
+        // Add the next word to the buffer and update the line width
+        buf += word + " ";
+        lineWidth += wordWidth + spaceWidth;
+    }
+
+    // Add remaining buffer contents to the chat
+    if(buf.size())
+    {
+        chatString[tChannel].push_back(buf);
+        chatSayer[tChannel].push_back(sender);
+        chatType[tChannel].push_back(type);
+    }
+
+    // Remove old lines if necessary
     if((int)chatString[tChannel].size() > MAX_LINES)
     {
         chatString[tChannel].erase(chatString[tChannel].begin(),
@@ -101,6 +176,7 @@ void MagixChatManager::push(const String &caption, const String &sayer,
             chatType[tChannel].begin() + 1);
     }
 
+    // Mark channel dirty
     hasNewLine[tChannel] = true;
 }
 
