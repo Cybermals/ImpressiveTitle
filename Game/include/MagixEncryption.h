@@ -41,7 +41,7 @@ public:
     void unload();
 
     /// @copydoc Archive::open
-    Ogre::DataStreamPtr open(const Ogre::String& filename, bool readOnly = true);
+    Ogre::DataStreamPtr open(const Ogre::String& filename, bool readOnly = true) const;
 
     /// @copydoc Archive::create
     Ogre::DataStreamPtr create(const Ogre::String& filename) const;

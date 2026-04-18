@@ -47,12 +47,12 @@ if(UNIX)
         PUBLIC
         include
         ../config
-        ../deps/linux/amd64/gcc9/Ogre/include/OGRE
-        ../deps/linux/amd64/gcc9/Ogre/include/OIS
-        ../deps/linux/amd64/gcc9/PagedGeometry/include
+        ../deps/linux/amd64/gcc13/Ogre/include/OGRE
+        ../deps/linux/amd64/gcc13/Ogre/include/OIS
+        ../deps/linux/amd64/gcc13/PagedGeometry/include
         ../deps/linux/amd64/all/fmod/include
-        ../deps/linux/amd64/gcc9/zziplib/include
-        ../deps/linux/amd64/gcc9/RakNet/include
+        ../deps/linux/amd64/gcc13/zziplib/include
+        ../deps/linux/amd64/gcc13/RakNet/include
         ../Game/include
     )
 endif(UNIX)
@@ -88,11 +88,11 @@ if(UNIX)
     target_link_directories(
         Game
         PUBLIC
-        ../deps/linux/amd64/gcc9/Ogre/lib
-        ../deps/linux/amd64/gcc9/PagedGeometry/lib
+        ../deps/linux/amd64/gcc13/Ogre/lib
+        ../deps/linux/amd64/gcc13/PagedGeometry/lib
         ../deps/linux/amd64/all/fmod/lib
-        ../deps/linux/amd64/gcc9/zziplib/lib
-        ../deps/linux/amd64/gcc9/RakNet/lib
+        ../deps/linux/amd64/gcc13/zziplib/lib
+        ../deps/linux/amd64/gcc13/RakNet/lib
     )
 endif(UNIX)
 
@@ -130,6 +130,7 @@ set(
     src/MagixPlayer.cpp
     src/MagixSkyManager.cpp
     src/MagixSoundManager.cpp
+    src/MagixTimer.cpp
     src/MagixUnit.cpp
     src/MagixUnitManager.cpp
     src/MagixWorld.cpp
@@ -161,7 +162,6 @@ set(LIBS
     PagedGeometry
     RakNetDLL
     zziplib
-    zlib
 )
 
 if(WIN32)
@@ -191,6 +191,7 @@ if(UNIX)
         Game
         ${LIBS}
         fmod
+        z
     )
 endif(UNIX)
 
@@ -208,6 +209,10 @@ endif(UNIX)
 if(MSVC10)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /TP")
 endif(MSVC10)
+
+if(WINDOWS)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mwindows")
+endif(WINDOWS)
 
 if(UNIX)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath=.")
@@ -241,10 +246,10 @@ endif(WIN32)
 if(UNIX)
     file(
         GLOB DEPS
-        ../deps/linux/amd64/gcc9/Ogre/lib/*
-        ../deps/linux/amd64/gcc9/PagedGeometry/docs/LICENSE*
+        ../deps/linux/amd64/gcc13/Ogre/lib/*
+        ../deps/linux/amd64/gcc13/PagedGeometry/docs/LICENSE*
         ../deps/linux/amd64/all/fmod/lib/*
-        ../deps/linux/amd64/gcc9/RakNet/lib/*
+        ../deps/linux/amd64/gcc13/RakNet/lib/*
     )
     file(COPY ${DEPS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif(UNIX)
