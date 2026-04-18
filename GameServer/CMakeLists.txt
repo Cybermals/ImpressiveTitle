@@ -39,7 +39,7 @@ if(UNIX)
         PUBLIC
         include
         ../config
-        ../deps/linux/amd64/gcc9/RakNet/include
+        ../deps/linux/amd64/gcc13/RakNet/include
         ../Game/include
     )
 endif(UNIX)
@@ -67,7 +67,7 @@ if(UNIX)
     target_link_directories(
         GameServer
         PUBLIC
-        ../deps/linux/amd64/gcc9/RakNet/lib
+        ../deps/linux/amd64/gcc13/RakNet/lib
     )
 endif(UNIX)
 
@@ -129,7 +129,7 @@ endif(WIN32)
 if(UNIX)
     file(
         GLOB DEPS
-        ../deps/linux/amd64/gcc9/RakNet/lib/*
+        ../deps/linux/amd64/gcc13/RakNet/lib/*
     )
     file(COPY ${DEPS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif(UNIX)

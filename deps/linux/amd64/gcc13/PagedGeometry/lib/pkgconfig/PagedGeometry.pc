@@ -1,0 +1,11 @@
+prefix=/home/runner/work/ImpressiveTitle-Deps/ImpressiveTitle-Deps/PagedGeometry
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: PagedGeometry
+Description: Paged Geometry is a library that helps you to add grass and trees to your Ogre3D scene
+Requires: 
+Version: 1.2.0
+Libs: -L${libdir} -l 
+Cflags: -I${includedir}
