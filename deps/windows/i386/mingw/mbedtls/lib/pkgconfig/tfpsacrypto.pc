@@ -1,0 +1,10 @@
+prefix=C:/Users/Dylan/Documents/Code/libs/mbedtls-4.1.0-mingw
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+Name: TF-PSA-Crypto
+Description: TF-PSA-Crypto is a C library that implements cryptographic primitives. Its small code footprint makes it suitable for embedded systems.
+URL: https://www.trustedfirmware.org/projects/mbed-tls/
+Version: 1.1.0
+Cflags: -I"${includedir}"
+Libs: -L"${libdir}" -ltfpsacrypto
