@@ -76,8 +76,8 @@
 #define SERVER_PASSWORD "ImpressiveTitle4.0.1" // enter a key
 
 // Encryption
-#define CHACHA_KEY "I1pGZspf/GHUc4UimoamhJpLt1oPKwirvuT7HzAX3h4="
-#define CHACHA_NONCE "p0mlZ7ior1AuCz//"
+#define CHACHA_KEY "GeVsD6LadvguZvSO9rGpZycCNButdzMk3/A017GdfV8="
+#define CHACHA_NONCE "psdDdb4Fx1+7/oAt"
 #define PBKDF2_ITERATIONS 1000
 
 #endif
