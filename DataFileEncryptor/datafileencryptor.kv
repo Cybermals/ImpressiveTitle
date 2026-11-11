@@ -1,0 +1,107 @@
+#:kivy 1.9.0
+
+<FileDialog>:
+    orientation: "vertical"
+    pos_hint: {"x": 0, "y": 0}
+    size_hint: 1, 1
+
+    canvas:
+        Color:
+            rgb: 0, 0, 0
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    FileChooserListView:
+        id: file_view
+        size_hint_y: .95
+        path: root.path
+        filters: root.filters
+
+    BoxLayout:
+        size_hint_y: .05
+
+        Button:
+            text: "Open"
+            on_release: root.open()
+
+        Button:
+            text: "Cancel"
+            on_release: root.cancel()
+
+
+<MainScreen>:
+    infile: infile.text
+    outfile: outfile.text
+    key: key.text
+    nonce: nonce.text
+
+    BoxLayout:
+        orientation: "vertical"
+
+        BoxLayout:
+            size_hint_y: .05
+
+            Label:
+                size_hint_x: .2
+                text: "Input File:"
+
+            TextInput:
+                id: infile
+                size_hint_x: .6
+                multiline: False
+
+            Button:
+                size_hint_x: .2
+                text: "Choose File"
+                on_release: root.choose_infile()
+
+        BoxLayout:
+            size_hint_y: .05
+
+            Label:
+                size_hint_x: .2
+                text: "Output Filename:"
+
+            TextInput:
+                id: outfile
+                size_hint_x: .8
+                multiline: False
+
+        BoxLayout:
+            size_hint_y: .05
+
+            Label:
+                size_hint_x: .2
+                text: "Key:"
+
+            TextInput:
+                id: key
+                size_hint_x: .6
+                multiline: False
+
+            Button:
+                size_hint_x: .2
+                text: "Generate"
+                on_release: root.generate_key()
+
+        BoxLayout:
+            size_hint_y: .05
+
+            Label:
+                size_hint_x: .2
+                text: "Nonce:"
+
+            TextInput:
+                id: nonce
+                size_hint_x: .8
+                multiline: False
+
+        Button:
+            size_hint_y: .05
+            text: "Encrypt"
+            on_release: root.encrypt_file()
+
+        BoxLayout:
+            size_hint_y: .75
