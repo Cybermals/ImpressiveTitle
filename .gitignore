@@ -3,3 +3,6 @@ bin/**
 
 # Data Files
 data/**
+
+# Python virtual environments
+venv/**
