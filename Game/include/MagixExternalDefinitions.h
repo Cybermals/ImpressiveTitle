@@ -196,6 +196,13 @@ class MagixExternalDefinitions
 protected:
     String lastBioName;
     String hotkeyF[MAX_HOTKEYF];
+    size_t keySize;
+	std::unique_ptr<unsigned char[]> chaChaKey = nullptr;
+	size_t nonceSize;
+	std::unique_ptr<unsigned char[]> chaChaNonce = nullptr;
+
+	void initChaCha();
+	void chaChaDecrypt(unsigned char* dest, const unsigned char* src, size_t size);
 public:
     bool isAdmin;
     bool isMod;

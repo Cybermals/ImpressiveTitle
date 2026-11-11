@@ -16,6 +16,7 @@ if(WIN32)
             PUBLIC
             include
             ../config
+            ../deps/windows/i386/mingw/mbedtls/include
             ../deps/windows/i386/mingw/Ogre/include/OGRE
             ../deps/windows/i386/mingw/Ogre/include/OIS
             ../deps/windows/i386/mingw/PagedGeometry/include/PagedGeometry
@@ -31,6 +32,7 @@ if(WIN32)
             PUBLIC
             include
             ../config
+            ../deps/windows/i386/vs2010/mbedtls/include
             ../deps/windows/i386/vs2010/Ogre/include/OGRE
             ../deps/windows/i386/vs2010/Ogre/include/OIS
             ../deps/windows/i386/vs2010/PagedGeometry/include/PagedGeometry
@@ -47,6 +49,7 @@ if(UNIX)
         PUBLIC
         include
         ../config
+        ../deps/linux/amd64/gcc13/mbedtls/include
         ../deps/linux/amd64/gcc13/Ogre/include/OGRE
         ../deps/linux/amd64/gcc13/Ogre/include/OIS
         ../deps/linux/amd64/gcc13/PagedGeometry/include
@@ -63,6 +66,7 @@ if(WIN32)
         target_link_directories(
             Game
             PUBLIC
+            ../deps/windows/i386/mingw/mbedtls/lib
             ../deps/windows/i386/mingw/Ogre/bin/release
             ../deps/windows/i386/mingw/PagedGeometry/lib
             ../deps/windows/i386/all/fmod/bin
@@ -75,6 +79,7 @@ if(WIN32)
         target_link_directories(
             Game
             PUBLIC
+            ../deps/windows/i386/vs2010/mbedtls/lib
             ../deps/windows/i386/vs2010/Ogre/lib/release
             ../deps/windows/i386/vs2010/PagedGeometry/lib
             ../deps/windows/i386/all/fmod/lib
@@ -88,6 +93,7 @@ if(UNIX)
     target_link_directories(
         Game
         PUBLIC
+        ../deps/linux/amd64/gcc13/mbedtls/lib
         ../deps/linux/amd64/gcc13/Ogre/lib
         ../deps/linux/amd64/gcc13/PagedGeometry/lib
         ../deps/linux/amd64/all/fmod/lib
@@ -157,6 +163,9 @@ target_sources(
 
 #Libraries to link against
 set(LIBS
+    mbedcrypto
+    mbedtls
+    tfpsacrypto
     OgreMain
     OIS
     PagedGeometry
@@ -172,6 +181,8 @@ if(WIN32)
             ws2_32
             ${LIBS}
             fmod
+            zlib
+            bcrypt
         )
     endif(MINGW)
     
@@ -182,6 +193,8 @@ if(WIN32)
             ws2_32
             ${LIBS}
             fmod_vc
+            zlib
+            bcrypt
         )
     endif(MSVC10)
 endif(WIN32)
