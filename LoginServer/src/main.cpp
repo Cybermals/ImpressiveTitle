@@ -7,6 +7,7 @@
 #include "RakPeerInterface.h"
 #include "RakPeer.h"
 #include "MagixNetworkDefines.h"
+#include "mbedtls/base64.h"
 
 #if defined(_CONSOLE_2)
 #include "Console2SampleIncludes.h"
@@ -63,6 +64,183 @@ MessageID GetPacketIdentifier(Packet *p)
 
 //Server Manager Functions
 //================================================================================
+bool ServerManager::ctCompare(volatile const char* a, volatile const char* b, size_t len)
+{
+	// Constant-time comparision algorithm based on the following StackOverflow article:
+	// https://stackoverflow.com/questions/25373767/optimization-stable-constant-time-array-comparisons
+	volatile char c = 0;
+
+	for (size_t i = 0; i < len; i++)
+	{
+		c |= a[i] ^ b[i];
+	}
+
+	return c == 0;
+}
+
+
+string ServerManager::hashPassword(const char* pswd, const char* salt, int iterations)
+{
+	// Create password info struct
+	PasswordInfo pswdInfo;
+	strcpy(pswdInfo.alg, "pbkdf2");
+	pswdInfo.iter = (iterations ? iterations : PBKDF2_ITERATIONS);
+
+	// Generate random salt or load supplied salt
+	int res;
+
+	if (!salt)
+	{
+		res = psa_generate_random(pswdInfo.salt, sizeof(pswdInfo.salt));
+
+		if (res)
+		{
+			std::cout << "Failed to generate random salt!" << std::endl;
+			throw exception();
+		}
+	}
+	else
+	{
+		memcpy(pswdInfo.salt, salt, sizeof(pswdInfo.salt));
+	}
+
+	// Hash the password
+	psa_key_derivation_operation_t op = PSA_KEY_DERIVATION_OPERATION_INIT;
+	res = psa_key_derivation_setup(&op, PSA_ALG_PBKDF2_HMAC(PSA_ALG_SHA_512));
+
+	if (res)
+	{
+		std::cout << "Failed to initialize password hashing context!" << std::endl;
+		throw exception();
+	}
+	
+	res = psa_key_derivation_set_capacity(&op, sizeof(pswdInfo.hash));
+
+	if (res)
+	{
+		psa_key_derivation_abort(&op);
+		std::cout << "Failed to set key derivation capacity!" << std::endl;
+		throw exception();
+	}
+
+	res = psa_key_derivation_input_integer(&op, PSA_KEY_DERIVATION_INPUT_COST, pswdInfo.iter);
+
+	if (res)
+	{
+		psa_key_derivation_abort(&op);
+		std::cout << "Failed to set key derivation cost!" << std::endl;
+		throw exception();
+	}
+
+	res = psa_key_derivation_input_bytes(
+		&op, 
+		PSA_KEY_DERIVATION_INPUT_SALT, 
+		pswdInfo.salt, 
+		sizeof(pswdInfo.salt)
+	);
+
+	if (res)
+	{
+		psa_key_derivation_abort(&op);
+		std::cout << "Failed to set salt!" << std::endl;
+		throw exception();
+	}
+
+	res = psa_key_derivation_input_bytes(
+		&op,
+		PSA_KEY_DERIVATION_INPUT_PASSWORD,
+		reinterpret_cast<const uint8_t*>(pswd),
+		strlen(pswd)
+	);
+
+	if (res)
+	{
+		psa_key_derivation_abort(&op);
+		std::cout << "Failed to set input password!" << std::endl;
+		throw exception();
+	}
+
+	res = psa_key_derivation_output_bytes(&op, pswdInfo.hash, sizeof(pswdInfo.hash));
+	psa_key_derivation_abort(&op);
+
+	if (res)
+	{
+		std::cout << "Failed to hash password!" << std::endl;
+		throw exception();
+	}
+
+	// Convert password hash to base64
+	uint8_t base64Hash[128];
+	size_t base64HashLen;
+	res = mbedtls_base64_encode(
+		base64Hash, 
+		sizeof(base64Hash), 
+		&base64HashLen, 
+		reinterpret_cast<const uint8_t*>(&pswdInfo), 
+		sizeof(pswdInfo)
+	);
+
+	if (res)
+	{
+		std::cout << "Failed to convert password hash to base64!" << std::endl;
+		throw exception();
+	}
+
+	base64Hash[base64HashLen] = 0;
+	return string(reinterpret_cast<const char*>(base64Hash));
+}
+
+
+bool ServerManager::verifyPassword(const char* pswd, const char* hash)
+{
+	// Decode stored hash
+	PasswordInfo pswdInfo;
+	size_t rawHashLen;
+
+	int res = mbedtls_base64_decode(
+		reinterpret_cast<uint8_t*>(&pswdInfo),
+		sizeof(pswdInfo),
+		&rawHashLen,
+		reinterpret_cast<const uint8_t*>(hash),
+		strlen(hash)
+	);
+
+	if (res)
+	{
+		std::cout << "Failed to decode stored hash!" << std::endl;
+		return false;
+	}
+
+	// Hash the password
+	string hash2 = hashPassword(pswd, reinterpret_cast<const char*>(pswdInfo.salt), pswdInfo.iter);
+
+	// Decode incoming hash
+	PasswordInfo pswdInfo2;
+	size_t rawHashLen2;
+
+	res = mbedtls_base64_decode(
+		reinterpret_cast<uint8_t*>(&pswdInfo2),
+		sizeof(pswdInfo2),
+		&rawHashLen2,
+		reinterpret_cast<const uint8_t*>(hash2.c_str()),
+		hash2.length()
+	);
+
+	if (res)
+	{
+		std::cout << "Failed to decode incoming hash!" << std::endl;
+		return false;
+	}
+
+	// Compare hashes
+	return ctCompare(
+		reinterpret_cast<const char*>(pswdInfo.hash), 
+		reinterpret_cast<const char*>(pswdInfo2.hash), 
+		sizeof(pswdInfo.hash)
+	);
+}
+
+
 ServerManager::ServerManager()
 {
 	server = new RakPeer();
@@ -87,6 +265,15 @@ ServerManager::ServerManager()
 	banlist.clear();
 	loginSession.clear();
 	alive = true;
+
+	// Initialize encryption
+	int res = psa_crypto_init();
+
+	if (res)
+	{
+		std::cout << "Failed to initialize cryptography." << std::endl;
+		throw exception();
+	}
 }
 
 
@@ -313,7 +500,7 @@ void ServerManager::runLoop()
 					bool tRenameFile = false, tEncryptPass = false,
 						tFileExists = false, tResaveFile = false,
 						tReEncryptPass = false;
-					char tPassword2[16] = "";
+					char tPassword2[128] = "";
 					char tEmail[64] = "";
 					char tQuestion[128] = "";
 					char tAnswer[128] = "";
@@ -333,11 +520,12 @@ void ServerManager::runLoop()
 					if(inFile.good())
 					{
 						tFileExists = true;
-						inFile.getline(tPassword2, 16);
+						inFile.getline(tPassword2, sizeof(tPassword2));
 						const string tPassStr = tPassword;
 						const string tPassStr2 = XOR7(tPassword2);
 
-						if(tPassStr == tPassStr2)
+						if(tPassStr==tPassStr2 || 
+							verifyPassword(tPassStr.c_str(), tPassword2))
 						{
 							tLogonSuccess = true;
 						}
@@ -363,13 +551,13 @@ void ServerManager::runLoop()
 							const string tPassStr = tPassword;
 							const string tPassStr2 = XOR7(tPassword2);
 
-							if(tPassStr == tPassStr2)
+							if(tPassStr==tPassStr2 || verifyPassword(tPassStr.c_str(), tPassword2))
 							{
 								tLogonSuccess = true;
 								tResaveFile = true;
-								inFile.getline(tEmail, 64);
-								inFile.getline(tQuestion, 128);
-								inFile.getline(tAnswer, 128);
+								inFile.getline(tEmail,64);
+								inFile.getline(tQuestion,128);
+								inFile.getline(tAnswer,128);
 							}
 							else if(tPassStr == string(tPassword2))
 							{
@@ -430,12 +618,12 @@ void ServerManager::runLoop()
 
 							if(tEncryptPass)
 							{
-								tBuffer = XOR7(tPassword2);
+								tBuffer = hashPassword(tPassword2);
 							}
 							else if(tReEncryptPass)
 							{
 								const string tOrigPass = XOR7OLD(tPassword2);
-								tBuffer = XOR7(tOrigPass);
+								tBuffer = hashPassword(tOrigPass.c_str());
 							}
 							else
 							{
@@ -666,7 +854,7 @@ void ServerManager::runLoop()
 
 						if(outFile.good())
 						{
-							string tBuffer = XOR7(tPassword);
+							string tBuffer = hashPassword(tPassword);
 							tBuffer += "\n";
 							outFile.write(tBuffer.c_str(), tBuffer.length());
 							tBuffer = XOR7(tEmail);
@@ -745,17 +933,18 @@ void ServerManager::runLoop()
 
 					if(inFile.good())
 					{
-						char tPassword2[32] = "";
-						inFile.getline(tPassword2, 32);
+						char tPassword2[128] = "";
+						inFile.getline(tPassword2, sizeof(tPassword2));
 						const string tPassStr = tPassword;
 						const string tPassStr2 = XOR7(tPassword2);
 
-						if(tPassStr == tPassStr2 || tPassStr == string(tPassword2))
+						if(tPassStr==tPassStr2 || tPassStr==string(tPassword2) ||
+							verifyPassword(tPassStr.c_str(), tPassword2))
 						{
 							tSuccess = true;
-							inFile.getline(tEmail, 64);
-							inFile.getline(tQuestion, 128);
-							inFile.getline(tAnswer, 128);
+							inFile.getline(tEmail,64);
+							inFile.getline(tQuestion,128);
+							inFile.getline(tAnswer,128);
 						}
 					}
 
@@ -774,7 +963,7 @@ void ServerManager::runLoop()
 
 					if(outFile.good())
 					{
-						string tBuffer = XOR7(tNewPassword);
+						string tBuffer = hashPassword(tNewPassword);
 						tBuffer += "\n";
 						outFile.write(tBuffer.c_str(), tBuffer.length());
 						tBuffer = tEmail;

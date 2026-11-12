@@ -23,6 +23,7 @@
 //#include "OgreString.h"
 #include "StringCompressor.h"
 #include "MagixNetworkDefines.h"
+#include "psa/crypto.h"
 
 #ifdef _WIN32
 #include <conio.h>
@@ -80,6 +81,15 @@ struct BanInfo
 };
 
 
+struct PasswordInfo
+{
+	char alg[8];
+	int iter;
+	uint8_t salt[16];
+	uint8_t hash[PSA_HASH_LENGTH(PSA_ALG_PBKDF2_HMAC(PSA_ALG_SHA_512))];
+};
+
+
 class ServerManager
 {
 protected:
@@ -103,6 +113,10 @@ protected:
 	unsigned short lowPing;
 	unsigned short highPing;
 	vector<BanInfo> banlist;
+
+	bool ctCompare(volatile const char* a, volatile const char* b, size_t len);
+	string hashPassword(const char* pswd, const char* salt = nullptr, int iterations = 0);
+	bool verifyPassword(const char* pswd, const char* hash);
 
 public:
 	ServerManager();
