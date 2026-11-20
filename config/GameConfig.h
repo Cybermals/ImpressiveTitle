@@ -75,4 +75,9 @@
 #define MAIN_SERVER_IP "127.0.0.1" // enter your server address
 #define SERVER_PASSWORD "ImpressiveTitle4.0.1" // enter a key
 
+// Encryption
+#define CHACHA_KEY "GeVsD6LadvguZvSO9rGpZycCNButdzMk3/A017GdfV8="
+#define CHACHA_NONCE "psdDdb4Fx1+7/oAt"
+#define PBKDF2_ITERATIONS 1000
+
 #endif

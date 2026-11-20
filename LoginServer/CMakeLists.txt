@@ -16,6 +16,7 @@ if(WIN32)
             PUBLIC
             include
             ../config
+            ../deps/windows/i386/mingw/mbedtls/include
             ../deps/windows/i386/mingw/RakNet/include
             ../Game/include
         )
@@ -27,6 +28,7 @@ if(WIN32)
             PUBLIC
             include
             ../config
+            ../deps/windows/i386/vs2010/mbedtls/include
             ../deps/windows/i386/vs2010/RakNet/include
             ../Game/include
         )
@@ -39,6 +41,7 @@ if(UNIX)
         PUBLIC
         include
         ../config
+        ../deps/linux/amd64/gcc13/mbedtls/include
         ../deps/linux/amd64/gcc13/RakNet/include
         ../Game/include
     )
@@ -50,6 +53,7 @@ if(WIN32)
         target_link_directories(
             LoginServer
             PUBLIC
+            ../deps/windows/i386/mingw/mbedtls/lib
             ../deps/windows/i386/mingw/RakNet/bin
         )
     endif(MINGW)
@@ -58,6 +62,7 @@ if(WIN32)
         target_link_directories(
             LoginServer
             PUBLIC
+            ../deps/windows/i386/vs2010/mbedtls/lib
             ../deps/windows/i386/vs2010/RakNet/lib
         )
     endif(MSVC10)
@@ -67,6 +72,7 @@ if(UNIX)
     target_link_directories(
         LoginServer
         PUBLIC
+        ../deps/linux/amd64/gcc13/mbedtls/lib
         ../deps/linux/amd64/gcc13/RakNet/lib
     )
 endif(UNIX)
@@ -80,7 +86,10 @@ target_sources(
 
 #Libraries to link against
 set(LIBS
+    mbedcrypto
+    mbedtls
     RakNetDLL
+    tfpsacrypto
 )
 
 if(WIN32)
@@ -88,6 +97,7 @@ if(WIN32)
         LoginServer
         ws2_32
         ${LIBS}
+        bcrypt
     )
 endif(WIN32)
 

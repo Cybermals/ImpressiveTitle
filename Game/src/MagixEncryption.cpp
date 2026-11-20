@@ -177,8 +177,8 @@ void MagixEncryptionZip::unload()
 }
 
 
-Ogre::DataStreamPtr MagixEncryptionZip::open(const Ogre::String& filename,
-    bool readOnly) const
+Ogre::DataStreamPtr MagixEncryptionZip::open(const Ogre::String& filename, 
+    bool readOnly = true)
 {
     // zziplib is not threadsafe
     OGRE_LOCK_AUTO_MUTEX;
