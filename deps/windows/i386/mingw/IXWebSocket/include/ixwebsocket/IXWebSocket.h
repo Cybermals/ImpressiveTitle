@@ -1,0 +1,214 @@
+/*
+ *  IXWebSocket.h
+ *  Author: Benjamin Sergeant
+ *  Copyright (c) 2017-2018 Machine Zone, Inc. All rights reserved.
+ *
+ *  WebSocket RFC
+ *  https://tools.ietf.org/html/rfc6455
+ */
+
+#pragma once
+
+#include "IXProgressCallback.h"
+#include "IXProxyOptions.h"
+#include "IXSocketTLSOptions.h"
+#include "IXWebSocketCloseConstants.h"
+#include "IXWebSocketErrorInfo.h"
+#include "IXWebSocketExport.h"
+#include "IXWebSocketHttpHeaders.h"
+#include "IXWebSocketMessage.h"
+#include "IXWebSocketPerMessageDeflateOptions.h"
+#include "IXWebSocketSendData.h"
+#include "IXWebSocketSendInfo.h"
+#include "IXWebSocketTransport.h"
+#include <atomic>
+#include <condition_variable>
+#include <cstdint>
+#include <mutex>
+#include <string>
+#include <thread>
+#include <vector>
+
+namespace ix
+{
+    // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket#Ready_state_constants
+    enum class ReadyState
+    {
+        Connecting = 0,
+        Open = 1,
+        Closing = 2,
+        Closed = 3
+    };
+
+    using OnMessageCallback = std::function<void(const WebSocketMessagePtr&)>;
+
+    using OnTrafficTrackerCallback = std::function<void(size_t size, bool incoming)>;
+
+    class HttpClient;
+
+    class WebSocket
+    {
+    public:
+        WebSocket();
+        ~WebSocket();
+
+        void setUrl(const std::string& url);
+
+        // send extra headers in client handshake request
+        void setExtraHeaders(const WebSocketHttpHeaders& headers);
+        // Suppress generated User-Agent/Origin headers; explicit extra headers still win.
+        void setDisabledDefaultHeaders(const std::vector<std::string>& headers);
+        void setPerMessageDeflateOptions(
+            const WebSocketPerMessageDeflateOptions& perMessageDeflateOptions);
+        void setTLSOptions(const SocketTLSOptions& socketTLSOptions);
+        // Incoming payload bytes, before and after decompression. 0 means unlimited.
+        // Configure before connecting; applies to subsequent connections.
+        void setMaxMessageSize(uint64_t bytes);
+        uint64_t getMaxMessageSize() const;
+        void setProxyOptions(const ProxyOptions& proxyOptions);
+        void setPingMessage(const std::string& sendMessage,
+                            SendMessageKind pingType = SendMessageKind::Ping);
+        void setPingInterval(int pingIntervalSecs);
+        void enablePong();
+        void disablePong();
+        void enablePerMessageDeflate();
+        void disablePerMessageDeflate();
+        void addSubProtocol(const std::string& subProtocol);
+        void setHandshakeTimeout(int handshakeTimeoutSecs);
+
+        // Run asynchronously, by calling start and stop.
+        void start();
+
+        // stop is synchronous
+        void stop(uint16_t code = WebSocketCloseConstants::kNormalClosureCode,
+                  const std::string& reason = WebSocketCloseConstants::kNormalClosureMessage);
+
+        // Run in blocking mode, by connecting first manually, and then calling run.
+        WebSocketInitResult connect(int timeoutSecs);
+        // Upgrade a matching idle HTTP connection, preserving TCP/TLS state.
+        // Requires a stopped, closed WebSocket with a callback. Disables automatic reconnection.
+        WebSocketInitResult connect(HttpClient& httpClient, int timeoutSecs);
+        void run();
+
+        // send is in text mode by default
+        WebSocketSendInfo send(const std::string& data,
+                               bool binary = false,
+                               const OnProgressCallback& onProgressCallback = nullptr);
+        WebSocketSendInfo sendBinary(const std::string& data,
+                                     const OnProgressCallback& onProgressCallback = nullptr);
+        WebSocketSendInfo sendBinary(const IXWebSocketSendData& data,
+                                     const OnProgressCallback& onProgressCallback = nullptr);
+        // does not check for valid UTF-8 characters. Caller must check that.
+        WebSocketSendInfo sendUtf8Text(const std::string& text,
+                                       const OnProgressCallback& onProgressCallback = nullptr);
+        // does not check for valid UTF-8 characters. Caller must check that.
+        WebSocketSendInfo sendUtf8Text(const IXWebSocketSendData& text,
+                                       const OnProgressCallback& onProgressCallback = nullptr);
+        WebSocketSendInfo sendText(const std::string& text,
+                                   const OnProgressCallback& onProgressCallback = nullptr);
+        WebSocketSendInfo ping(const std::string& text,
+                               SendMessageKind pingType = SendMessageKind::Ping);
+
+        void close(uint16_t code = WebSocketCloseConstants::kNormalClosureCode,
+                   const std::string& reason = WebSocketCloseConstants::kNormalClosureMessage);
+
+        void setOnMessageCallback(const OnMessageCallback& callback);
+        bool isOnMessageCallbackRegistered() const;
+        static void setTrafficTrackerCallback(const OnTrafficTrackerCallback& callback);
+        static void resetTrafficTrackerCallback();
+
+        ReadyState getReadyState() const;
+        static std::string readyStateToString(ReadyState readyState);
+
+        const std::string getUrl() const;
+        const WebSocketPerMessageDeflateOptions getPerMessageDeflateOptions() const;
+        const std::string getPingMessage() const;
+        int getPingInterval() const;
+        size_t bufferedAmount() const;
+
+        void enableAutomaticReconnection();
+        void disableAutomaticReconnection();
+        bool isAutomaticReconnectionEnabled() const;
+        void setMaxWaitBetweenReconnectionRetries(uint32_t maxWaitBetweenReconnectionRetries);
+        void setMinWaitBetweenReconnectionRetries(uint32_t minWaitBetweenReconnectionRetries);
+        uint32_t getMaxWaitBetweenReconnectionRetries() const;
+        uint32_t getMinWaitBetweenReconnectionRetries() const;
+        const std::vector<std::string>& getSubProtocols();
+
+        void setAutoThreadName(bool enabled);
+
+    private:
+        WebSocketInitResult connectImpl(int timeoutSecs, HttpClient* httpClient);
+        WebSocketSendInfo sendMessage(const IXWebSocketSendData& message,
+                                      SendMessageKind sendMessageKind,
+                                      const OnProgressCallback& callback = nullptr);
+
+        bool isConnected() const;
+        bool isClosing() const;
+        void checkConnection(bool firstConnectionAttempt);
+        bool waitForWriteLock(std::unique_lock<std::mutex>& lock);
+        static void invokeTrafficTrackerCallback(size_t size, bool incoming);
+
+        // Server
+        WebSocketInitResult connectToSocket(std::unique_ptr<Socket>,
+                                            int timeoutSecs,
+                                            bool enablePerMessageDeflate,
+                                            HttpRequestPtr request = nullptr,
+                                            int sendTimeoutSecs = -1);
+
+        WebSocketTransport _ws;
+
+        std::string _url;
+        WebSocketHttpHeaders _extraHeaders;
+        std::vector<std::string> _disabledDefaultHeaders;
+
+        WebSocketPerMessageDeflateOptions _perMessageDeflateOptions;
+
+        SocketTLSOptions _socketTLSOptions;
+        ProxyOptions _proxyOptions;
+
+        mutable std::mutex _configMutex; // protect all config variables access
+
+        OnMessageCallback _onMessageCallback;
+        static OnTrafficTrackerCallback _onTrafficTrackerCallback;
+
+        std::atomic<bool> _stop;
+        std::thread _thread;
+        std::mutex _writeMutex;
+
+        // Automatic reconnection
+        std::atomic<bool> _automaticReconnection;
+        IXWEBSOCKET_EXPORT static const uint32_t kDefaultMaxWaitBetweenReconnectionRetries;
+        IXWEBSOCKET_EXPORT static const uint32_t kDefaultMinWaitBetweenReconnectionRetries;
+        uint32_t _maxWaitBetweenReconnectionRetries;
+        uint32_t _minWaitBetweenReconnectionRetries;
+
+        // Make the sleeping in the automatic reconnection cancellable
+        std::mutex _sleepMutex;
+        std::condition_variable _sleepCondition;
+
+        std::atomic<int> _handshakeTimeoutSecs;
+        uint64_t _maxMessageSize = 0;
+        IXWEBSOCKET_EXPORT static const int kDefaultHandShakeTimeoutSecs;
+
+        // enable or disable PONG frame response to received PING frame
+        bool _enablePong;
+        IXWEBSOCKET_EXPORT static const bool kDefaultEnablePong;
+
+        // Optional ping and pong timeout
+        int _pingIntervalSecs;
+        int _pingTimeoutSecs;
+        std::string _pingMessage;
+        SendMessageKind _pingType;
+        IXWEBSOCKET_EXPORT static const int kDefaultPingIntervalSecs;
+        IXWEBSOCKET_EXPORT static const int kDefaultPingTimeoutSecs;
+
+        // Subprotocols
+        std::vector<std::string> _subProtocols;
+
+        // enable or disable auto set thread name
+        bool _autoThreadName;
+
+        friend class WebSocketServer;
+    };
+} // namespace ix

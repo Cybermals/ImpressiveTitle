@@ -1,0 +1,95 @@
+/*
+ *  IXWebSocketServer.h
+ *  Author: Benjamin Sergeant
+ *  Copyright (c) 2018 Machine Zone, Inc. All rights reserved.
+ */
+
+#pragma once
+
+#include "IXSocketServer.h"
+#include "IXWebSocket.h"
+#include "IXWebSocketExport.h"
+#include <condition_variable>
+#include <functional>
+#include <memory>
+#include <mutex>
+#include <set>
+#include <string>
+#include <thread>
+#include <utility> // pair
+
+namespace ix
+{
+    class WebSocketServer : public SocketServer
+    {
+    public:
+        using OnConnectionCallback =
+            std::function<void(std::weak_ptr<WebSocket>, std::shared_ptr<ConnectionState>)>;
+
+        using OnClientMessageCallback = std::function<void(
+            std::shared_ptr<ConnectionState>, WebSocket&, const WebSocketMessagePtr&)>;
+
+        WebSocketServer(int port = SocketServer::kDefaultPort,
+                        const std::string& host = SocketServer::kDefaultHost,
+                        int backlog = SocketServer::kDefaultTcpBacklog,
+                        size_t maxConnections = SocketServer::kDefaultMaxConnections,
+                        int handshakeTimeoutSecs = WebSocketServer::kDefaultHandShakeTimeoutSecs,
+                        int addressFamily = SocketServer::kDefaultAddressFamily,
+                        int pingIntervalSeconds = WebSocketServer::kPingIntervalSeconds,
+                        int sendTimeoutSeconds = WebSocketServer::kSendTimeoutSeconds);
+        virtual ~WebSocketServer();
+        virtual void stop() final;
+
+        void enablePong();
+        void disablePong();
+        void disablePerMessageDeflate();
+
+        // Default for new connections. Configure before starting; 0 means unlimited.
+        void setMaxMessageSize(uint64_t bytes);
+        uint64_t getMaxMessageSize() const;
+
+        void setOnConnectionCallback(const OnConnectionCallback& callback);
+        void setOnClientMessageCallback(const OnClientMessageCallback& callback);
+
+        // Get all the connected clients
+        std::set<std::shared_ptr<WebSocket>> getClients();
+
+        void makeBroadcastServer();
+        bool listenAndStart();
+
+        IXWEBSOCKET_EXPORT const static int kDefaultHandShakeTimeoutSecs;
+
+        int getHandshakeTimeoutSecs();
+        bool isPongEnabled();
+        bool isPerMessageDeflateEnabled();
+
+    private:
+        // Member variables
+        int _handshakeTimeoutSecs;
+        bool _enablePong;
+        bool _enablePerMessageDeflate;
+        int _pingIntervalSeconds;
+        int _sendTimeoutSeconds;
+        uint64_t _maxMessageSize = 0;
+
+        OnConnectionCallback _onConnectionCallback;
+        OnClientMessageCallback _onClientMessageCallback;
+
+        std::mutex _clientsMutex;
+        std::set<std::shared_ptr<WebSocket>> _clients;
+
+        IXWEBSOCKET_EXPORT const static bool kDefaultEnablePong;
+        IXWEBSOCKET_EXPORT const static int kPingIntervalSeconds;
+        IXWEBSOCKET_EXPORT const static int kSendTimeoutSeconds;
+
+        // Methods
+        virtual void handleConnection(std::unique_ptr<Socket> socket,
+                                      std::shared_ptr<ConnectionState> connectionState);
+        virtual size_t getConnectedClientsCount() final;
+
+    protected:
+        void handleUpgrade(std::unique_ptr<Socket> socket,
+                           std::shared_ptr<ConnectionState> connectionState,
+                           HttpRequestPtr request = nullptr);
+    };
+} // namespace ix
