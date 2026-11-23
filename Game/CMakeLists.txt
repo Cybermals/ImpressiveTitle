@@ -1,21 +1,21 @@
-#Minimum CMake version and policy settings
+# Minimum CMake version and policy settings
 cmake_minimum_required(VERSION 3.10)
 cmake_policy(SET CMP0076 NEW)
 
-#Project Name
+# Project Name
 project(Game)
 
-#Add executable
+# Add executable
 add_executable(Game)
 
-#Add include dirs
+# Add include dirs
 if(WIN32)
     if(MINGW)
         target_include_directories(
             Game
             PUBLIC
             include
-            ../config
+            ../common/include
             ../deps/windows/i386/mingw/mbedtls/include
             ../deps/windows/i386/mingw/Ogre/include/OGRE
             ../deps/windows/i386/mingw/Ogre/include/OIS
@@ -31,7 +31,7 @@ if(WIN32)
             Game
             PUBLIC
             include
-            ../config
+            ../common/include
             ../deps/windows/i386/vs2010/mbedtls/include
             ../deps/windows/i386/vs2010/Ogre/include/OGRE
             ../deps/windows/i386/vs2010/Ogre/include/OIS
@@ -48,7 +48,7 @@ if(UNIX)
         Game
         PUBLIC
         include
-        ../config
+        ../common/include
         ../deps/linux/amd64/gcc13/mbedtls/include
         ../deps/linux/amd64/gcc13/Ogre/include/OGRE
         ../deps/linux/amd64/gcc13/Ogre/include/OIS
@@ -60,7 +60,7 @@ if(UNIX)
     )
 endif(UNIX)
 
-#Add link dirs
+# Add link dirs
 if(WIN32)
     if(MINGW)
         target_link_directories(
@@ -102,7 +102,7 @@ if(UNIX)
     )
 endif(UNIX)
 
-#Add source code
+# Add source code
 set(
     SOURCES
     src/DebugTrace.cpp
@@ -161,7 +161,7 @@ target_sources(
     ${SOURCES}
 )
 
-#Libraries to link against
+# Libraries to link against
 set(LIBS
     mbedcrypto
     mbedtls
@@ -208,7 +208,7 @@ if(UNIX)
     )
 endif(UNIX)
 
-#Add compile flags
+# Add compile flags
 
 if(MINGW)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
@@ -231,7 +231,7 @@ if(UNIX)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath=.")
 endif(UNIX)
 
-#Copy deps
+# Copy deps
 if(WIN32)
     if(MINGW)
         file(
@@ -267,7 +267,7 @@ if(UNIX)
     file(COPY ${DEPS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif(UNIX)
 
-#Copy data files
+# Copy data files
 file(COPY ../data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 if(WIN32)
@@ -282,7 +282,7 @@ file(COPY ${CONFIG} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(GLOB DAT ../static/client/default/*)
 file(COPY ${DAT} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-#Install
+# Install
 install(TARGETS Game DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/client)
 install(FILES ${DEPS} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/client)
 install(DIRECTORY ../data DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/client)

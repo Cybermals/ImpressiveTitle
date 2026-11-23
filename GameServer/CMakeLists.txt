@@ -1,21 +1,21 @@
-#Minimum CMake version and policy settings
+# Minimum CMake version and policy settings
 cmake_minimum_required(VERSION 3.10)
 cmake_policy(SET CMP0076 NEW)
 
-#Project Name
+# Project Name
 project(GameServer)
 
-#Add executable
+# Add executable
 add_executable(GameServer)
 
-#Add include dirs
+# Add include dirs
 if(WIN32)
     if(MINGW)
         target_include_directories(
             GameServer
             PUBLIC
             include
-            ../config
+            ../common/include
             ../deps/windows/i386/mingw/RakNet/include
             ../Game/include
         )
@@ -26,7 +26,7 @@ if(WIN32)
             GameServer
             PUBLIC
             include
-            ../config
+            ../common/include
             ../deps/windows/i386/vs2010/RakNet/include
             ../Game/include
         )
@@ -38,13 +38,13 @@ if(UNIX)
         GameServer
         PUBLIC
         include
-        ../config
+        ../common/include
         ../deps/linux/amd64/gcc13/RakNet/include
         ../Game/include
     )
 endif(UNIX)
 
-#Add link dirs
+# Add link dirs
 if(WIN32)
     if(MINGW)
         target_link_directories(
@@ -71,14 +71,14 @@ if(UNIX)
     )
 endif(UNIX)
 
-#Add source code
+# Add source code
 target_sources(
     GameServer
     PRIVATE
     src/main.cpp
 )
 
-#Libraries to link against
+# Libraries to link against
 set(LIBS
     RakNetDLL
 )
@@ -98,7 +98,7 @@ if(UNIX)
     )
 endif(UNIX)
 
-#Add compile flags
+# Add compile flags
 if(MSVC10)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /TP")
 endif(MSVC10)
@@ -107,7 +107,7 @@ if(UNIX)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath=.")
 endif(UNIX)
 
-#Copy deps
+# Copy deps
 if(WIN32)
     if(MINGW)
         file(
@@ -134,10 +134,10 @@ if(UNIX)
     file(COPY ${DEPS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif(UNIX)
 
-#Copy data files
+# Copy data files
 # file(COPY ../static/server/data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-#Install
+# Install
 install(TARGETS GameServer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/server)
 install(FILES ${DEPS} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/server)
 # install(DIRECTORY ../static/server/data DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/server)
