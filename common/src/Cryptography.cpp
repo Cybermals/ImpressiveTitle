@@ -6,6 +6,7 @@
 
 #include <cstdint>
 #include <cstring>
+#include <iostream>
 
 #include "BitStream.h"
 
@@ -15,7 +16,7 @@
 
 // Functions
 // =========
-bool GenerateEcdhKeyPair(psa_key_id_t &privKey, vector<uint8_t> &pubKey)
+bool GenerateEcdhKeyPair(psa_key_id_t &privKey, std::vector<uint8_t> &pubKey)
 {
     // Set key attribs
     psa_key_attributes_t attribs = PSA_KEY_ATTRIBUTES_INIT;
@@ -50,33 +51,17 @@ bool GenerateEcdhKeyPair(psa_key_id_t &privKey, vector<uint8_t> &pubKey)
 bool DeriveAesGcmKey(psa_key_id_t privKey, const uint8_t *peerKey, size_t peerKeyLen, 
     psa_key_id_t &aesKey)
 {
-    // Do ECDH agreement
-    vector<uint8_t> secret(64);
-    size_t secretLen = 0;
-    psa_status_t status = psa_raw_key_agreement(
-        PSA_ALG_ECDH,
-        privKey,
-        peerKey,
-        peerKeyLen,
-        secret.data(),
-        secret.size(),
-        &secretLen
-    );
-
-    if(status != PSA_SUCCESS)
-    {
-        return false;
-    }
-
-    // Initialize session key derivation operation
+    // Initialize key derivation operation
     psa_key_derivation_operation_t op = PSA_KEY_DERIVATION_OPERATION_INIT;
-    status = psa_key_derivation_setup(&op, PSA_ALG_HKDF(PSA_ALG_SHA_256));
+    psa_status_t status = psa_key_derivation_setup(
+        &op, PSA_ALG_KEY_AGREEMENT(PSA_ALG_ECDH, PSA_ALG_HKDF(PSA_ALG_SHA_256)));
 
     if(status != PSA_SUCCESS)
     {
         return false;
     }
 
+    // Set salt
     const uint8_t salt[] = "ImpressiveTitle-Handshake-Salt";
     const uint8_t info[] = "ImpressiveTitle-AES-GCM-Session";
     status = psa_key_derivation_input_bytes(
@@ -86,16 +71,19 @@ bool DeriveAesGcmKey(psa_key_id_t privKey, const uint8_t *peerKey, size_t peerKe
         sizeof(salt) - 1
     );
 
+    // Do key derivation agreement
     if(status == PSA_SUCCESS)
     {
-        status = psa_key_derivation_input_bytes(
+        status = psa_key_derivation_key_agreement(
             &op,
             PSA_KEY_DERIVATION_INPUT_SECRET,
-            secret.data(),
-            secretLen
+            privKey,
+            peerKey,
+            peerKeyLen
         );
     }
 
+    // Set info
     if(status == PSA_SUCCESS)
     {
         status = psa_key_derivation_input_bytes(
@@ -104,15 +92,6 @@ bool DeriveAesGcmKey(psa_key_id_t privKey, const uint8_t *peerKey, size_t peerKe
             info,
             sizeof(info) - 1
         );
-    }
-
-    // Erase secret from memory
-    memset(secret.data(), 0, secret.size());
-
-    if(status != PSA_SUCCESS)
-    {
-        psa_key_derivation_abort(&op);
-        return false;
     }
 
     // Derive session key
@@ -135,7 +114,7 @@ void SendClientHello(RakPeerInterface *peer, const AddressOrGUID host,
     CryptoSession &session)
 {
     // Generate ECDH key pair
-    vector<uint8_t> pubKey;
+    std::vector<uint8_t> pubKey;
 
     if(!GenerateEcdhKeyPair(session.ecdhKey, pubKey))
     {
@@ -158,12 +137,13 @@ void HandleClientHello(RakPeerInterface *peer, Packet *packet,
     BitStream bs(packet->data, packet->length, false);
     MessageID msgId = 0;
     int peerKeyLen = 0;
-    vector<uint8_t> peerKey;
+    std::vector<uint8_t> peerKey;
 
     bs.Read(msgId);
 
     if(!bs.Read(peerKeyLen) || peerKeyLen == 0 || peerKeyLen > 256)
     {
+        std::cout << "Failed to read peer key length." << std::endl;
         return;
     }
 
@@ -171,14 +151,16 @@ void HandleClientHello(RakPeerInterface *peer, Packet *packet,
 
     if(!bs.ReadAlignedBytes(peerKey.data(), peerKey.size()))
     {
+        std::cout << "Failed to read peer key." << std::endl;
         return;
     }
 
     // Generate ECDH key pair
-    vector<uint8_t> pubKey;
+    std::vector<uint8_t> pubKey;
 
     if(!GenerateEcdhKeyPair(session.ecdhKey, pubKey))
     {
+        std::cout << "Failed to generate ECDH key pair." << std::endl;
         return;
     }
 
@@ -186,6 +168,7 @@ void HandleClientHello(RakPeerInterface *peer, Packet *packet,
     if(!DeriveAesGcmKey(session.ecdhKey, peerKey.data(), peerKey.size(), 
         session.aesKey))
     {
+        std::cout << "Failed to derive AES-GCM key." << std::endl;
         return;
     }
 
@@ -198,6 +181,7 @@ void HandleClientHello(RakPeerInterface *peer, Packet *packet,
     bs.WriteAlignedBytes(pubKey.data(), pubKey.size());
     peer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress,
         false);
+    std::cout << "Send server hello." << std::endl;
 }
 
 
@@ -207,7 +191,7 @@ void HandleServerHello(Packet *packet, CryptoSession &session)
     BitStream bs(packet->data, packet->length, false);
     MessageID msgId = 0;
     int peerKeyLen = 0;
-    vector<uint8_t> peerKey;
+    std::vector<uint8_t> peerKey;
 
     bs.Read(msgId);
 

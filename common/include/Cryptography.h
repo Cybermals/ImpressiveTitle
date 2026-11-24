@@ -11,7 +11,6 @@
 #include "RakPeerInterface.h"
 #include "psa/crypto.h"
 
-using namespace std;
 using namespace RakNet;
 
 
@@ -25,6 +24,11 @@ struct CryptoSession
 
     ~CryptoSession()
     {
+        clear();
+    }
+
+    void clear()
+    {
         if(ecdhKey != PSA_KEY_ID_NULL)
         {
             psa_destroy_key(ecdhKey);
@@ -34,13 +38,15 @@ struct CryptoSession
         {
             psa_destroy_key(aesKey);
         }
+
+        ready = false;
     }
 };
 
 
 // Functions
 // =========
-bool GenerateEcdhKeyPair(psa_key_id_t &privKey, vector<uint8_t> &pubKey);
+bool GenerateEcdhKeyPair(psa_key_id_t &privKey, std::vector<uint8_t> &pubKey);
 bool DeriveAesGcmKey(psa_key_id_t privKey, const uint8_t *peerKey, size_t peerKeyLen, 
     psa_key_id_t &aesKey);
 void SendClientHello(RakPeerInterface *peer, const AddressOrGUID host, 
