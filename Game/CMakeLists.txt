@@ -105,6 +105,7 @@ endif(UNIX)
 # Add source code
 set(
     SOURCES
+    ../common/src/Cryptography.cpp
     src/DebugTrace.cpp
     src/MagixAlertBox.cpp
     src/MagixAnimated.cpp

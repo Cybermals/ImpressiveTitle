@@ -81,6 +81,7 @@ endif(UNIX)
 target_sources(
     LoginServer
     PRIVATE
+    ../common/src/Cryptography.cpp
     src/main.cpp
 )
 
