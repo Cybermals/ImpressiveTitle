@@ -279,7 +279,7 @@ bool EncryptBitStream(CryptoSession &session, const BitStream &in, BitStream &ou
 }
 
 
-bool DecryptPacket(CryptoSession &session, const Packet *packet, BitStream &out)
+bool DecryptPacket(CryptoSession &session, Packet *packet)
 {
     // Validate inputs
     if(!session.ready || session.aesKey == PSA_KEY_ID_NULL || !packet)
@@ -355,15 +355,10 @@ bool DecryptPacket(CryptoSession &session, const Packet *packet, BitStream &out)
         return false;
     }
 
-    // Write decrypted data
-    out.Reset();
-    
-    if(bufLen > 0)
-    {
-        out.WriteAlignedBytes(buf.data(), buf.size());
-        out.ResetReadPointer();
-    }
-
-    memset(buf.data(), 0, buf.size());
+    // Write decrypted data back to the original packet. Since the decrypted 
+    // data is always smaller than the original encrypted data, we don't need
+    // to resize the packet data buffer.
+    memcpy(packet->data, buf.data(), bufLen);
+    packet->length = bufLen;
     return true;
 }

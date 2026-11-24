@@ -59,4 +59,4 @@ void HandleClientHello(RakPeerInterface *peer, Packet *packet,
     CryptoSession &session);
 void HandleServerHello(Packet *packet, CryptoSession &session);
 bool EncryptBitStream(CryptoSession &session, const BitStream &in, BitStream &out);
-bool DecryptPacket(CryptoSession &session, const Packet *packet, BitStream &out);
+bool DecryptPacket(CryptoSession &session, Packet *packet);
