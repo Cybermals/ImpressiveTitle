@@ -264,6 +264,7 @@ ServerManager::ServerManager()
 
 	banlist.clear();
 	loginSession.clear();
+	sessions.clear();
 	alive = true;
 
 	// Initialize encryption
@@ -394,6 +395,9 @@ void ServerManager::runLoop()
 			{
 			case ID_NEW_INCOMING_CONNECTION:
 				cout << "ID_NEW_INCOMING_CONNECTION from " << p->systemAddress.ToString() << endl;
+
+				// Start handshake
+				sessions[p->guid] = CryptoSession();
 				//sendServerList(p->systemAddress);
 				break;
 
@@ -401,13 +405,22 @@ void ServerManager::runLoop()
 				cout << "ID_DISCONNECTION_NOTIFICATION from " << p->systemAddress.ToString() << endl;
 				unregisterServer(p);
 				endSession(p);
+				sessions.erase(p->guid);
 				break;
 
 			case ID_CONNECTION_LOST:
 				cout << "ID_CONNECTION_LOST from " << p->systemAddress.ToString() << endl;
 				unregisterServer(p);
 				endSession(p);
+				sessions.erase(p->guid);
 				break;
+
+			case ID_CRYPTO_CLIENT_HELLO:
+			{
+				cout << "ID_CRYPTO_CLIENT_HELLO from " << p->systemAddress.ToString() << endl;
+				HandleClientHello(server, p, sessions[p->guid]);
+				break;
+			}
 
 			case ID_TOKENCONNECTED:
 			{

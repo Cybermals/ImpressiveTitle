@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <cstdio>
 #include <cstring>
+#include <map>
 #include <stdlib.h>
 #include <sstream>
 #include <vector>
@@ -13,6 +14,7 @@
 #include <time.h>
 
 #include "GameConfig.h"
+#include "Cryptography.h"
 #include "MessageIdentifiers.h"
 #include "RakPeerInterface.h"
 #include "RakNetStatistics.h"
@@ -105,6 +107,7 @@ protected:
 	bool serverFull[MAX_SERVERS];
 	PlayerToken playerToken[MAX_CLIENTS];
 	vector<pair<string, SystemAddress> > loginSession;
+	map<RakNetGUID, CryptoSession> sessions;
 	//vector<const pair<string,SystemAddress> > loginSession;
 	float dayTime;
 	float weatherTime;
