@@ -136,7 +136,7 @@ void HandleClientHello(RakPeerInterface *peer, Packet *packet,
     // Read peer key
     BitStream bs(packet->data, packet->length, false);
     MessageID msgId = 0;
-    int peerKeyLen = 0;
+    size_t peerKeyLen = 0;
     std::vector<uint8_t> peerKey;
 
     bs.Read(msgId);
@@ -190,7 +190,7 @@ void HandleServerHello(Packet *packet, CryptoSession &session)
     // Read peer key
     BitStream bs(packet->data, packet->length, false);
     MessageID msgId = 0;
-    int peerKeyLen = 0;
+    size_t peerKeyLen = 0;
     std::vector<uint8_t> peerKey;
 
     bs.Read(msgId);
@@ -213,4 +213,157 @@ void HandleServerHello(Packet *packet, CryptoSession &session)
     {
         session.ready = true;
     }
+}
+
+bool EncryptBitStream(CryptoSession &session, const BitStream &in, BitStream &out)
+{
+    // Validate inputs
+    if(!session.ready || session.aesKey == PSA_KEY_ID_NULL)
+    {
+        return false;
+    }
+
+    // Read message ID
+    BitStream bs(in.GetData(), in.GetNumberOfBytesUsed(), true);
+    const size_t bufLen = in.GetNumberOfBytesUsed();
+    std::vector<uint8_t> buf(bufLen);
+
+    if(bufLen)
+    {
+        bs.ReadAlignedBytes(buf.data(), bufLen);
+    }
+
+    // Generate random IV
+    std::vector<uint8_t> iv(GCM_IV_SIZE);
+
+    if(psa_generate_random(iv.data(), iv.size()) != PSA_SUCCESS)
+    {
+        return false;
+    }
+
+    // Encrypt data
+    std::vector<uint8_t> sealed(bufLen + GCM_TAG_SIZE);
+    size_t sealedLen = 0;
+    psa_status_t status = psa_aead_encrypt(
+        session.aesKey,
+        PSA_ALG_GCM,
+        iv.data(),
+        iv.size(),
+        nullptr,
+        0,
+        buf.data(),
+        buf.size(),
+        sealed.data(),
+        sealed.size(),
+        &sealedLen
+    );
+
+    // Erase unencrypted data from memory
+    memset(buf.data(), 0, buf.size());
+
+    if(status != PSA_SUCCESS)
+    {
+        return false;
+    }
+
+    // Write encrypted data
+    sealed.resize(sealedLen);
+
+    out.Reset();
+    out.Write(MessageID(ID_CRYPTO_ENCRYPTED_MSG));
+    out.Write(iv.size());
+    out.WriteAlignedBytes(iv.data(), iv.size());
+    out.Write(sealed.size());
+    out.WriteAlignedBytes(sealed.data(), sealed.size());
+    return true;
+}
+
+
+bool DecryptPacket(CryptoSession &session, const Packet *packet, BitStream &out)
+{
+    // Validate inputs
+    if(!session.ready || session.aesKey == PSA_KEY_ID_NULL || !packet)
+    {
+        return false;
+    }
+
+    // Read message ID
+    BitStream bs(packet->data, packet->length, false);
+    MessageID msgId = 0;
+
+    if(!bs.Read(msgId) || msgId != ID_CRYPTO_ENCRYPTED_MSG)
+    {
+        return false;
+    }
+
+    // Read IV
+    size_t ivLen = 0;
+
+    if(!bs.Read(ivLen) || ivLen != GCM_IV_SIZE)
+    {
+        return false;
+    }
+
+    std::vector<uint8_t> iv(ivLen);
+
+    if(!bs.ReadAlignedBytes(iv.data(), iv.size()))
+    {
+        return false;
+    }
+
+    // Read encrypted data
+    size_t sealedLen = 0;
+
+    if(!bs.Read(sealedLen) || sealedLen < GCM_TAG_SIZE)
+    {
+        return false;
+    }
+
+    const size_t remainingBytes = bs.GetNumberOfUnreadBits() / 8;
+
+    if(sealedLen > remainingBytes)
+    {
+        return false;
+    }
+
+    std::vector<uint8_t> sealed(sealedLen);
+
+    if(!bs.ReadAlignedBytes(sealed.data(), sealed.size()))
+    {
+        return false;
+    }
+
+    // Decrypt data
+    std::vector<uint8_t> buf(sealed.size() - GCM_TAG_SIZE + 1);
+    size_t bufLen = 0;
+    psa_status_t status = psa_aead_decrypt(
+        session.aesKey,
+        PSA_ALG_GCM,
+        iv.data(),
+        iv.size(),
+        nullptr,
+        0,
+        sealed.data(),
+        sealed.size(),
+        buf.data(),
+        buf.size(),
+        &bufLen
+    );
+
+    if(status != PSA_SUCCESS)
+    {
+        return false;
+    }
+
+    // Write decrypted data
+    out.Reset();
+    
+    if(bufLen > 0)
+    {
+        out.WriteAlignedBytes(buf.data(), buf.size());
+        out.ResetReadPointer();
+    }
+
+    memset(buf.data(), 0, buf.size());
+    return true;
 }

@@ -14,6 +14,10 @@
 using namespace RakNet;
 
 
+#define GCM_IV_SIZE 12
+#define GCM_TAG_SIZE 16
+
+
 // Structures
 // ==========
 struct CryptoSession
@@ -54,3 +58,5 @@ void SendClientHello(RakPeerInterface *peer, const AddressOrGUID host,
 void HandleClientHello(RakPeerInterface *peer, Packet *packet,
     CryptoSession &session);
 void HandleServerHello(Packet *packet, CryptoSession &session);
+bool EncryptBitStream(CryptoSession &session, const BitStream &in, BitStream &out);
+bool DecryptPacket(CryptoSession &session, const Packet *packet, BitStream &out);
