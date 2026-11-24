@@ -67,6 +67,7 @@ struct NetworkMessage
 #include "BitStream.h"
 #include "StringCompressor.h"
 #include "GameConfig.h"
+#include "Cryptography.h"
 #include "MagixNetworkDefines.h"
 #include "MagixCritterManager.h"
 #include "MagixChatManager.h"
@@ -138,6 +139,8 @@ protected:
     unsigned char lastFlags;
     unsigned char lastPrimaryFlags;
     unsigned char lastSecondaryFlags;
+    CryptoSession session;
+
 public:
     MagixNetworkManager();
     ~MagixNetworkManager();

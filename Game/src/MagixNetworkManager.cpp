@@ -171,6 +171,7 @@ void MagixNetworkManager::disconnect()
     playerList.clear();
     playerListUpdated = true;
     sentPlayerUpdate = false;
+    session.clear();
     reset();
 }
 
@@ -235,6 +236,15 @@ void MagixNetworkManager::update(const FrameEvent evt)
         switch(getPacketIdentifier(packet))
         {
         case ID_CONNECTION_REQUEST_ACCEPTED:
+            // Start handshake
+            SendClientHello(mPeer, packet->systemAddress, session);
+            break;
+
+        case ID_CRYPTO_SERVER_HELLO:
+            // Complete handshake
+            HandleServerHello(packet, session);
+
+            // We're now connected
             if(isMainServerConnection)
             {
                 networkMessage = NetworkMessage(NETWORK_CONNECTED);
