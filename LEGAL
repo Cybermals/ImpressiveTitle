@@ -45,3 +45,25 @@ You do not have to make your modifications available under MIT license.
 ~KITO
 
 -------------------------------------------------
+
+DYLANCHEETAH'S LICENSE NOTICE:
+-------------------------------------------------
+This is a modified version of the KITO source code
+that will work with MinGW-w64 and CMake
+It is based on the KITO modified source code for the
+game originally named Impressive Title which is based
+on KovuLKD's work.
+The source has been modified to work with MinGW-w64
+and CMake.
+It has also been improved in other ways
+(see ChangeLog - DylanCheetah.txt for more info).
+
+I provide NO WARRANTY for this source code and its 
+associated media files. This source code and its 
+associated media files are provided on an AS IS BASIS
+in the hope that they will be useful to the public.
+I am NOT LIABLE for any issues that arise from using this
+modified version of the KITO source code.
+
+~DylanCheetah
+-------------------------------------------------
