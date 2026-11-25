@@ -16,6 +16,7 @@ if(WIN32)
             PUBLIC
             include
             ../common/include
+            ../deps/windows/i386/mingw/mbedtls/include
             ../deps/windows/i386/mingw/RakNet/include
             ../Game/include
         )
@@ -27,6 +28,7 @@ if(WIN32)
             PUBLIC
             include
             ../common/include
+            ../deps/windows/i386/vs2010/mbedtls/include
             ../deps/windows/i386/vs2010/RakNet/include
             ../Game/include
         )
@@ -39,6 +41,7 @@ if(UNIX)
         PUBLIC
         include
         ../common/include
+        ../deps/linux/amd64/gcc13/mbedtls/include
         ../deps/linux/amd64/gcc13/RakNet/include
         ../Game/include
     )
@@ -50,6 +53,7 @@ if(WIN32)
         target_link_directories(
             GameServer
             PUBLIC
+            ../deps/windows/i386/mingw/mbedtls/lib
             ../deps/windows/i386/mingw/RakNet/bin
         )
     endif(MINGW)
@@ -58,6 +62,7 @@ if(WIN32)
         target_link_directories(
             GameServer
             PUBLIC
+            ../deps/windows/i386/vs2010/mbedtls/lib
             ../deps/windows/i386/vs2010/RakNet/lib
         )
     endif(MSVC10)
@@ -67,6 +72,7 @@ if(UNIX)
     target_link_directories(
         GameServer
         PUBLIC
+        ../deps/linux/amd64/gcc13/mbedtls/lib
         ../deps/linux/amd64/gcc13/RakNet/lib
     )
 endif(UNIX)
@@ -75,12 +81,16 @@ endif(UNIX)
 target_sources(
     GameServer
     PRIVATE
+    ../common/src/Cryptography.cpp
     src/main.cpp
 )
 
 # Libraries to link against
 set(LIBS
+    mbedcrypto
+    mbedtls
     RakNetDLL
+    tfpsacrypto
 )
 
 if(WIN32)
@@ -88,6 +98,7 @@ if(WIN32)
         GameServer
         ws2_32
         ${LIBS}
+        bcrypt
     )
 endif(WIN32)
 

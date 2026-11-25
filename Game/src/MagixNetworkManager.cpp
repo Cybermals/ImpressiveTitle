@@ -10,6 +10,18 @@ StringCompressor *stringCompressor = new StringCompressor();
 
 //Network Manager Functions
 //================================================================================
+void MagixNetworkManager::sendEncryptedMsg(const BitStream *bs, PacketPriority priority, 
+	PacketReliability reliability, char orderingChannel, 
+	const SystemAddress &addr, bool broadcast, uint32_t forceReceiptNumber)
+{
+	// Encrypt the data and send it
+	BitStream out;
+	EncryptBitStream(session, *bs, out);
+	mPeer->Send(&out, priority, reliability, orderingChannel, addr, broadcast, 
+		forceReceiptNumber);
+}
+
+
 MagixNetworkManager::MagixNetworkManager()
 {
     mDef = 0;
@@ -171,6 +183,7 @@ void MagixNetworkManager::disconnect()
     playerList.clear();
     playerListUpdated = true;
     sentPlayerUpdate = false;
+    session.clear();
     reset();
 }
 
@@ -232,9 +245,35 @@ void MagixNetworkManager::update(const FrameEvent evt)
 
     while(packet && tCont)
     {
+        // Decrypt encrypted packets before processing them further and
+        // ignore unencrypted user packets
+        MessageID msgId = getPacketIdentifier(packet);
+
+        if(msgId == ID_CRYPTO_ENCRYPTED_MSG)
+        {
+            if(DecryptPacket(session, packet))
+            {
+                std::cout << "ID_CRYPTO_ENCRYPTED_MSG" << std::endl;
+            }
+            else
+            {
+                std::cerr << "Failed to decrypt packet!" << std::endl;
+            }
+        }
+
+        // Process packet
         switch(getPacketIdentifier(packet))
         {
         case ID_CONNECTION_REQUEST_ACCEPTED:
+            // Start handshake
+            SendClientHello(mPeer, packet->systemAddress, session);
+            break;
+
+        case ID_CRYPTO_SERVER_HELLO:
+            // Complete handshake
+            HandleServerHello(packet, session);
+
+            // We're now connected
             if(isMainServerConnection)
             {
                 networkMessage = NetworkMessage(NETWORK_CONNECTED);
@@ -723,7 +762,7 @@ void MagixNetworkManager::sendPlayerTokenRequest()
         &tBitStream);
     tBitStream.Write((unsigned short)mCharScreenManager->getCharID());
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -830,7 +869,7 @@ void MagixNetworkManager::sendChat(const String &caption, const unsigned char &t
     tBitStream.Write(type);
     tBitStream.Write(autoLipSync);
 
-    mPeer->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -860,7 +899,7 @@ void MagixNetworkManager::sendPartyChat(const OwnerToken &target, const String &
     tBitStream.Write(type);
     tBitStream.Write(autoLipSync);
 
-    mPeer->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -1061,7 +1100,7 @@ void MagixNetworkManager::sendNewPlayer(const OwnerToken &target)
     }
     //if(mDef->isMod)tBitStream.Write(mDef->isModOn);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -1124,7 +1163,7 @@ void MagixNetworkManager::sendPosition(const OwnerToken &target)
         tBitStream.Write(mUnitManager->getPlayer()->getGroundHeight());
     }
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -1188,7 +1227,7 @@ void MagixNetworkManager::sendMovePosition()
         tBitStream.Write(tHeight);
     }
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, UNRELIABLE_SEQUENCED, 5,
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, UNRELIABLE_SEQUENCED, 5,
         UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
@@ -1259,7 +1298,7 @@ void MagixNetworkManager::sendLookQuaternion(const OwnerToken &target)
         tBitStream.Write(tDir);
     }
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, UNRELIABLE_SEQUENCED, 5,
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, UNRELIABLE_SEQUENCED, 5,
         UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
@@ -1313,7 +1352,7 @@ void MagixNetworkManager::sendFaceDirection(const OwnerToken &target)
     tBitStream.Write(target);
     tBitStream.Write(tYaw);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, UNRELIABLE_SEQUENCED, 5,
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, UNRELIABLE_SEQUENCED, 5,
         UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
@@ -1832,7 +1871,7 @@ void MagixNetworkManager::sendActionFlags(const OwnerToken &target)
         }
     }
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, UNRELIABLE_SEQUENCED, 5,
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, UNRELIABLE_SEQUENCED, 5,
         UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
@@ -1868,7 +1907,7 @@ void MagixNetworkManager::sendEmote(const String &emote)
     tBitStream.Write(OwnerToken(TOKEN_NULL));
     stringCompressor->EncodeString(emote.c_str(), 32, &tBitStream);
 
-    mPeer->Send(&tBitStream, MEDIUM_PRIORITY, UNRELIABLE, 0,
+    sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, UNRELIABLE, 0,
         UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
@@ -2025,7 +2064,7 @@ void MagixNetworkManager::processAndSendMapInfo(Packet *p)
     tBitStream.Write(float(mSkyManager->getDayTime()));
     tBitStream.Write(float(mSkyManager->getWeatherTime()));
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS, true);*/
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS, true);*/
 
     sendAllItems(tToken);
 }
@@ -2062,7 +2101,7 @@ void MagixNetworkManager::sendAttack(const String &attack)
     tBitStream.Write(OwnerToken(TOKEN_NULL));
     stringCompressor->EncodeString(attack.c_str(), 32, &tBitStream);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, UNRELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, UNRELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -2104,7 +2143,7 @@ void MagixNetworkManager::sendMapChange(const String &mapName,
     stringCompressor->EncodeString(mapName.c_str(), 32, &tBitStream);
     tBitStream.Write(dimension);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -2186,7 +2225,7 @@ void MagixNetworkManager::sendValidateName()
     //tBitStream.Write((unsigned short)mCharScreenManager->getCharID());
     tBitStream.Write(mGameStateManager->getDimension());
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -2274,7 +2313,7 @@ void MagixNetworkManager::processBio(Packet *p)
         tSendStream.Write(false);
         stringCompressor->EncodeString(mDef->loadBio().c_str(), 512, &tSendStream);
 
-        mPeer->Send(&tSendStream, LOW_PRIORITY, UNRELIABLE, 0,
+        sendEncryptedMsg(&tSendStream, LOW_PRIORITY, UNRELIABLE, 0,
             UNASSIGNED_SYSTEM_ADDRESS, true);
     }
     else
@@ -2301,7 +2340,7 @@ void MagixNetworkManager::sendBioRequest(const String &name)
     tBitStream.Write(true);
     stringCompressor->EncodeString(name.c_str(), 32, &tBitStream);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, UNRELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, UNRELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -2326,7 +2365,7 @@ void MagixNetworkManager::sendCreateAccount(const String &arg1, const String &ar
     stringCompressor->EncodeString(arg4.c_str(), 128, &tBitStream);
     stringCompressor->EncodeString(arg5.c_str(), 128, &tBitStream);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -2354,7 +2393,7 @@ void MagixNetworkManager::sendEditAccount(const String &arg1, const String &arg2
     stringCompressor->EncodeString(arg2.c_str(), 16, &tBitStream);
     stringCompressor->EncodeString(arg3.c_str(), 16, &tBitStream);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0,
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0,
         UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
@@ -2385,7 +2424,7 @@ void MagixNetworkManager::sendLogon(const String &arg1, const String &arg2)
     stringCompressor->EncodeString(arg1.c_str(), 16, &tBitStream);
     stringCompressor->EncodeString(arg2.c_str(), 16, &tBitStream);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -2569,7 +2608,7 @@ void MagixNetworkManager::sendLoadChar(const String &username, const short &char
     stringCompressor->EncodeString(username.c_str(), 16, &tBitStream);
     tBitStream.Write(charID);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0,
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0,
         UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
@@ -2602,7 +2641,7 @@ void MagixNetworkManager::sendCreateChar(const String &username, const String &n
     stringCompressor->EncodeString(name.c_str(), 32, &tBitStream);
     stringCompressor->EncodeString(data.c_str(), 512, &tBitStream);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -2614,7 +2653,7 @@ void MagixNetworkManager::sendDeleteChar(const String &username, const short &ch
     stringCompressor->EncodeString(username.c_str(), 16, &tBitStream);
     tBitStream.Write(charID);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -2646,7 +2685,7 @@ void MagixNetworkManager::sendEditChar(const String &username, const short &char
     tBitStream.Write(charID);
     stringCompressor->EncodeString(data.c_str(), 512, &tBitStream);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -2704,7 +2743,7 @@ void MagixNetworkManager::sendKick(const String &name, bool isBan,
         tBitStream.Write(numDays);
     }
 
-    mPeer->Send(&tBitStream, MEDIUM_PRIORITY, UNRELIABLE, 0,
+    sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, UNRELIABLE, 0,
         UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
@@ -2753,7 +2792,7 @@ void MagixNetworkManager::sendItemDrop(const String &meshName, const Real &x, co
     tBitStream.Write(x);
     tBitStream.Write(z);
 
-    mPeer->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 2, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 2, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -2775,7 +2814,7 @@ void MagixNetworkManager::sendAllItems(const OwnerToken &token)
         tBitStream.Write(tPos.x);
         tBitStream.Write(tPos.z);
 
-        mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 2, UNASSIGNED_SYSTEM_ADDRESS,
+        sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 2, UNASSIGNED_SYSTEM_ADDRESS,
             true);
     }
 }
@@ -2824,7 +2863,7 @@ void MagixNetworkManager::sendItemPickup(const unsigned short &iID)
     tBitStream.Write(MessageID(ID_ITEMPICKUP));
     tBitStream.Write(iID);
 
-    mPeer->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 2, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 2, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -2864,7 +2903,7 @@ void MagixNetworkManager::sendItemEquip(const String &meshName,
     tBitStream.Write(slotID);
     tBitStream.Write(dontTellMainServer);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -2898,7 +2937,7 @@ void MagixNetworkManager::sendItemUnequip(const unsigned short &slotID)
     tBitStream.Write(OwnerToken(TOKEN_NULL));
     tBitStream.Write(slotID);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 2, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 2, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -2908,7 +2947,7 @@ void MagixNetworkManager::sendImReady()
 
     tBitStream.Write(MessageID(ID_IMREADY));
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -2936,7 +2975,7 @@ void MagixNetworkManager::sendGodSpeak(const String &caption)
     tBitStream.Write(MessageID(ID_GODSPEAK));
     stringCompressor->EncodeString(tCaption.c_str(), 512, &tBitStream);
 
-    mPeer->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -3003,7 +3042,7 @@ void MagixNetworkManager::sendEvent(const unsigned char &type)
     tBitStream.Write(MessageID(ID_EVENT));
     tBitStream.Write(type);
 
-    mPeer->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -3016,7 +3055,7 @@ void MagixNetworkManager::sendMassBlock(const OwnerToken &target)
     tBitStream.Write((unsigned char)EVENT_MASSBLOCK);
     tBitStream.Write(target);
 
-    mPeer->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -3191,7 +3230,7 @@ void MagixNetworkManager::sendInfo(const unsigned char &type, const OwnerToken &
     tBitStream.Write(type);
     tBitStream.Write(target);
 
-    mPeer->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -3217,7 +3256,7 @@ void MagixNetworkManager::sendPartyAccepted(const OwnerToken &target)
     stringCompressor->EncodeString(mUnitManager->getPlayer()->getUser().c_str(), 16,
         &tBitStream);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3232,7 +3271,7 @@ void MagixNetworkManager::sendPartyJoined(const OwnerToken &target, bool request
         &tBitStream);
     tBitStream.Write(requestPartyList);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 1, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3305,7 +3344,7 @@ void MagixNetworkManager::sendAcknowledge(const unsigned char &type,
     tBitStream.Write(type);
     tBitStream.Write(iID);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3323,7 +3362,7 @@ stringCompressor->EncodeString(tSkill[i].name.c_str(),32,&tBitStream);
 tBitStream.Write((unsigned char)tSkill[i].stock);
 }
 
-mPeer->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }*/
 
 
@@ -3336,7 +3375,7 @@ void MagixNetworkManager::sendSkillUpdate(const String &type, const unsigned cha
     stringCompressor->EncodeString(type.c_str(), 32, &tBitStream);
     tBitStream.Write(stock);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3354,7 +3393,7 @@ void MagixNetworkManager::sendHPUpdate(bool sendMaxHP)
         tBitStream.Write((int)mUnitManager->getPlayer()->getMaxHP());
     }
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3365,7 +3404,7 @@ void MagixNetworkManager::sendPetUpdate()
     tBitStream.Write(MessageID(ID_UPDATEPET));
     stringCompressor->EncodeString(mUnitManager->getPlayer()->getPet().c_str(), 32, &tBitStream);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3394,7 +3433,7 @@ void MagixNetworkManager::sendCritterCreate(const String &type, const Vector3 &p
         tBitStream.Write(isPet);
     }
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3418,7 +3457,7 @@ void MagixNetworkManager::sendCritterCreate(const unsigned char &typeID,
     //stringCompressor->EncodeString(mWorld->getWorldName().c_str(),32,&tBitStream);
     //tBitStream.Write(mGameStateManager->getDimension());
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3477,7 +3516,7 @@ void MagixNetworkManager::sendCritterTakeover(const unsigned short &iID,
         tBitStream.Write((OwnerToken)mUnitManager->getPlayer()->getIndex());
     }
 
-    mPeer->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -3659,7 +3698,7 @@ void MagixNetworkManager::sendCritterHit(const unsigned short &iID, const Real &
         tBitStream.Write(force);
     }
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3674,7 +3713,7 @@ void MagixNetworkManager::sendCritterDecision(const unsigned short &iID, const V
     tBitStream.Write(false);
     tBitStream.Write(target);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3701,7 +3740,7 @@ void MagixNetworkManager::sendCritterAttackDecision(const unsigned short &iID,
 
     tBitStream.Write(attackID);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3718,7 +3757,7 @@ void MagixNetworkManager::sendCritterKilled(const unsigned short &iID, const sho
         (killer == 0 ? mUnitManager->getPlayer()->getIndex() : killer);
     tBitStream.Write(tToken);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3734,7 +3773,7 @@ void MagixNetworkManager::sendCritterTamed(const unsigned short &iID)
     tBitStream.Write(true);
     tBitStream.Write((OwnerToken)mUnitManager->getPlayer()->getIndex());
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3756,7 +3795,7 @@ void MagixNetworkManager::sendCritterShrink(const unsigned short &iID, bool flag
         tBitStream.Write(true);
     }
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -3772,7 +3811,7 @@ tBitStream.Write(false);
 tBitStream.Write(false);
 tBitStream.Write(true);
 
-mPeer->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
+sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
 }*/
 
 
@@ -4055,7 +4094,7 @@ void MagixNetworkManager::sendCritterUpdate(const OwnerToken &target,
 
     if(token != TOKEN_NULL)tBitStream.Write(token);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -4080,7 +4119,7 @@ void MagixNetworkManager::sendCritterUpdate(const OwnerToken &target,
         tBitStream.Write(token);
     }
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -4095,7 +4134,7 @@ void MagixNetworkManager::sendCritterUpdateRequest(const OwnerToken &target,
     tBitStream.Write(false);
     tBitStream.Write(true);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -4116,7 +4155,7 @@ void MagixNetworkManager::sendCritterShrinkTargeted(const OwnerToken &target,
         tBitStream.Write(true);
     }
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 4, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -4284,7 +4323,7 @@ void MagixNetworkManager::sendPlayerUpdate(const OwnerToken &target)
         tBitStream.Write((unsigned short)mUnitManager->getPlayer()->getHP());
     }
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -4307,7 +4346,7 @@ void MagixNetworkManager::sendPlayerHit(const OwnerToken &unitID, const Real &da
         tBitStream.Write(force);
     }
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -4321,7 +4360,7 @@ void MagixNetworkManager::sendPlayerWounded()
     tBitStream.Write(false);
     tBitStream.Write(true);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -4336,7 +4375,7 @@ void MagixNetworkManager::sendPlayerUnwounded()
     tBitStream.Write(false);
     tBitStream.Write(true);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -4458,7 +4497,7 @@ void MagixNetworkManager::sendItemStash(const unsigned short &slot)
     tBitStream.Write(true);
     tBitStream.Write(slot);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 6, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 6, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -4471,7 +4510,7 @@ void MagixNetworkManager::sendItemUnstash(const unsigned short &line, const unsi
     tBitStream.Write(line);
     tBitStream.Write(slot);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 6, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 6, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
 
 
@@ -4575,7 +4614,7 @@ void MagixNetworkManager::sendFindPlayer(const String &name)
     tBitStream.Write(false);
     stringCompressor->EncodeString(name.c_str(), 16, &tBitStream);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, UNRELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, UNRELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -4588,7 +4627,7 @@ void MagixNetworkManager::sendFindToken(const OwnerToken &token)
     tBitStream.Write(true);
     tBitStream.Write(token);
 
-    mPeer->Send(&tBitStream, LOW_PRIORITY, UNRELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
+    sendEncryptedMsg(&tBitStream, LOW_PRIORITY, UNRELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS,
         true);
 }
 
@@ -4681,5 +4720,5 @@ void MagixNetworkManager::sendViolation(const String &info)
     tBitStream.Write(MessageID(ID_VIOLATION));
     stringCompressor->EncodeString(info.c_str(), 32, &tBitStream);
 
-    mPeer->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+    sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 }
