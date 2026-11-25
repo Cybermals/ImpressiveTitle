@@ -107,7 +107,7 @@ protected:
 	bool serverFull[MAX_SERVERS];
 	PlayerToken playerToken[MAX_CLIENTS];
 	vector<pair<string, SystemAddress> > loginSession;
-	map<RakNetGUID, CryptoSession> sessions;
+	map<SystemAddress, CryptoSession> sessions;
 	//vector<const pair<string,SystemAddress> > loginSession;
 	float dayTime;
 	float weatherTime;
@@ -120,6 +120,11 @@ protected:
 	bool ctCompare(volatile const char* a, volatile const char* b, size_t len);
 	string hashPassword(const char* pswd, const char* salt = nullptr, int iterations = 0);
 	bool verifyPassword(const char* pswd, const char* hash);
+	
+	void sendEncryptedMsg(const BitStream *bs, PacketPriority priority, 
+		PacketReliability reliability, char orderingChannel, 
+		const SystemAddress &systemIdentifier, bool broadcast, 
+		uint32_t forceReceiptNumber = 0U);
 
 public:
 	ServerManager();

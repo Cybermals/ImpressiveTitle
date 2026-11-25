@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <cstdio>
 #include <cstring>
+#include <map>
 #include <stdlib.h>
 #include <sstream>
 #include <fstream>
@@ -14,6 +15,7 @@
 #include <time.h>
 
 #include "GameConfig.h"
+#include "Cryptography.h"
 #include "MessageIdentifiers.h"
 #include "RakPeerInterface.h"
 #include "RakNetStatistics.h"
@@ -110,6 +112,13 @@ protected:
 	vector<string> bootlist;
 	string broadcastAdd;
 	string mainServerInitAdd;
+	map<SystemAddress, CryptoSession> sessions;
+
+    void sendEncryptedMsg(const BitStream *bs, PacketPriority priority, 
+		PacketReliability reliability, char orderingChannel, 
+		const SystemAddress &systemIdentifier, bool broadcast, 
+		uint32_t forceReceiptNumber = 0U);
+
 public:
 	ServerManager();
 	~ServerManager();

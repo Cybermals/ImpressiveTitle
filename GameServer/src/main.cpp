@@ -66,6 +66,18 @@ string intToString(int number)
 
 //Server Manager Functions
 //================================================================================
+void ServerManager::sendEncryptedMsg(const BitStream *bs, PacketPriority priority, 
+	PacketReliability reliability, char orderingChannel, 
+	const SystemAddress &addr, bool broadcast, uint32_t forceReceiptNumber)
+{
+	// Encrypt the data and send it
+	BitStream out;
+	EncryptBitStream(sessions[addr], *bs, out);
+	server->Send(&out, priority, reliability, orderingChannel, addr, broadcast, 
+		forceReceiptNumber);
+}
+
+
 ServerManager::ServerManager()
 {
 	server = new RakPeer();
@@ -110,6 +122,15 @@ ServerManager::ServerManager()
 	broadcastAdd = MAIN_SERVER_IP;
 	mainServerInitAdd = "127.0.0.1";//MAIN_SERVER_IP;
 	//}
+
+	// Initialize encryption
+	int res = psa_crypto_init();
+
+	if (res)
+	{
+		std::cout << "Failed to initialize cryptography." << std::endl;
+		throw exception();
+	}
 }
 
 
@@ -254,8 +275,22 @@ void ServerManager::runLoop()
 			}*/
 
 			// We got a packet, get the identifier with our handy function
-			const unsigned char packetIdentifier = GetPacketIdentifier(p);
+			unsigned char packetIdentifier = GetPacketIdentifier(p);
 			//cout << "Packet: " << packetIdentifier << endl;
+
+			// Decrypt encrypted packets before processing them further and
+			// ignore unencrypted user packets
+			if(packetIdentifier == ID_CRYPTO_ENCRYPTED_MSG)
+			{
+				if(DecryptPacket(sessions[p->systemAddress], p))
+				{
+					packetIdentifier = GetPacketIdentifier(p);
+				}
+				else
+				{
+					std::cerr << "Failed to decrypt packet!" << std::endl;
+				}
+			}
 
 			PacketPriority tPacketPriority = NUMBER_OF_PRIORITIES;
 			PacketReliability tPacketReliability = NUMBER_OF_RELIABILITIES;
@@ -265,12 +300,22 @@ void ServerManager::runLoop()
 			switch(packetIdentifier)
 			{
 			case ID_CONNECTION_REQUEST_ACCEPTED:
+				// Start handshake
+				sessions[p->systemAddress] = CryptoSession();
+				SendClientHello(server, p->systemAddress, sessions[p->systemAddress]);
+				break;
+
+			case ID_CRYPTO_SERVER_HELLO:
 			{
+				// Complete handshake
+				HandleServerHello(p, sessions[p->systemAddress]);
+
+				// Register with login server
 				RakNet::BitStream tBitStream;
 				tBitStream.Write(MessageID(ID_IMASERVER));
 				StringCompressor::Instance()->EncodeString(
 					broadcastAdd.c_str(), 64, &tBitStream);
-				server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
+				sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
 					p->systemAddress, false);
 
 				if(!hasBegun)
@@ -285,13 +330,14 @@ void ServerManager::runLoop()
 						requestedPlayerData = true;
 						RakNet::BitStream tBitStream2;
 						tBitStream2.Write(MessageID(ID_REQUESTPLAYERDATA));
-						server->Send(&tBitStream2, HIGH_PRIORITY, RELIABLE, 0,
+						sendEncryptedMsg(&tBitStream2, HIGH_PRIORITY, RELIABLE, 0,
 							p->systemAddress, false);
 					}
 
 					registerServer(p);
 				}
 
+				cout << "ID_CRYPTO_SERVER_HELLO from " << p->systemAddress.ToString() << endl;
 				break;
 			}
 
@@ -315,7 +361,7 @@ void ServerManager::runLoop()
 							clientMap[i].c_str(), 32, &tBitStream);
 						tBitStream.Write(clientDimension[i]);
 
-						server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
+						sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
 							p->systemAddress, false);
 					}
 				}
@@ -399,9 +445,20 @@ void ServerManager::runLoop()
 						p->systemAddress.ToString() << endl;
 				}
 
+				// Start handshake
+				sessions[p->systemAddress] = CryptoSession();
 				break;
 
+			case ID_CRYPTO_CLIENT_HELLO:
+			{
+				cout << "ID_CRYPTO_CLIENT_HELLO from " << p->systemAddress.ToString() << endl;
+				HandleClientHello(server, p, sessions[p->systemAddress]);
+				break;
+			}
+
 			case ID_DISCONNECTION_NOTIFICATION:
+                sessions.erase(p->systemAddress);
+
 				if(!hideText)
 				{
 					cout << "ID_DISCONNECTION_NOTIFICATION from " <<
@@ -433,6 +490,8 @@ void ServerManager::runLoop()
 
 			case ID_CONNECTION_LOST:
 				//Disconnected from main server
+				sessions.erase(p->systemAddress);
+
 				if(p->systemAddress == mainServerAdd)
 				{
 					if(!hideText)
@@ -473,7 +532,7 @@ void ServerManager::runLoop()
 					tBitStream.Write(tToken);
 					tBitStream.Write(&tReceiveBit);
 
-					server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
+					sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
 						tAdd, false);
 				}
 				//Forward to server
@@ -488,7 +547,7 @@ void ServerManager::runLoop()
 					tBitStream.Write(p->systemAddress);
 					tBitStream.Write(&tReceiveBit);
 
-					server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, mainServerAdd, false);
+					sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, mainServerAdd, false);
 				}
 
 				break;
@@ -647,7 +706,7 @@ void ServerManager::runLoop()
 				}
 
 				tBitStream.Write(tAdd);
-				server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
+				sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
 					mainServerAdd, true);
 				break;
 			}
@@ -662,7 +721,7 @@ void ServerManager::runLoop()
 
 				//Relay to players
 				RakNet::BitStream tBitStream(p->data, p->length, false);
-				server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
+				sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
 					mainServerAdd, true);
 				break;
 			}
@@ -679,7 +738,7 @@ void ServerManager::runLoop()
 				tBitStream.Write((SystemAddress)p->systemAddress);
 				tBitStream.Write(&tReceiveBit);
 
-				server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
+				sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
 					mainServerAdd, false);
 				break;
 			}
@@ -719,7 +778,7 @@ void ServerManager::runLoop()
 				tBitStream.Write(tToken);
 				if(tLowestPing.second!=UNASSIGNED_SYSTEM_ADDRESS)
 				{
-				server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 1, tLowestPing.second, false);
+				sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 1, tLowestPing.second, false);
 				if(showMapChange)cout << "Requested a player to send " << mapName.c_str() << " data to player " << tToken << endl;
 				}
 				else sendNextServer(&tBitStream, HIGH_PRIORITY, RELIABLE, 1);
@@ -927,7 +986,7 @@ void ServerManager::runLoop()
 							StringCompressor::Instance()->EncodeString(
 								clientMap[i].c_str(), 32, &tBitStream);
 
-							server->Send(&tBitStream, LOW_PRIORITY, RELIABLE,
+							sendEncryptedMsg(&tBitStream, LOW_PRIORITY, RELIABLE,
 								0, p->systemAddress, false);
 						}
 					}
@@ -939,7 +998,7 @@ void ServerManager::runLoop()
 					tBitStream.Write(tToken);
 					tBitStream.Write(true);
 
-					server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
+					sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
 						mainServerAdd, false);
 
 					//Proceed to allow new player to start game
@@ -1047,7 +1106,7 @@ void ServerManager::runLoop()
 					tBitStream.Write(tReadSenderToken ? tSender : getOwnerToken(p));
 					tBitStream.Write(true);
 
-					server->Send(&tBitStream, LOW_PRIORITY, UNRELIABLE, 0,
+					sendEncryptedMsg(&tBitStream, LOW_PRIORITY, UNRELIABLE, 0,
 						clientAdd[tToken - 1], false);
 				}
 				else
@@ -1068,7 +1127,7 @@ void ServerManager::runLoop()
 							tBitStream.Write(&tReceiveBit);
 
 
-							server->Send(&tBitStream, LOW_PRIORITY, UNRELIABLE,
+							sendEncryptedMsg(&tBitStream, LOW_PRIORITY, UNRELIABLE,
 								0, clientAdd[tToken - 1], false);
 						}
 					}
@@ -1114,11 +1173,11 @@ void ServerManager::runLoop()
 						tBitStream.Write(tIsBanned);
 						tBitStream.Write(tNumDays);
 
-						server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
+						sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
 							mainServerAdd, false);
 					}
 
-					server->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 0,
+					sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 0,
 						clientAdd[tToken - 1], false);
 				}
 
@@ -1136,7 +1195,7 @@ void ServerManager::runLoop()
 				}
 				else
 				{
-					server->Send(&tReceiveBit, MEDIUM_PRIORITY, RELIABLE, 0,
+					sendEncryptedMsg(&tReceiveBit, MEDIUM_PRIORITY, RELIABLE, 0,
 						mainServerAdd, false);
 					sendMyPlayers(server, &tReceiveBit, MEDIUM_PRIORITY,
 						RELIABLE, 0, p->systemAddress);
@@ -1201,7 +1260,7 @@ void ServerManager::runLoop()
 							tBitStream.Write(MessageID(ID_ITEMDROP));
 							tBitStream.Write(&tReceiveBit);
 
-							server->Send(&tBitStream, MEDIUM_PRIORITY,
+							sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY,
 								RELIABLE, 2, clientAdd[tToken - 1], false);
 						}
 					}
@@ -1320,7 +1379,7 @@ void ServerManager::runLoop()
 						tBitStream2.Write(tID);
 						tBitStream2.Write(true);
 
-						server->Send(&tBitStream2, MEDIUM_PRIORITY, RELIABLE, 2,
+						sendEncryptedMsg(&tBitStream2, MEDIUM_PRIORITY, RELIABLE, 2,
 							(tReadSenderToken ? clientAdd[tSender - 1] : p->systemAddress),
 							false);
 					}
@@ -1447,7 +1506,7 @@ void ServerManager::runLoop()
 						{
 							if(clientIsMine[tTarget - 1])
 							{
-								server->Send(&tBitStream, MEDIUM_PRIORITY,
+								sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY,
 									RELIABLE, 0, clientAdd[tTarget - 1],
 									false);
 							}
@@ -1638,7 +1697,7 @@ void ServerManager::runLoop()
 							tBitStream.Write(tSender);
 							tBitStream.Write(&tReceiveBit);
 
-							server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE,
+							sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE,
 								4, clientAdd[tTarget - 1], false);
 						}
 					}
@@ -1770,7 +1829,7 @@ void ServerManager::runLoop()
 							tBitStream.Write(tSender);
 							tBitStream.Write(&tReceiveBit);
 
-							server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE,
+							sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE,
 								0, clientAdd[tTarget - 1], false);
 						}
 					}
@@ -1890,7 +1949,7 @@ void ServerManager::runLoop()
 				tBitStream.Write(tToken);
 				tBitStream.Write(&tReceiveBit);
 
-				server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
+				sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
 					mainServerAdd, false);
 				break;
 			}
@@ -1920,7 +1979,7 @@ void ServerManager::runLoop()
 					tBitStream.Write(true);
 					tBitStream.Write(&tReceiveBit);
 
-					server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 6,
+					sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 6,
 						clientAdd[tToken - 1], false);
 				}
 				else
@@ -1932,7 +1991,7 @@ void ServerManager::runLoop()
 					tBitStream.Write(false);
 					tBitStream.Write(&tReceiveBit);
 
-					server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
+					sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
 						mainServerAdd, false);
 
 					//Return packet to player
@@ -1947,7 +2006,7 @@ void ServerManager::runLoop()
 					if(tIsStash)tBitStream2.Write(false);
 					tBitStream2.Write(&tCopyBit);
 
-					server->Send(&tBitStream2, MEDIUM_PRIORITY, RELIABLE, 0,
+					sendEncryptedMsg(&tBitStream2, MEDIUM_PRIORITY, RELIABLE, 0,
 						p->systemAddress, false);
 				}
 
@@ -2004,7 +2063,7 @@ void ServerManager::runLoop()
 					tBitStream.Write(tDimension);
 				}
 
-				server->Send(&tBitStream, LOW_PRIORITY, UNRELIABLE, 0,
+				sendEncryptedMsg(&tBitStream, LOW_PRIORITY, UNRELIABLE, 0,
 					p->systemAddress, false);
 
 				break;
@@ -2188,7 +2247,7 @@ void ServerManager::runLoop()
 									tMessage.c_str(), 256, &tBitStream);
 								tBitStream.Write(false);
 
-								server->Send(&tBitStream, tPacketPriority,
+								sendEncryptedMsg(&tBitStream, tPacketPriority,
 									tPacketReliability, tOrderingChannel,
 									p->systemAddress, false);
 								break;
@@ -2231,7 +2290,7 @@ void ServerManager::runLoop()
 								StringCompressor::Instance()->EncodeString(
 									tPlayerName.c_str(), 16, &tBitStream);
 
-								server->Send(&tBitStream, tPacketPriority,
+								sendEncryptedMsg(&tBitStream, tPacketPriority,
 									tPacketReliability, tOrderingChannel,
 									clientAdd[tToken - 1], false);
 								break;
@@ -2286,7 +2345,7 @@ void ServerManager::runLoop()
 										tBitStream.Write(true);
 
 
-										server->Send(&tBitStream,
+										sendEncryptedMsg(&tBitStream,
 											tPacketPriority,
 											tPacketReliability,
 											tOrderingChannel,
@@ -2335,7 +2394,7 @@ void ServerManager::runLoop()
 							StringCompressor::Instance()->EncodeString(tItem,
 								16, &tBitStream);
 							tBitStream.Write(tSlot);
-							server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE,
+							sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE,
 								0, mainServerAdd, false);
 						}
 					}
@@ -2357,7 +2416,7 @@ void ServerManager::runLoop()
 						tBitStream.Write(tMessage);
 						tBitStream.Write(tOwner);
 						tBitStream.Write(tSlot);
-						server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
+						sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
 							mainServerAdd, false);
 					}
 
@@ -2389,7 +2448,7 @@ void ServerManager::runLoop()
 								p->systemAddress);
 						}
 
-						//server->Send(&tBitStream, tPacketPriority, tPacketReliability, tOrderingChannel, p->systemAddress, true);
+						//sendEncryptedMsg(&tBitStream, tPacketPriority, tPacketReliability, tOrderingChannel, p->systemAddress, true);
 					}
 					//target recepient specified, send only to target
 					else
@@ -2409,7 +2468,7 @@ void ServerManager::runLoop()
 								tBitStream.Write(tReadSenderToken ? tSender : getOwnerToken(p));
 								tBitStream.Write(&tReceiveBit);
 
-								server->Send(&tBitStream, tPacketPriority,
+								sendEncryptedMsg(&tBitStream, tPacketPriority,
 									tPacketReliability, tOrderingChannel,
 									clientAdd[tToken - 1], false);
 							}
@@ -2517,7 +2576,7 @@ void ServerManager::sendNewPlayerProcedure(const OwnerToken &playerToken,
 		tBitStream.Write(OwnerToken(SERVER_ID));
 		tBitStream.Write(tHasOtherPlayers);
 
-		server->Send(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 1,
+		sendEncryptedMsg(&tBitStream, MEDIUM_PRIORITY, RELIABLE, 1,
 			clientAdd[playerToken - 1], false);
 
 		if(showMapChange)
@@ -2565,7 +2624,7 @@ void ServerManager::sendNewPlayerProcedure(const OwnerToken &playerToken,
 		tBitStream.Write(playerToken);
 		if(tLowestPing.second!=UNASSIGNED_SYSTEM_ADDRESS)
 		{
-		server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 1, tLowestPing.second, false);
+		sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 1, tLowestPing.second, false);
 		if(showMapChange)cout << "Requested a player to send " << mapName.c_str() << " data to player " << playerToken << endl;
 		}
 		else sendNextServer(&tBitStream, HIGH_PRIORITY, RELIABLE, 1);*/
@@ -2653,7 +2712,7 @@ void ServerManager::sendAllServers(RakNet::BitStream *bitStream,
 		if(serverAdd[i] != UNASSIGNED_SYSTEM_ADDRESS &&
 			serverAdd[i] != exceptionAddress && serverConnected[i])
 		{
-			server->Send(bitStream, priority, reliability, orderingChannel,
+			sendEncryptedMsg(bitStream, priority, reliability, orderingChannel,
 				serverAdd[i], false);
 		}
 	}
@@ -2668,7 +2727,7 @@ void ServerManager::sendNextServer(RakNet::BitStream *bitStream,
 	{
 		if(serverAdd[i] != UNASSIGNED_SYSTEM_ADDRESS && serverConnected[i])
 		{
-			server->Send(bitStream, priority, reliability, orderingChannel,
+			sendEncryptedMsg(bitStream, priority, reliability, orderingChannel,
 				serverAdd[i], false);
 			return;
 		}
@@ -2678,7 +2737,7 @@ void ServerManager::sendNextServer(RakNet::BitStream *bitStream,
 	{
 		if(serverAdd[i] != UNASSIGNED_SYSTEM_ADDRESS && serverConnected[i])
 		{
-			server->Send(bitStream, priority, reliability, orderingChannel,
+			sendEncryptedMsg(bitStream, priority, reliability, orderingChannel,
 				serverAdd[i], false);
 			return;
 		}
@@ -3169,7 +3228,7 @@ void ServerManager::sendTokenDisconnected(const SystemAddress &add)
 	tBitStream.Write(false);
 	tBitStream.Write(SystemAddress(add));
 
-	server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, mainServerAdd, false);
+	sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0, mainServerAdd, false);
 }
 
 
@@ -3187,7 +3246,7 @@ void ServerManager::sendTokenDisconnected(const OwnerToken &tToken)
 				tBitStream.Write(true);
 				tBitStream.Write(OwnerToken(tToken));
 
-				server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
+				sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 0,
 					mainServerAdd, false);
 			}
 		}
@@ -3225,7 +3284,7 @@ void ServerManager::bootPlayer(const char *tName)
 			RakNet::BitStream tBitStream;
 			tBitStream.Write(MessageID(ID_FORCELOGOUT));
 			StringCompressor::Instance()->EncodeString(tName, 16, &tBitStream);
-			server->Send(&tBitStream, HIGH_PRIORITY, RELIABLE, 1,
+			sendEncryptedMsg(&tBitStream, HIGH_PRIORITY, RELIABLE, 1,
 				clientAdd[tCurrentToken - 1], false);
 		}
 
