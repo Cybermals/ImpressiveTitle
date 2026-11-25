@@ -181,7 +181,6 @@ void HandleClientHello(RakPeerInterface *peer, Packet *packet,
     bs.WriteAlignedBytes(pubKey.data(), pubKey.size());
     peer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress,
         false);
-    std::cout << "Send server hello." << std::endl;
 }
 
 
